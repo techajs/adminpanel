@@ -1,7 +1,19 @@
-import { payoutHeader, rideConsumer, rideHeader, walletHeader,documentHeader } from "@/utils/constants";
+"use client"
+import {
+  payoutHeader,
+  rideConsumer,
+  rideHeader,
+  walletHeader,
+  documentHeader,
+} from "@/utils/constants";
 import ListItem from "./item-list";
+import { GetOrderById } from "@/services/consumer";
+import { useEffect, useState } from "react";
+import { getOrderByDeliveryboyEXT } from "@/services/deliveryboy";
+import { getOrderByInterpriseEXT } from "@/services/enterprise";
 
-const BaseViewTable = ({ data, datatype, userType }) => {
+const BaseViewTable = ({ extId, datatype, userType }) => {
+  const [order,setOrder]=useState([])
   const headersMap = {
     ride: {
       deliveryboy: rideHeader(),
@@ -10,10 +22,29 @@ const BaseViewTable = ({ data, datatype, userType }) => {
     },
     wallet: walletHeader(),
     payout: payoutHeader(),
-    document:documentHeader()
+    document: documentHeader(),
+  };
+
+  const orderMap = {
+    deliveryboy: () => getOrderByDeliveryboyEXT(extId),
+    consumer: () => GetOrderById(extId),
+    enterprise: () => getOrderByInterpriseEXT(extId),
   };
   const header = datatype === "ride" ? headersMap[datatype][userType] : headersMap[datatype];
-
+  const getOrderList = orderMap[userType];
+  
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+        const orderList = await getOrderList();
+        setOrder(orderList);
+        console.log("orderList ", orderList);
+      } catch (error) {
+        console.error("Error fetching order list:", error);
+      }
+    };
+    fetchOrder();
+  }, [extId, getOrderList]);
   return (
     <>
       <div className="flex justify-between items-center mb-4">
@@ -71,7 +102,7 @@ const BaseViewTable = ({ data, datatype, userType }) => {
           </tr>
         </thead>
         <tbody>
-          <ListItem data={data} datatype={datatype} />
+          <ListItem data={order} datatype={datatype} userType={userType} />
         </tbody>
       </table>
     </>

@@ -88,7 +88,6 @@ const OrderView = () => {
         params.delete("search");
       }
       router.replace(`${pathname}?${params}`);
-
     }, 300),
     [searchParams, pathname]
   );
@@ -96,7 +95,7 @@ const OrderView = () => {
   const handleStatusChange = (e) => {
     const newStatus = e.target.value;
     setOrderStatus(newStatus);
-  
+
     if (newStatus) {
       const params = new URLSearchParams(searchParams);
       params.delete("page");
@@ -104,19 +103,37 @@ const OrderView = () => {
       router.replace(`${pathname}?${params}`);
     }
   };
-  
 
   const statusData = [
     { value: "current", label: "On Going" },
     { value: "past", label: "Past" },
   ];
 
-
   return (
     <div className="rounded-sm border border-stroke bg-white  px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
         <div className="flex items-center justify-between mb-5">
-          <div className="relative">
+          <div className="flex items-center w-1/2 justify-start space-x-5">
+            <div>
+              <label>
+                Show
+                <select className="ml-2 border dark:bg-boxdark rounded px-2 py-1">
+                  <option>10</option>
+                  <option>20</option>
+                  <option>50</option>
+                </select>{" "}
+                entries
+              </label>
+            </div>
+            {/* <Add title="Order" url="#" /> */}
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            <OrderStatus
+              selectedOption={orderstatus}
+              onPageChange={handleStatusChange}
+              selectValue={statusData}
+            />
+            <div className="relative"> 
             <button className="absolute left-3 top-1/2 -translate-y-1/2 dark:bg-meta-4 ">
               <svg
                 className="fill-body hover:fill-primary dark:fill-bodydark dark:hover:fill-primary"
@@ -141,26 +158,15 @@ const OrderView = () => {
               </svg>
             </button>
             <input
-              className="min-w-[380px] rounded border border-stroke dark:bg-meta-4  bg-gray-200 text-sm py-1 pl-11.5 pr-4.5 text-black focus:border-secondary focus-visible:outline-none dark:text-white dark:focus:border-primary"
+              className="min-w-[250px] rounded border border-stroke dark:bg-meta-4  bg-gray-200 text-sm py-1 pl-11.5 pr-4.5 text-black focus:border-secondary focus-visible:outline-none dark:text-white dark:focus:border-primary"
               type="text"
               name="seacrh"
               placeholder="Search..."
               defaultValue={search}
               onChange={handleSearchChange}
             />
-          </div>
-          <div className="flex items-center w-1/2 justify-end space-x-5">
-            <OrderStatus
-              selectedOption={orderstatus}
-              onPageChange={handleStatusChange}
-              selectValue={statusData}
-            />
-            <OrderStatus
-              selectedOption={orderstatus}
-              onPageChange={handleStatusChange}
-              selectValue={statusData}
-            />
-            <Add title="Order" url="#" />
+            </div>
+            
           </div>
         </div>
 

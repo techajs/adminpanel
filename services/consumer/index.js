@@ -40,7 +40,6 @@ export const GetConsumers = (page, search) => {
 
 export const GetConsumerById = async (ext_id) => {
   let apiUrl = `${API.getConsumer}/${ext_id}`;
-  console.log(apiUrl)
   return new Promise((resolve, reject) => {
     const params = {};
     getByID(
@@ -60,3 +59,28 @@ export const GetConsumerById = async (ext_id) => {
     );
   });
 };
+
+
+export const GetOrderById = async (ext_id) => {
+  let apiUrl = `${API.viewConsumerOrderUrl}${ext_id}`;
+  return new Promise((resolve, reject) => {
+    const params = {};
+    getByID(
+      apiUrl,
+      params,
+      (successResponse) => {
+        if (successResponse[0]._success) {
+          const data = successResponse[0]._response;
+          resolve(data);
+        } else {
+          reject([]);
+        }
+      },
+      (errorResponse) => {
+        reject([]);
+      }
+    );
+  });
+};
+
+

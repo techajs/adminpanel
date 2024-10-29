@@ -164,7 +164,7 @@ export const rideHeader = ()=>{
     {label:"Service"},
     {label:"Date"},
     {label:"Payment Method"},
-    {label:"Payment Status"},
+    {label:"Status"},
     {label:"Total Amount"}
   ]
 }
@@ -176,7 +176,7 @@ export const rideConsumer = ()=>{
     {label:"Service"},
     {label:"Date"},
     {label:"Payment Method"},
-    {label:"Payment Status"},
+    {label:"Status"},
     {label:"Total Amount"}
   ]
 }
@@ -216,3 +216,11 @@ export const getValidImageUrl = (profilePic) => {
     const url=`${baseProfilePicUrl}`+profilePic.replace(/\.[^.]+$/, '')
     return url;
 };
+
+export const getAddressLine= (address,city,state,postal_code,country)=>{
+  let code =postal_code+'-'
+  if(postal_code == null){
+     code=''
+  }
+  return `${address},${city},${state},${code} ${country}`
+}

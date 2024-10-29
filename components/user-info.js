@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { FaEye } from "react-icons/fa";
 
-export default function UserInfo({ data, userType }) {np
+export default function UserInfo({ data, userType }) {
   return (
     <div className="dark:border-strokedark dark:bg-boxdark bg-white text-black dark:text-white p-6 rounded-lg mt-6 shadow-md">
       {userType == "deliveryboy" && (
@@ -147,6 +147,12 @@ export default function UserInfo({ data, userType }) {np
             </p>
             <p>
               <strong className="mr-1">Company Name :</strong> {data?.company_name || 'N/A'}
+            </p>
+            <p>
+              <strong className="mr-1">Industry :</strong> {data?.industry_type || 'N/A'}
+            </p>
+            <p>
+              <strong className="mr-1">Monthly Per Hours :</strong> {data?.deliveryMonthHours || 'N/A'}
             </p>
             <p>
               <strong className="mr-1">Country :</strong> {data?.country || 'N/A'}

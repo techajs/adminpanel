@@ -32,28 +32,20 @@ const EnterpriseTableItem = ({ data, url, selected, handleCheckboxChange }) => {
                 {item.phone}
               </p>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark text-center">
-              <p
-                className={`inline-flex rounded-full bg-opacity-10 px-2 py-2 dark:text-white text-sm font-medium bg-boxdark `}
-              >
-                <Link href={`${url}/document/${item.ext_id}`}>
-                  <FaFile size={15} />
-                </Link>
+            <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+              <p className="text-black text-sm dark:text-white">
+                {item?.industry_type}
+              </p>
+            </td>
+            <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+              <p className="text-black text-sm dark:text-white">
+                {item?.company_name}
               </p>
             </td>
             <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
               <p className="text-black text-sm dark:text-white">
                 {formatDate(item.created_on)}
               </p>
-            </td>
-            <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-              <p className="text-black text-sm dark:text-white">Scooter</p>
-            </td>
-            <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-              <p className="text-black text-sm dark:text-white">Mini</p>
-            </td>
-            <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-              <p className="text-black text-sm dark:text-white">1</p>
             </td>
 
             <td className="border-b text-left border-[#eee] px-4 py-5 dark:border-strokedark">

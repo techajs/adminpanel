@@ -65,3 +65,25 @@ export const GetOrderDetail = async (OrderNumer)=>{
     );
   });
 };
+
+export const GetOrderByNumber = async (orderNumber) => {
+  let apiUrl = `${API.viewOrderDetail}${orderNumber}`;
+  return new Promise((resolve, reject) => {
+    const params = {};
+    getByID(
+      apiUrl,
+      params,
+      (successResponse) => {
+        if (successResponse[0]._success) {
+          const data = successResponse[0]._response;
+          resolve(data);
+        } else {
+          reject([]);
+        }
+      },
+      (errorResponse) => {
+        reject([]);
+      }
+    );
+  });
+};

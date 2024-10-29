@@ -52,14 +52,9 @@ const DeliveryboyTableItem = ({
               </p>
             </td>
             <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-              <p className="text-black text-sm dark:text-white">Scooter</p>
+              <p className="text-black text-sm dark:text-white">{item?.work_type}</p>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-              <p className="text-black text-sm dark:text-white">Mini</p>
-            </td>
-            <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-              <p className="text-black text-sm dark:text-white">1</p>
-            </td>
+           
 
             <td className="border-b text-left border-[#eee] px-4 py-5 dark:border-strokedark">
               <div className="flex items-center space-x-3.5">

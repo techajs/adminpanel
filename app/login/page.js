@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
@@ -24,16 +24,13 @@ export default function Login() {
   const [error, setError] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const router = useRouter();
+
   useEffect(() => {
     if (status === "authenticated") {
-      const callbackUrl = searchParams.get("callbackUrl");
-      if (callbackUrl && callbackUrl.trim() !== "") {
-        router.push(callbackUrl);
-      } else {
-        router.push("/dashboard");
-      }
+      const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+      router.push(callbackUrl);
     }
-  }, [session, status, router]);
+  }, [status, router, searchParams]);
 
   const formik = useFormik({
     initialValues: {
@@ -50,18 +47,12 @@ export default function Login() {
         password: values.password,
       });
 
-      if (res?.ok) {
-        setIsLogin(false);
+      setIsLogin(false);
 
+      if (res?.ok) {
         router.push(searchParams.get("callbackUrl") || "/dashboard");
       } else {
-        if (res?.status === 401) {
-          setIsLogin(false);
-          setError("Invalid email or password. Please try again.");
-        } else {
-          setIsLogin(false);
-          setError(`Login failed: ${res?.error || "Unknown error"}`);
-        }
+        setError(res?.status === 401 ? "Invalid email or password. Please try again." : `Login failed: ${res?.error || "Unknown error"}`);
       }
     },
   });
@@ -72,23 +63,8 @@ export default function Login() {
         <div className="text-center">
           <Link href="/">
             <div className="flex items-center justify-center gap-3 mb-5">
-              <Image
-                className="hidden dark:block"
-                src="/images/logo/Logo-icon.png"
-                alt="Logo"
-                width={60}
-                height={32}
-              />
-              <Image
-                className="dark:hidden"
-                src="/images/logo/Logo-icon.png"
-                alt="Logo"
-                width={60}
-                height={32}
-              />
-              <span className="text-3xl font-semibold text-gray-900 dark:text-white">
-                Rapidmate
-              </span>
+              <Image src="/images/logo/Logo-icon.png" alt="Logo" width={60} height={32} />
+              <span className="text-3xl font-semibold text-gray-900 dark:text-white">Rapidmate</span>
             </div>
           </Link>
           <p className="text-gray-600 dark:text-gray-300">
@@ -99,9 +75,7 @@ export default function Login() {
         <form className="mt-8 space-y-6" onSubmit={formik.handleSubmit}>
           <div className="rounded-md shadow-sm">
             <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
-              </label>
+              <label htmlFor="email" className="sr-only">Email address</label>
               <input
                 id="email"
                 name="email"
@@ -118,16 +92,12 @@ export default function Login() {
                 placeholder="Email address"
               />
               {formik.touched.email && formik.errors.email && (
-                <div className="text-red-500 text-sm mt-1">
-                  {formik.errors.email}
-                </div>
+                <div className="text-red-500 text-sm mt-1">{formik.errors.email}</div>
               )}
             </div>
 
             <div className="mt-4">
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
+              <label htmlFor="password" className="sr-only">Password</label>
               <input
                 id="password"
                 name="password"
@@ -144,9 +114,7 @@ export default function Login() {
                 placeholder="Password"
               />
               {formik.touched.password && formik.errors.password && (
-                <div className="text-red-500 text-sm mt-1">
-                  {formik.errors.password}
-                </div>
+                <div className="text-red-500 text-sm mt-1">{formik.errors.password}</div>
               )}
             </div>
           </div>
@@ -157,12 +125,10 @@ export default function Login() {
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               disabled={isLogin}
             >
-             {isLogin ==false ? 'Sign In' : 'Login ...'}
+              {isLogin ? 'Logging in...' : 'Sign In'}
             </button>
           </div>
-          {error && (
-            <div className="text-red-500 text-sm mt-2 text-center">{error}</div>
-          )}
+          {error && <div className="text-red-500 text-sm mt-2 text-center">{error}</div>}
         </form>
       </div>
     </div>

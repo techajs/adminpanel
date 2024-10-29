@@ -90,7 +90,7 @@ const DeliveryboyInfo = ({ data }) => {
             setSelected={setSelectedTab}
           />
           <BaseViewTable
-            data={data}
+            extId={data?.ext_id}
             datatype={selectedTab}
             userType="deliveryboy"
           />

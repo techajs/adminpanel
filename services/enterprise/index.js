@@ -62,3 +62,26 @@ export const GetDetail = async (ext_id)=>{
     );
   });
 };
+
+export const getOrderByInterpriseEXT = async (ext_id)=>{
+  
+  let apiUrl = `${API.enterpriseOrdersUrl}${ext_id}`;
+  return new Promise((resolve, reject) => {
+    const params = {};
+    getByID(
+      apiUrl,
+      params,
+      (successResponse) => {
+        if (successResponse[0]._success) {
+          const data = successResponse[0]._response;
+          resolve(data);
+        } else {
+          reject([]);
+        }
+      },
+      (errorResponse) => {
+        reject([]);
+      }
+    );
+  });
+}

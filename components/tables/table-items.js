@@ -16,13 +16,13 @@ const TableItem = ({
 
   const headers = {
     deliveryboy: [
-      "Name", "Email", "Phone", "Documents", "Created On", "Service", "Vehicle Types", "Total Rides", "Action"
+      "Name", "Email", "Phone", "Documents", "Created On", "Service", "Action"
     ],
     consumer: [
-      "Name", "Email", "Phone", "Created On", "Active", "Total Rides", "Action"
+      "Name", "Email", "Phone", "Created On", "Active","Action"
     ],
     enterprise: [
-      "Company Name", "Email", "Contact", "Industry", "Created On", "Subscription", "Total Employees", "Revenue", "Action"
+      "Name", "Email", "Phone", "Industry",  "Company", "Created On","Action"
     ],
   };
   const TableItemComponents = {

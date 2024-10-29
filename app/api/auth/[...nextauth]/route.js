@@ -1,9 +1,10 @@
+import { BASE_URL } from "@/utils/constants";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signOut } from "next-auth/react";
 
 const login = async (credentials) => {
-  const res = await fetch("http://localhost:3009/api/admin/login", {
+  const res = await fetch(`${BASE_URL}/admin/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

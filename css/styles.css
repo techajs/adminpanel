@@ -245,3 +245,50 @@ input[type="search"]::-webkit-search-cancel-button {
 .text-primary{
     color: #FE0058;
 }
+
+
+.timeline {
+    position: relative;
+    padding-left: 30px;
+  }
+  
+  .timeline-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  
+  .icon-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+  }
+  
+  .icon-circle.start {
+    background-color: white;
+  }
+  
+  .icon-circle.end {
+    background-color: black;
+    color: white;
+  }
+  
+  .timeline-line {
+    position: absolute;
+    left: 19px;
+    top: 25px;
+    bottom: 25px;
+    width: 2px;
+    border-left: 2px dotted black;
+  }
+  
+  .location-info {
+    font-size: 14px;
+  }
+  

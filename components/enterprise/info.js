@@ -15,11 +15,9 @@ const EnterpriseInfo = ({ data }) => {
   const maskedPhoneNumber = maskPhoneNumber(data?.phone || "N/A");
   const [selectedTab, setSelectedTab] = useState("ride"); // Default selected tab
   const tabs = [
-    { id: "ride", label: "Ride List" },
-    { id: "wallet", label: "Wallet Transactions" },
+    { id: "ride", label: "Order List" },
+    { id: "plan", label: "Plan List" },
   ];
-
- 
   return (
     <div className="flex gap-6">
       {/* Left Column - Profile Info */}
@@ -94,7 +92,7 @@ const EnterpriseInfo = ({ data }) => {
             setSelected={setSelectedTab}
           />
           <BaseViewTable
-            data={data}
+            extId={data?.ext_id}
             datatype={selectedTab}
             userType="enterprise"
           />
