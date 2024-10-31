@@ -15,7 +15,6 @@ const ConsumerList = ({params})=>{
         const response = await GetConsumerById(ext_id);
         setConsumer(response[0]);
       } catch (error) {
-        console.log("error ",error)
         setConsumer([]); // Handle error by setting joinview to null
       }
     };

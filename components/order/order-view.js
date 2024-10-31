@@ -42,7 +42,6 @@ const OrderView = () => {
           totalPages: response.totalPages,
         });
       } catch (error) {
-        console.log("error", error);
         setOrder([]);
         setPagination({
           total: 0,

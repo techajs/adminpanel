@@ -38,7 +38,6 @@ const DeliveryboyTable = () => {
         totalPages: response.totalPages,
       });
     } catch (error) {
-      console.log("error", error);
       setDeliveryboy([]);
       setPagination({
         total: 0,
@@ -124,11 +123,7 @@ const DeliveryboyTable = () => {
     const remainingUsers = deliveryboy.filter(
       (_, index) => !selected.includes(index)
     );
-    console.log(
-      "Deleted users:",
-      selected.map((i) => deliveryboy[i])
-    );
-    console.log("Remaining users:", remainingUsers);
+   
   };
 
   const handlePageSize = (e) => {

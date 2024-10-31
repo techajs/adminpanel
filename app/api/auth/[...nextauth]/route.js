@@ -66,7 +66,6 @@ const authOptions = {
       if (token.expiresAt && currentTime >= token.expiresAt) {
         signOut({ callbackUrl: "/login" })
       }
-      console.log('route.js')
       return token;
     },
     async session({ session, token }) {

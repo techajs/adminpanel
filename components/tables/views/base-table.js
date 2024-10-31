@@ -57,9 +57,8 @@ const BaseViewTable = ({ extId, datatype, userType }) => {
         const currentSearch = searchParams.get("search") || "";
         const orderList = await getOrderList(currentSearch,pageSize);
         setOrder(orderList);
-        console.log("orderList ", orderList.length);
       } catch (error) {
-        console.error("Error fetching order list:", error);
+        throw new Error("Error fetching order list:", error);
       }
     };
     fetchOrder();

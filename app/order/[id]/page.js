@@ -53,7 +53,7 @@ const ViewOrder = ({ params }) => {
               <FaPrint />
             </button>
           </h2>
-          <BillingDetail order={order} />
+          <BillingDetail order={order} userType="consumer"/>
         </div>
       </div>
 

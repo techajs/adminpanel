@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React from "react";
 
-const BillingDetail = ({ order }) => {
+const BillingDetail = ({ order,userType }) => {
   if (order == "") {
     return (
       <div className="space-y-2">
@@ -15,7 +15,7 @@ const BillingDetail = ({ order }) => {
       <p className="border-b-2 border-dotted border-gray-300 pb-2">
         <strong>Name:</strong>{" "}
         <Link
-          href={`/consumer/${order?.consumer_ext}`}
+          href={`/${userType}/${order?.consumer_ext}`}
           className="text-primary"
         >
           {order?.consumer_name || "N/A"}
@@ -43,7 +43,7 @@ const BillingDetail = ({ order }) => {
           className="text-primary"
         >
           {" "}
-          {order?.deliver_boy_name || "N/A"}
+          {order?.delivery_boy_name || "N/A"}
         </Link>
       </p>
       <p className="border-b-2 border-dotted border-gray-300 pb-2">

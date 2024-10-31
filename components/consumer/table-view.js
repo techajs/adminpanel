@@ -38,7 +38,6 @@ const ConsumerTable = () => {
         totalPages: response.totalPages,
       });
     } catch (error) {
-      console.log("error", error);
       setConsumer([]);
       setPagination({
         total: 0,
@@ -124,11 +123,6 @@ const ConsumerTable = () => {
     const remainingUsers = consumer.filter(
       (_, index) => !selected.includes(index)
     );
-    console.log(
-      "Deleted users:",
-      selected.map((i) => consumer[i])
-    );
-    console.log("Remaining users:", remainingUsers);
   };
 
   const handlePageSize = (e) => {

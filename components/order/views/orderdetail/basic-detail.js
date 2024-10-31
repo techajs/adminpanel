@@ -47,7 +47,7 @@ const BasicDetail = ({ order }) => {
         </span>
       </p>
       <p>
-        <strong>Ride Distance:</strong> {order?.distance.toFixed(2) || "0"} Km
+        <strong>Ride Distance:</strong> {order?.distance?.toFixed(2) || "0"} Km
       </p>
       <h2 className="text-lg font-semibold mb-4 mt-5">Location Details</h2>
       <div className="timeline">

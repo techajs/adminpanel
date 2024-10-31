@@ -60,11 +60,6 @@ const ConsumerUsers = () => {
     const remainingUsers = packageData.filter(
       (_, index) => !selected.includes(index)
     );
-    console.log(
-      "Deleted users:",
-      selected.map((i) => packageData[i])
-    );
-    console.log("Remaining users:", remainingUsers);
   };
 
   // Handle download action

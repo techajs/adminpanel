@@ -37,7 +37,6 @@ const EnterpriseTable = () => {
         totalPages: response.totalPages,
       });
     } catch (error) {
-      console.log("error", error);
       setEnterprise([]);
       setPagination({
         total: 0,
@@ -122,11 +121,6 @@ const EnterpriseTable = () => {
     const remainingUsers = enterprise.filter(
       (_, index) => !selected.includes(index)
     );
-    console.log(
-      "Deleted users:",
-      selected.map((i) => enterprise[i])
-    );
-    console.log("Remaining users:", remainingUsers);
   };
   const handlePageSize = (e) => {
     const newPageSize = e.target.value;

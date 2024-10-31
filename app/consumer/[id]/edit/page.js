@@ -2,7 +2,6 @@ import LayoutPage from "@/components/Layouts/layout"
 
 
 const EditEnterprise = ({params}) =>{
-  console.log(params)
 
   return (
     <LayoutPage>

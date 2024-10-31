@@ -34,7 +34,7 @@ function useLocalStorage(key, initialValue) {
       }
     } catch (error) {
       // A more advanced implementation would handle the error case
-      console.log(error);
+      throw new Error(error);
     }
   }, [key, storedValue]);
 

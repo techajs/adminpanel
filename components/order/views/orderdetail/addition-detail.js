@@ -24,7 +24,7 @@ const AdditionDetail = ({ order }) => {
         </span>
       </p>
       <p className="border-b-2 border-dotted border-gray-300 pb-2 flex items-center">
-        <strong>Discount Amount :</strong> {order?.discount.toFixed(2) || "0"} €
+        <strong>Discount Amount :</strong> {order?.discount?.toFixed(2) || "0"} €
       </p>
     </div>
   );
