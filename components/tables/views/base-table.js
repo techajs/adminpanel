@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   payoutHeader,
   rideConsumer,
@@ -8,12 +8,27 @@ import {
 } from "@/utils/constants";
 import ListItem from "./item-list";
 import { GetOrderById } from "@/services/consumer";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { getOrderByDeliveryboyEXT } from "@/services/deliveryboy";
 import { getOrderByInterpriseEXT } from "@/services/enterprise";
+import PageFilter from "@/components/common/page-filter";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { debounce } from "lodash";
+import Pagination from "@/components/pagination/page";
 
 const BaseViewTable = ({ extId, datatype, userType }) => {
-  const [order,setOrder]=useState([])
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const [order, setOrder] = useState([]);
+  const [pageSize, setPageSize] = useState("");
+  const [search, setSearch] = useState(searchParams.get("search") || "");
+  const [pagination, setPagination] = useState({
+    total: 0,
+    page: 1,
+    pageSize: 10,
+    totalPages: 0,
+  });
   const headersMap = {
     ride: {
       deliveryboy: rideHeader(),
@@ -26,39 +41,69 @@ const BaseViewTable = ({ extId, datatype, userType }) => {
   };
 
   const orderMap = {
-    deliveryboy: () => getOrderByDeliveryboyEXT(extId),
-    consumer: () => GetOrderById(extId),
-    enterprise: () => getOrderByInterpriseEXT(extId),
+    deliveryboy: (currentSearch,pageSize) => getOrderByDeliveryboyEXT(currentSearch,pageSize,extId),
+    consumer: (currentSearch,pageSize) => GetOrderById(currentSearch,pageSize,extId),
+    enterprise: (currentSearch,pageSize) => getOrderByInterpriseEXT(currentSearch,pageSize,extId),
   };
-  const header = datatype === "ride" ? headersMap[datatype][userType] : headersMap[datatype];
-  const getOrderList = orderMap[userType];
-  
+
+  const header =
+    datatype === "ride" ? headersMap[datatype][userType] : headersMap[datatype];
+
+  const getOrderList = useMemo(() => orderMap[userType], [extId, userType]);
+
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const orderList = await getOrderList();
+        const currentSearch = searchParams.get("search") || "";
+        const orderList = await getOrderList(currentSearch,pageSize);
         setOrder(orderList);
-        console.log("orderList ", orderList);
+        console.log("orderList ", orderList.length);
       } catch (error) {
         console.error("Error fetching order list:", error);
       }
     };
     fetchOrder();
-  }, [extId, getOrderList]);
+  }, [searchParams,getOrderList,pageSize]);
+
+  const handleSearchChange = useCallback(
+    debounce((e) => {
+      const newSearch = e.target.value;
+      setSearch(newSearch);
+      const params = new URLSearchParams(searchParams);
+      if (e.target.value) {
+        params.set("search", newSearch);
+        setPageSize(0)
+      } else {
+        params.delete("search");
+      }
+      router.replace(`${pathname}?${params}`);
+    }, 300),
+    [searchParams, pathname]
+  );
+  const handlePageSize = (e) => {
+    const newPageSize = e.target.value;
+    setPageSize(newPageSize);
+    if (newPageSize) {
+      const params = new URLSearchParams(searchParams);
+      params.delete('search')
+      router.replace(`${pathname}?${params}`);
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", newPage);
+    if (search) {
+      params.set("search", search);
+    } else {
+      params.delete("search");
+    }
+    router.replace(`${pathname}?${params}`);
+  };
   return (
     <>
       <div className="flex justify-between items-center mb-4">
-        <div>
-          <label>
-            Show
-            <select className="ml-2 border dark:bg-boxdark rounded px-2 py-1">
-              <option>10</option>
-              <option>20</option>
-              <option>50</option>
-            </select>{" "}
-            entries
-          </label>
-        </div>
+        <PageFilter selectedOption={pageSize} onPageChanges={handlePageSize} />
         <div className="relative">
           <button className="absolute left-3 top-1/2 -translate-y-1/2 dark:bg-meta-4 ">
             <svg
@@ -88,6 +133,8 @@ const BaseViewTable = ({ extId, datatype, userType }) => {
             type="text"
             name="search"
             placeholder="Search..."
+            defaultValue={search}
+            onChange={handleSearchChange}
           />
         </div>
       </div>
@@ -105,6 +152,17 @@ const BaseViewTable = ({ extId, datatype, userType }) => {
           <ListItem data={order} datatype={datatype} userType={userType} />
         </tbody>
       </table>
+      <div className="flex items-center justify-end mb-5 mt-5">
+        <div className="flex items-center w-1/2 justify-end space-x-5 gap-3">
+          {pagination.totalPages > 1 && (
+            <Pagination
+              currentPage={pagination.page}
+              totalPages={pagination.totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </div>
+      </div>
     </>
   );
 };

@@ -249,7 +249,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .timeline {
     position: relative;
-    padding-left: 30px;
+    padding-left: 10px;
   }
   
   .timeline-item {

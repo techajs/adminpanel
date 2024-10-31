@@ -8,6 +8,7 @@ import debounce from "lodash/debounce";
 import { GetConsumers } from "@/services/consumer";
 import TableItem from "../tables/table-items";
 import { FaDownload, FaTrash } from "react-icons/fa";
+import PageFilter from "../common/page-filter";
 
 const ConsumerTable = () => {
   const router = useRouter();
@@ -22,12 +23,13 @@ const ConsumerTable = () => {
   });
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(searchParams.get("search") || "");
+  const [pageSize, setPageSize] = useState("");
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-  const fetchConsumer = useCallback(async (currentPage, currentSearch) => {
+  const fetchConsumer = useCallback(async (currentPage, currentSearch,pageSize) => {
     setLoading(true);
     try {
-      const response = await GetConsumers(currentPage, currentSearch);
+      const response = await GetConsumers(currentPage, currentSearch,pageSize);
       setConsumer(response.data);
       setPagination({
         total: response.total,
@@ -54,8 +56,8 @@ const ConsumerTable = () => {
     const page = searchParams.get("page") || 1;
     const currentSearch = searchParams.get("search") || "";
     setSearch(currentSearch);
-    fetchConsumer(page, currentSearch);
-  }, [searchParams, fetchConsumer, selected]);
+    fetchConsumer(page, currentSearch,pageSize);
+  }, [searchParams, fetchConsumer, selected,pageSize]);
 
   // Handle page change
   const handlePageChange = (newPage) => {
@@ -128,6 +130,17 @@ const ConsumerTable = () => {
     );
     console.log("Remaining users:", remainingUsers);
   };
+
+  const handlePageSize = (e) => {
+    const newPageSize = e.target.value;
+    setPageSize(newPageSize);
+    if (newPageSize) {
+      const params = new URLSearchParams(searchParams);
+      params.delete('search')
+      params.delete('page')
+      router.replace(`${pathname}?${params}`);
+    }
+  };
   return (
     <div className="rounded-sm border border-stroke bg-white  px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
@@ -157,18 +170,7 @@ const ConsumerTable = () => {
               </div>
             )}
             {/* <Add title="Create" url="/users/create/consumer" /> */}
-            <div>
-              <label>
-                Show
-                <select className="ml-2 border dark:bg-boxdark rounded px-2 py-1">
-                  <option>10</option>
-                  <option>20</option>
-                  <option>50</option>
-                  <option>100</option>
-                </select>{" "}
-                entries
-              </label>
-            </div>
+            <PageFilter selectedOption={pageSize} onPageChanges={handlePageSize} />
           </div>
           <div className="relative">
             <button className="absolute left-3 top-1/2 -translate-y-1/2 dark:bg-meta-4 ">

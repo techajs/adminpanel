@@ -2,22 +2,14 @@ import { getByID, getCommonlist } from "@/app/_lib/action";
 import { API } from "@/utils/constants";
 
 
-export const GetConsumers = (page, search) => {
-  let apiStartpoint = API.getConsumer;
-  let apiUrl = "";
-  let addon = "";
-  if (parseInt(page) > 0) {
-    if (search && search != "") {
-      addon = `&search=${search}`;
-    }
-    apiUrl = `${apiStartpoint}?page=${page}${addon}`;
-  }
-  if (search && search != "") {
-    if (parseInt(page) > 0) {
-      addon = `&page=${page}`;
-    }
-    apiUrl = `${apiStartpoint}?search=${search}${addon}`;
-  }
+export const GetConsumers = (page, search,pageSize) => {
+  const apiStartpoint =API.getConsumer;
+  const queryParams = new URLSearchParams();
+  if (parseInt(page) > 0) queryParams.append('page', page);
+  if (parseInt(pageSize) > 0) queryParams.append('pagesize', pageSize);
+  if (search) queryParams.append('search', search);
+  const apiUrl = `${apiStartpoint}?${queryParams.toString()}`;
+
   return new Promise((resolve, reject) => {
     const params = {};
     getCommonlist(
@@ -61,8 +53,12 @@ export const GetConsumerById = async (ext_id) => {
 };
 
 
-export const GetOrderById = async (ext_id) => {
-  let apiUrl = `${API.viewConsumerOrderUrl}${ext_id}`;
+export const GetOrderById = async (search,pageSize,ext_id) => {
+  const apiStartpoint =`${API.viewConsumerOrderUrl}${ext_id}`;
+  const queryParams = new URLSearchParams();
+  if (parseInt(pageSize) > 0) queryParams.append('size', pageSize);
+  if (search) queryParams.append('o', search);
+  const apiUrl = `${apiStartpoint}?${queryParams.toString()}`;
   return new Promise((resolve, reject) => {
     const params = {};
     getByID(

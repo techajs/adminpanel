@@ -16,7 +16,6 @@ const EnterpriseInfo = ({ data }) => {
   const [selectedTab, setSelectedTab] = useState("ride"); // Default selected tab
   const tabs = [
     { id: "ride", label: "Order List" },
-    { id: "plan", label: "Plan List" },
   ];
   return (
     <div className="flex gap-6">

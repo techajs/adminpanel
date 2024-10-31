@@ -2,22 +2,13 @@ import { getByID, getCommonlist } from "@/app/_lib/action";
 import { API } from "@/utils/constants";
 
 
-export const GetDeliveryboys = (page, search) => {
-  let apiStartpoint = API.getDeliveryboy;
-  let apiUrl = "";
-  let addon = "";
-  if (parseInt(page) > 0) {
-    if (search && search != "") {
-      addon = `&search=${search}`;
-    }
-    apiUrl = `${apiStartpoint}?page=${page}${addon}`;
-  }
-  if (search && search != "") {
-    if (parseInt(page) > 0) {
-      addon = `&page=${page}`;
-    }
-    apiUrl = `${apiStartpoint}?search=${search}${addon}`;
-  }
+export const GetDeliveryboys = (page, search,pageSize) => {
+  const apiStartpoint =API.getDeliveryboy;
+  const queryParams = new URLSearchParams();
+  if (parseInt(page) > 0) queryParams.append('page', page);
+  if (parseInt(pageSize) > 0) queryParams.append('pagesize', pageSize);
+  if (search) queryParams.append('search', search);
+  const apiUrl = `${apiStartpoint}?${queryParams.toString()}`;
   return new Promise((resolve, reject) => {
     const params = {};
     getCommonlist(
@@ -62,9 +53,12 @@ export const GetDeliveryboyById = async (ext_id)=>{
 };
 
 
-export const getOrderByDeliveryboyEXT = async (ext_id) =>{
-  let apiUrl = `${API.viewDeliveryBoyOrderUrl}${ext_id}`;
-  
+export const getOrderByDeliveryboyEXT = async (search,pageSize,ext_id) =>{
+  const apiStartpoint =`${API.viewDeliveryBoyOrderUrl}${ext_id}`;
+  const queryParams = new URLSearchParams();
+  if (parseInt(pageSize) > 0) queryParams.append('size', pageSize);
+  if (search) queryParams.append('o', search);
+  const apiUrl = `${apiStartpoint}?${queryParams.toString()}`;
   return new Promise((resolve, reject) => {
     const params = {};
     getByID(

@@ -28,6 +28,8 @@ export default function Login() {
   useEffect(() => {
     if (status === "authenticated") {
       const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+      setIsLogin(false);
+
       router.push(callbackUrl);
     }
   }, [status, router, searchParams]);
@@ -47,11 +49,14 @@ export default function Login() {
         password: values.password,
       });
 
-      setIsLogin(false);
-
+      
       if (res?.ok) {
+        setIsLogin(false);
+
         router.push(searchParams.get("callbackUrl") || "/dashboard");
       } else {
+        setIsLogin(false);
+
         setError(res?.status === 401 ? "Invalid email or password. Please try again." : `Login failed: ${res?.error || "Unknown error"}`);
       }
     },

@@ -4,6 +4,22 @@ import { FaEdit, FaEye, FaRegEdit } from "react-icons/fa";
 
 const ListItem = ({ data, datatype,userType }) => {
   const url = "";
+
+  const getName = {
+    consumer:'delivery_boy_name',
+    deliveryboy:'consumer_name',
+    enterprise:'delivery_boy_name',
+  }
+  const getService={
+    consumer:'service_name',
+    deliveryboy:'service_name',
+    enterprise:'delivery_type',
+  }
+  const getUrl= {
+    consumer:'order',
+    deliveryboy:'order',
+    enterprise:'enterprise/order',
+  }
   return (
     <>
       {datatype === "ride" && (
@@ -14,17 +30,17 @@ const ListItem = ({ data, datatype,userType }) => {
                 <td className="border-b border-[#eee] px-2 py-2 dark:border-strokedark">
                   {" "}
                   <h5 className="font-medium text-sm text-primary">
-                    <Link  href={`/order/${item?.order_number}`}>{item?.order_number}</Link>
+                    <Link  href={`/${getUrl[userType]}/${item?.order_number}`}>{item?.order_number}</Link>
                   </h5>
                 </td>
                 <td className="border-b border-[#eee] px-2 py-2 dark:border-strokedark">
                   <p className="text-black text-sm dark:text-white">
-                    {userType=='consumer' ? item?.delivery_boy_name : item?.consumer_name || 'N/A'}
+                    {item?.[getName[userType]] || 'N/A'}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] px-2 py-2 pl-9 dark:border-strokedark xl:pl-11">
                   <h5 className="font-medium text-sm text-black dark:text-white">
-                    {item?.service_name}
+                    {item?.[getService[userType]] || 'N/A'}
                   </h5>
                 </td>
                 

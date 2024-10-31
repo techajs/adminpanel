@@ -7,6 +7,7 @@ import debounce from "lodash/debounce";
 import OrderTableItem from "../tables/orderItem";
 import { GetOrders } from "@/services/order";
 import OrderStatus from "../tables/order-status";
+import PageFilter from "../common/page-filter";
 
 const OrderView = () => {
   const router = useRouter();
@@ -21,16 +22,17 @@ const OrderView = () => {
   });
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(searchParams.get("search") || "");
-  const [orderstatus, setOrderStatus] = useState("current");
-  const [selectAll, setSelectAll] = useState(false);
+  const [orderstatus, setOrderStatus] = useState(searchParams.get("status") || "");
+  const [pageSize, setPageSize] = useState("");
   const fetchOrderList = useCallback(
-    async (currentPage, currentSearch, currentStatus) => {
+    async (currentPage, currentSearch, currentStatus,pageSize) => {
       setLoading(true);
       try {
         const response = await GetOrders(
           currentPage,
           currentSearch,
-          currentStatus
+          currentStatus,
+          pageSize
         );
         setOrder(response.data);
         setPagination({
@@ -61,9 +63,8 @@ const OrderView = () => {
     const currentSearch = searchParams.get("search") || "";
     setOrderStatus(searchParams.get("status") || "current");
     setSearch(currentSearch);
-
-    fetchOrderList(page, currentSearch, orderstatus);
-  }, [searchParams, fetchOrderList, orderstatus]);
+    fetchOrderList(page, currentSearch, orderstatus,pageSize);
+  }, [searchParams, fetchOrderList, orderstatus,pageSize]);
 
   // Handle page change
   const handlePageChange = (newPage) => {
@@ -109,22 +110,21 @@ const OrderView = () => {
     { value: "past", label: "Past" },
   ];
 
+  const handlePageSize = (e)=>{
+    const newPageSize = e.target.value;
+    setPageSize(newPageSize);
+    if (newPageSize) {
+      const params = new URLSearchParams(searchParams);
+      router.replace(`${pathname}?${params}`);
+    }
+  }
+
   return (
     <div className="rounded-sm border border-stroke bg-white  px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center w-1/2 justify-start space-x-5">
-            <div>
-              <label>
-                Show
-                <select className="ml-2 border dark:bg-boxdark rounded px-2 py-1">
-                  <option>10</option>
-                  <option>20</option>
-                  <option>50</option>
-                </select>{" "}
-                entries
-              </label>
-            </div>
+            <PageFilter selectedOption={pageSize} onPageChanges={handlePageSize} />
             {/* <Add title="Order" url="#" /> */}
           </div>
           <div className="flex items-center justify-between gap-2">

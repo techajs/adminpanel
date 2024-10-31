@@ -7,6 +7,7 @@ import debounce from "lodash/debounce";
 import { GetEnterprises } from "@/services/enterprise";
 import TableItem from "../tables/table-items";
 import { FaDownload, FaTrash } from "react-icons/fa";
+import PageFilter from "../common/page-filter";
 
 const EnterpriseTable = () => {
   const router = useRouter();
@@ -21,12 +22,13 @@ const EnterpriseTable = () => {
   });
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(searchParams.get("search") || "");
+  const [pageSize, setPageSize] = useState("");
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-  const fetchEnterprise = useCallback(async (currentPage, currentSearch) => {
+  const fetchEnterprise = useCallback(async (currentPage, currentSearch,pageSize) => {
     setLoading(true);
     try {
-      const response = await GetEnterprises(currentPage, currentSearch);
+      const response = await GetEnterprises(currentPage, currentSearch,pageSize);
       setEnterprise(response.data);
       setPagination({
         total: response.total,
@@ -53,8 +55,8 @@ const EnterpriseTable = () => {
     const page = searchParams.get("page") || 1;
     const currentSearch = searchParams.get("search") || "";
     setSearch(currentSearch);
-    fetchEnterprise(page, currentSearch);
-  }, [searchParams, fetchEnterprise]);
+    fetchEnterprise(page, currentSearch,pageSize);
+  }, [searchParams, fetchEnterprise,pageSize]);
 
   // Handle page change
   const handlePageChange = (newPage) => {
@@ -126,10 +128,47 @@ const EnterpriseTable = () => {
     );
     console.log("Remaining users:", remainingUsers);
   };
+  const handlePageSize = (e) => {
+    const newPageSize = e.target.value;
+    setPageSize(newPageSize);
+    if (newPageSize) {
+      const params = new URLSearchParams(searchParams);
+      params.delete('search')
+      params.delete('page')
+      router.replace(`${pathname}?${params}`);
+    }
+  };
   return (
     <div className="rounded-sm border border-stroke bg-white  px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
         <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center w-1/2 justify-start space-x-5">
+            {selected.length > 0 && (
+              <div className="flex justify-between items-center mt-4 mb-4">
+                {/* <div>
+                  <p className="text-black font-medium dark:text-white">
+                    Selected Users: {selected.length}
+                  </p>
+                </div> */}
+                <div className="space-x-3">
+                  <button
+                    onClick={handleDownload}
+                    className="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                  >
+                    <FaDownload />
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
+              </div>
+            )}
+            <PageFilter selectedOption={pageSize} onPageChanges={handlePageSize} />
+            {/* <Add title="Create" url="/users/create/enterprise" /> */}
+          </div>
           <div className="relative">
             <button className="absolute left-3 top-1/2 -translate-y-1/2 dark:bg-meta-4 ">
               <svg
@@ -162,32 +201,6 @@ const EnterpriseTable = () => {
               defaultValue={search}
               onChange={handleSearchChange}
             />
-          </div>
-          <div className="flex items-center w-1/2 justify-end space-x-5">
-            {selected.length > 0 && (
-              <div className="flex justify-between items-center mt-4 mb-4">
-                {/* <div>
-                  <p className="text-black font-medium dark:text-white">
-                    Selected Users: {selected.length}
-                  </p>
-                </div> */}
-                <div className="space-x-3">
-                  <button
-                    onClick={handleDownload}
-                    className="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600"
-                  >
-                    <FaDownload />
-                  </button>
-                  <button
-                    onClick={handleDelete}
-                    className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                  >
-                    <FaTrash />
-                  </button>
-                </div>
-              </div>
-            )}
-            <Add title="Create" url="/users/create/enterprise" />
           </div>
         </div>
 

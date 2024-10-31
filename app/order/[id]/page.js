@@ -10,6 +10,7 @@ import { GetOrderByNumber } from "@/services/order";
 import Link from "next/link";
 import BasicDetail from "@/components/order/views/orderdetail/basic-detail";
 import BillingDetail from "@/components/order/views/orderdetail/billing-detail";
+import AdditionDetail from "@/components/order/views/orderdetail/addition-detail";
 
 const ViewOrder = ({ params }) => {
   const orderNumber = params?.id || "";
@@ -19,7 +20,6 @@ const ViewOrder = ({ params }) => {
   const getOrder = useCallback(async () => {
     try {
       const orderData = await GetOrderByNumber(orderNumber);
-      console.log(orderData.order);
       setOrder(orderData?.order || null);
     } catch (err) {
       console.error("Failed to fetch order data:", err);
@@ -71,14 +71,6 @@ const ViewOrder = ({ params }) => {
           <div className="rounded-lg bg-white border p-6 shadow-md dark:bg-boxdark">
             <h2 className="text-lg font-semibold mb-4">Price Details</h2>
             <div className="flex justify-between">
-              <span>Order Amount</span>
-              <span>{order?.order_amount.toFixed(2) || "0.00 "} €</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Discount</span>
-              <span>{order?.promo_value || "0.00 "} </span>
-            </div>
-            <div className="flex justify-between">
               <span>Total Amount</span>
               <span>{order?.amount.toFixed(2) || "0.00 "} €</span>
             </div>
@@ -87,24 +79,7 @@ const ViewOrder = ({ params }) => {
           {/* Additional Section */}
           <div className="rounded-lg bg-white border p-6 shadow-md dark:bg-boxdark">
             <h2 className="text-lg font-semibold mb-4">Additional Details</h2>
-            <div className="space-y-2">
-              <p className="border-b-2 border-dotted border-gray-300 pb-2 flex items-center">
-                <strong>Coupon code:</strong>
-                <span className="ml-2 flex items-center gap-1 px-2 py-1 border border-dotted border-gray-400 rounded">
-                  {order?.promo_code}
-                </span>
-              </p>
-              <p className="border-b-2 border-dotted border-gray-300 pb-2 flex items-center">
-                <strong>Discount:</strong>
-                <span className="ml-2 px-2 py-1 bg-blue-500 text-white rounded">
-                  {order?.promo_value || "Direct amount"}
-                </span>
-              </p>
-              <p className="border-b-2 border-dotted border-gray-300 pb-2 flex items-center">
-                <strong>Discount Amount :</strong>{" "}
-                {order?.discount.toFixed(2) || "0"} €
-              </p>
-            </div>
+            <AdditionDetail order={order}/>
           </div>
         </div>
       </div>

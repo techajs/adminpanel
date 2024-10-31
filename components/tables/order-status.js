@@ -19,8 +19,8 @@ const OrderStatus = ({selectedOption,onPageChange,selectValue}) => {
         {/* <option value="" className="text-body dark:text-bodydark">
           All
         </option> */}
-        {selectValue?.map((item)=>(
-            <option value={item.value} className="text-body dark:text-bodydark">
+        {selectValue?.map((item,key)=>(
+            <option key={key} value={item.value} className="text-body dark:text-bodydark">
             {item.label}
           </option>
         ))}

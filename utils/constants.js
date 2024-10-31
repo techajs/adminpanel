@@ -224,3 +224,4 @@ export const getAddressLine= (address,city,state,postal_code,country)=>{
   }
   return `${address},${city},${state},${code} ${country}`
 }
+
