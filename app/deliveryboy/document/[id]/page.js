@@ -1,13 +1,9 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import TabLayout from "@/components/common/tab-item";
 import LayoutPage from "@/components/Layouts/layout";
 import BaseViewTable from "@/components/tables/views/base-table";
-import { useState } from "react";
 
 const DeliverboyDocs = ({ params }) => {
-  const [selectedTab, setSelectedTab] = useState("ride"); // Default selected tab
-  const tabs = [{ id: "ride", label: "Document Details" }];
   const data = [];
   return (
     <LayoutPage>
