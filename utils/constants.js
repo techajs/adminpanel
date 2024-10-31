@@ -83,6 +83,7 @@ export const API = {
 };
 
 export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+// export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const formatDate = (isoString) => {
   const date = new Date(isoString);
