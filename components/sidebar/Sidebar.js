@@ -53,6 +53,7 @@ const menuGroups = [
           { label: "Consumer", route: "/consumer" },
           { label: "Enterprise", route: "/enterprise" },
           { label: "Delivery  Boy", route: "/deliveryboy" },
+          { label: "Recent Delete User", route: "/recentdeleteuser" },
         ],
       },
       {
@@ -83,7 +84,11 @@ const menuGroups = [
           <FaTruck />
         ),
         label: "Manage Vehicle",
-        route: "/vehicle",
+        route: "#",
+        children: [
+          { label: "Vehicle Type", route: "/vehicletype" },
+          { label: "Vehicle", route: "/vehicle" },
+        ],
       },
     ],
   },

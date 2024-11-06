@@ -20,8 +20,8 @@ const SelectGroupTwo = ({ label, options, defaultOption }) => {
             {defaultOption}
           </option>
           {options.map((option, index) => (
-            <option key={index} value={option.value}>
-              {option.label}
+            <option key={index} value={option.id}>
+              {option.vehicle_type}
             </option>
           ))}
         </select>

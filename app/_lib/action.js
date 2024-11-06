@@ -6,19 +6,6 @@ import { API, HTTPMethod } from "@/utils/constants";
 
 
 
-export const getAllVehicleTypes = (params, successCallback, errorCallback) => {
-  axiosCall(
-    API.vehicletypesUrl,
-    HTTPMethod.GET,
-    params,
-    response => {
-      successCallback(response);
-    },
-    errorResponse => {
-      errorCallback(errorResponse);
-    },
-  );
-};
 
 export const getEnterprise = (params, successCallback, errorCallback) => {
   axiosCall(
@@ -110,6 +97,33 @@ export const getByID=(url,params, successCallback, errorCallback) => {
   );
 };
 
+export const UpdateQuery=(url,params, successCallback, errorCallback) => {
+  axiosCall(
+    url,
+    HTTPMethod.PUT,
+    params,
+    response => {
+      successCallback(response);
+    },
+    errorResponse => {
+      errorCallback(errorResponse);
+    },
+  );
+};
+
+export const UpdateStatusQuery=(url,params, successCallback, errorCallback) => {
+  axiosCall(
+    url,
+    HTTPMethod.PUT,
+    params,
+    response => {
+      successCallback(response);
+    },
+    errorResponse => {
+      errorCallback(errorResponse);
+    },
+  );
+};
 
 
 

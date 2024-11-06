@@ -1,4 +1,6 @@
 "use client";
+import { GetVehicles, GetVehicleTypes } from '@/services';
+import { GetCity, GetCountry, GetState, GetWorkType } from '@/services/common';
 import { createContext, useContext, useState } from 'react';
 
 const GlobalDataContext = createContext();
@@ -8,24 +10,79 @@ export const useGlobalData = () => {
 };
 
 export const GlobalDataProvider = ({ children }) => {
-  const [dashboardData, setDashboardData] = useState(null);
-  const [consumersData, setConsumersData] = useState(null);
-  const [enterpriseData, setEnterpriseData] = useState(null);
-  const [deliveryBoysData, setDeliveryBoysData] = useState(null);
-  const [ordersData, setOrdersData] = useState(null);
+  const [country, setCountry] = useState(null);
+  const [state, setState] = useState(null);
+  const [city, setCity] = useState(null);
+  const [workType, setWorkType] = useState(null);
+  const [vehicleType, setVehicleType] = useState(null);
+  const [vehicle, setVehicle] = useState(null);
 
-  const fetchAllData = async () => {
-    // Fetch data logic here
+  const fetchVehicleType = async () => {
+    try {
+      const response = await GetVehicleTypes();
+      setVehicleType(response);
+    } catch (error) {
+      setVehicleType([]);
+    }
+  };
+  const fetchVehicle = async () => {
+    try {
+      const response = await GetVehicles();
+      console.log('vehicle',response)
+      setVehicle(response);
+    } catch (error) {
+      setVehicle([]);
+    }
+  };
+  const fetchCountry = async () => {
+    try {
+      const response = await GetCountry();
+      console.log('country',response)
+      setCountry(response);
+    } catch (error) {
+      setCountry([]);
+    }
+  };
+  const fetchState = async () => {
+    try {
+      const response = await GetState();
+      setState(response);
+    } catch (error) {
+      setState([]);
+    }
+  };
+  const fetchCity = async () => {
+    try {
+      const response = await GetCity();
+      setCity(response);
+    } catch (error) {
+      setCity([]);
+    }
+  };
+  const fetchWorkType = async () => {
+    try {
+      const response = await GetWorkType();
+     
+      setWorkType(response);
+    } catch (error) {
+      setWorkType([]);
+    }
   };
 
   return (
     <GlobalDataContext.Provider value={{ 
-      dashboardData, 
-      consumersData, 
-      enterpriseData, 
-      deliveryBoysData, 
-      ordersData, 
-      fetchAllData 
+      country, 
+      state, 
+      city, 
+      vehicleType, 
+      workType, 
+      vehicle ,
+      fetchVehicleType,
+      fetchVehicle,
+      fetchCountry,
+      fetchState,
+      fetchCity,
+      fetchWorkType
     }}>
       {children}
     </GlobalDataContext.Provider>

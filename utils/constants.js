@@ -18,6 +18,9 @@ export const API = {
   stateList: "/state",
   cityList: "/city",
   vehicles: "/vehicles",
+  vehiclesStatus: '/vehicles/updatestatus',
+  vehiclesTypeStatus: '/vehicletypes/updatestatus',
+  workTypeList: "/worktype",
   viewDeliveryBoyOrderUrl: "/order/deliveryboy/",
   viewConsumerOrderUrl: "/order/consumer/",
   payment: "/payment",
@@ -226,3 +229,54 @@ export const getAddressLine= (address,city,state,postal_code,country)=>{
   return `${address},${city},${state},${code} ${country}`
 }
 
+
+export const paginate = (data, currentPage, itemsPerPage) => {
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  return data.slice(indexOfFirstItem, indexOfLastItem);
+};
+
+export const calculateTotalPages = (dataLength, itemsPerPage) => {
+  return Math.ceil(dataLength / itemsPerPage);
+};
+export const headers = {
+  deliveryboy: [
+    "Name",
+    "Email",
+    "Phone",
+    "Documents",
+    "Created On",
+    "Service",
+    "Action",
+  ],
+  consumer: ["Name", "Email", "Phone", "Created On", "Active", "Action"],
+  enterprise: [
+    "Name",
+    "Email",
+    "Phone",
+    "Industry",
+    "Company",
+    "Created On",
+    "Action",
+  ],
+  vehicle: [
+    "Owner Name",
+    "Vehicle Type",
+    "Image",
+    "Plat No",
+    "Modal",
+    "Make",
+    "status",
+    "Action",
+  ],
+
+  vehicletype: [
+    "Title",
+    "Image",
+    "Base Price",
+    "Km Price",
+    "Description",
+    "status",
+    "Action",
+  ],
+};

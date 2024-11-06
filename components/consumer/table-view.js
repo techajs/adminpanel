@@ -106,24 +106,7 @@ const ConsumerTable = () => {
     }
     setSelectAll(!selectAll);
   };
-  const handleDownload = () => {
-    const selectedUsers = selected.map((i) => consumer[i]);
-    const dataStr =
-      "data:text/json;charset=utf-8," +
-      encodeURIComponent(JSON.stringify(selectedUsers));
-    const downloadAnchorNode = document.createElement("a");
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", "selected_users.json");
-    document.body.appendChild(downloadAnchorNode); // Required for Firefox
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
-  };
-  // Handle delete action
-  const handleDelete = () => {
-    const remainingUsers = consumer.filter(
-      (_, index) => !selected.includes(index)
-    );
-  };
+ 
 
   const handlePageSize = (e) => {
     const newPageSize = e.target.value;
@@ -140,29 +123,6 @@ const ConsumerTable = () => {
       <div className="max-w-full overflow-x-auto">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center w-1/2 justify-start space-x-5">
-            {selected.length > 0 && (
-              <div className="flex justify-between items-center mt-4 mb-4">
-                {/* <div>
-                  <p className="text-black font-medium dark:text-white">
-                    Selected Users: {selected.length}
-                  </p>
-                </div> */}
-                <div className="space-x-3">
-                  <button
-                    onClick={handleDownload}
-                    className="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600"
-                  >
-                    <FaDownload />
-                  </button>
-                  <button
-                    onClick={handleDelete}
-                    className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                  >
-                    <FaTrash />
-                  </button>
-                </div>
-              </div>
-            )}
             {/* <Add title="Create" url="/users/create/consumer" /> */}
             <PageFilter selectedOption={pageSize} onPageChanges={handlePageSize} />
           </div>

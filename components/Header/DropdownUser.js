@@ -8,7 +8,7 @@ const DropdownUser = () => {
   const { data: session } = useSession();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const handleSignOut = async () => {
-    await signOut({ redirect: true, callbackUrl: "/" }); // Redirects to home page after sign out
+    await signOut({ redirect: true, callbackUrl: "/login" }); // Redirects to home page after sign out
   };
  
 

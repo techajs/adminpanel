@@ -1,25 +1,43 @@
+"use client";
+import { useEffect, useState } from "react";
 import { DashboardService } from "@/services/dashboard/services";
 import CardDataStats from "../CardDataStats";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import Dashboarbox from "./box";
-
 import Link from "next/link";
 import { FaClipboardCheck, FaFileExcel, FaTruck, FaUser } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
+import Dashboarbox from "./box";
+import useFetchGlobalData from "@/hooks/useFetchData";
+import Waiting from "../common/waiting";
 
-const DashboardLayout = async () => {
-  const { data } = await DashboardService();
+const DashboardLayout = () => {
+  const {country,state,city} = useFetchGlobalData();
+  const [dashboardData, setDashboardData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await DashboardService();
+      setDashboardData(response.data);
+    };
+
+    fetchData();
+  }, []);
+
+  if (!dashboardData) return <Waiting />; // Handle loading state
+
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats title="Total Consumer" total={data[0]?.totalConsumers || 0}>
+        <CardDataStats
+          title="Total Consumer"
+          total={dashboardData[0]?.totalConsumers || 0}
+        >
           <Link href="/consumer">
             <FaUser />
           </Link>
         </CardDataStats>
         <CardDataStats
           title="Total Delivery boy"
-          total={data[0]?.totalDeliveryBoys || 0}
+          total={dashboardData[0]?.totalDeliveryBoys || 0}
         >
           <Link href="/deliveryboy">
             <FaUser />
@@ -27,23 +45,32 @@ const DashboardLayout = async () => {
         </CardDataStats>
         <CardDataStats
           title="Total Enterprise"
-          total={data[0]?.totalEnterprises || 0}
+          total={dashboardData[0]?.totalEnterprises || 0}
         >
           <Link href="/enterprise">
             <FaCartShopping />
           </Link>
         </CardDataStats>
-        <CardDataStats title="Total Order" total={data[0]?.totalOrders || 0}>
+        <CardDataStats
+          title="Total Order"
+          total={dashboardData[0]?.totalOrders || 0}
+        >
           <Link href="/order">
             <FaTruck />
           </Link>
         </CardDataStats>
-        <CardDataStats title="Completed Order" total={data[0]?.completedOrders || 0}>
+        <CardDataStats
+          title="Completed Order"
+          total={dashboardData[0]?.completedOrders || 0}
+        >
           <Link href="/order?status=past">
             <FaClipboardCheck />
           </Link>
         </CardDataStats>
-        <CardDataStats title="Cancelled Order" total={data[0]?.canceledOrders || 0}>
+        <CardDataStats
+          title="Cancelled Order"
+          total={dashboardData[0]?.canceledOrders || 0}
+        >
           <Link href="/order?status=cancelled">
             <FaFileExcel />
           </Link>
@@ -55,7 +82,7 @@ const DashboardLayout = async () => {
         <Dashboarbox
           url="/joinrequest"
           icon="request"
-          title={`${data[0]?.requestuserleft} new requests`}
+          title={`${dashboardData[0]?.requestuserleft} new requests`}
           subtitle=""
         />
         <Dashboarbox

@@ -1,10 +1,12 @@
-import { formatDate } from "@/utils/constants";
+import { formatDate, getValidImageUrl } from "@/utils/constants";
+import Image from "next/image";
 import Link from "next/link";
 import { FaEye, FaFile, FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
 const DeliveryboyTableItem = ({
   data,
   url,
+  refreshData,
   selected,
   handleCheckboxChange,
 }) => {
@@ -21,12 +23,34 @@ const DeliveryboyTableItem = ({
               />
             </td>
             <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
-              <h5 className="font-medium text-sm text-primary">
-                <Link href={`${url}/${item.ext_id}`}>
-                  {item.first_name} {item.last_name}
-                </Link>
-              </h5>
+              <div className="flex items-center gap-2">
+                <div className="bg-green-500 w-12 h-12 rounded-full flex  justify-center">
+                  {item.profile_pic ? (
+                    <Image
+                      src={getValidImageUrl(item.profile_pic)}
+                      alt={`${data.first_name || "N/A"} ${
+                        data.last_name || ""
+                      }`}
+                      className="w-full h-full rounded-full object-cover"
+                      width={60}
+                      height={60}
+                    />
+                  ) : (
+                    <span className="text-2xl text-white font-bold">
+                      {item.first_name
+                        ? item.first_name.charAt(0).toUpperCase()
+                        : "U"}
+                    </span>
+                  )}
+                </div>
+                <h5 className="font-medium text-sm text-primary">
+                  <Link href={`${url}/${item.ext_id}`}>
+                    {item.first_name} {item.last_name}
+                  </Link>
+                </h5>
+              </div>
             </td>
+
             <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
               <p className="text-black text-sm dark:text-white">{item.email}</p>
             </td>
@@ -52,9 +76,10 @@ const DeliveryboyTableItem = ({
               </p>
             </td>
             <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-              <p className="text-black text-sm dark:text-white">{item?.work_type}</p>
+              <p className="text-black text-sm dark:text-white">
+                {item?.work_type}
+              </p>
             </td>
-           
 
             <td className="border-b text-left border-[#eee] px-4 py-5 dark:border-strokedark">
               <div className="flex items-center space-x-3.5">
