@@ -184,7 +184,7 @@ const OrderDetailView = () => {
 
           <div className="flex justify-center items-center mb-4 mt-5">
             <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              Download <span><i class="fa-solid fa-download"></i></span>
+              Download <span><i className="fa-solid fa-download"></i></span>
             </button>
           </div>
         </div>

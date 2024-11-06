@@ -25,7 +25,7 @@ const VehicleTableView = () => {
       item.plat_no.toLowerCase().includes(search.toLowerCase()) ||
       item.make.toLowerCase().includes(search.toLowerCase()) ||
       item.vehicle_type.toLowerCase().includes(search.toLowerCase()) ||
-      item.model.toLowerCase().includes(search.toLowerCase())
+      item.modal.toLowerCase().includes(search.toLowerCase())
   );
 
   const totalPages = calculateTotalPages(filteredVehicles.length, itemsPerPage);

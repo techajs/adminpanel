@@ -217,7 +217,7 @@ export const documentHeader = ()=>{
 export const baseProfilePicUrl = 'http://16.171.224.246:3009/api/documents/view/';
 
 export const getValidImageUrl = (profilePic) => {
-    const url=`${baseProfilePicUrl}`+profilePic.replace(/\.[^.]+$/, '')
+    const url=`${baseProfilePicUrl}`+profilePic?.replace(/\.[^.]+$/, '')
     return url;
 };
 

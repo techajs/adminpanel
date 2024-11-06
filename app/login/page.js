@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useEffect, useState } from "react";
+import Waiting from "@/components/common/waiting";
 
 // Define Yup validation schema
 const validationSchema = Yup.object({
@@ -28,12 +29,10 @@ export default function Login() {
   useEffect(() => {
     if (status === "authenticated") {
       const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
-      setIsLogin(false);
-
-      router.push(callbackUrl);
+      router.replace(callbackUrl); // Using replace instead of push
     }
   }, [status, router, searchParams]);
-
+  
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -48,20 +47,18 @@ export default function Login() {
         email: values.email,
         password: values.password,
       });
-
-      
+  
       if (res?.ok) {
-        setIsLogin(false);
-
-        router.push(searchParams.get("callbackUrl") || "/dashboard");
+        const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+        setIsLogin(false)
+        router.replace(callbackUrl); // Immediate redirect using replace
       } else {
         setIsLogin(false);
-
         setError(res?.status === 401 ? "Invalid email or password. Please try again." : `Login failed: ${res?.error || "Unknown error"}`);
       }
     },
   });
-
+ 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">

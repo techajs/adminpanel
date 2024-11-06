@@ -2,7 +2,7 @@ import React from "react";
 
 
 import { axiosCall } from "@/utils/apiClient";
-import { API, HTTPMethod } from "@/utils/constants";
+import { API, BASE_URL, HTTPMethod } from "@/utils/constants";
 
 
 
@@ -125,8 +125,19 @@ export const UpdateStatusQuery=(url,params, successCallback, errorCallback) => {
   );
 };
 
+export const uploadDocumentsApi = (params, successCallback, errorCallback) => {
+  const myHeaders = new Headers();
+  // myHeaders.append('upload_type', 'ORDER_DOC');
 
+  const requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: params,
+    redirect: 'follow',
+  };
 
-
-
-
+  fetch(BASE_URL+API.documentsUpload, requestOptions)
+    .then(response => response.text())
+    .then(result => successCallback(result))
+    .catch(error => errorCallback(error));
+};

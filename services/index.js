@@ -48,8 +48,29 @@ export const GetVehicleTypes = () => {
   });
 };
 
-export const updateVehicle = (params,Id) => {
-  const apiUrl =`${API.vehicles}/${Id}`;
+export const updateVehicle = (params) => {
+  const apiUrl =`${API.vehicles}`;
+  return new Promise((resolve, reject) => {
+    UpdateQuery(
+      apiUrl,
+      params,
+      (successResponse) => {
+        if (successResponse[0]._success) {
+          const data = successResponse[0]._response;
+          resolve(data);
+        } else {
+          reject([]);
+        }
+      },
+      (errorResponse) => {
+        reject(errorResponse);
+      }
+    );
+  });
+};
+
+export const updateVehicleType = (params,vehicleTypeId) => {
+  const apiUrl =`${API.vehicletypesUrl}/${vehicleTypeId}`;
   return new Promise((resolve, reject) => {
     UpdateQuery(
       apiUrl,

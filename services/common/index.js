@@ -1,4 +1,4 @@
-import { getCommonlist } from "@/app/_lib/action";
+import { getCommonlist, uploadDocumentsApi } from "@/app/_lib/action";
 import { API } from "@/utils/constants";
 
 export const GetCountry = () => {
@@ -90,6 +90,23 @@ export const GetWorkType = () => {
       },
       (errorResponse) => {
         reject([]);
+      }
+    );
+  });
+};
+
+
+export const uploadImage = async (formData) => {
+  return new Promise((resolve, reject) => {
+    uploadDocumentsApi(
+      formData,
+      successResponse => {
+        console.log('print_data ==> successResponseuploadDocumentsApi', JSON.parse(successResponse).id);
+        resolve(JSON.parse(successResponse).id);
+      },
+      errorResponse => {
+        console.log('print_data ==> errorResponseuploadDocumentsApi', errorResponse);
+        reject(errorResponse);
       }
     );
   });

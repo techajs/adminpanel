@@ -11,7 +11,7 @@ const Users = () => {
         <Link href="/users/create/createuser">
           <p className="px-4 py-2 bg-blue-500 text-white rounded text-sm">
             <span>
-              <i class="fa-solid fa-plus"></i>
+              <i className="fa-solid fa-plus"></i>
             </span>{" "}
             Create User
           </p>

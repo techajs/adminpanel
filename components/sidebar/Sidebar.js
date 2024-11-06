@@ -90,6 +90,13 @@ const menuGroups = [
           { label: "Vehicle", route: "/vehicle" },
         ],
       },
+      {
+        icon: (
+          <FaTruck />
+        ),
+        label: "Transaction",
+        route: "/transaction",
+      },
     ],
   },
   {

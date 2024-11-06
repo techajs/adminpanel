@@ -16,6 +16,7 @@ export const GlobalDataProvider = ({ children }) => {
   const [workType, setWorkType] = useState(null);
   const [vehicleType, setVehicleType] = useState(null);
   const [vehicle, setVehicle] = useState(null);
+  const [deliveryBoys,setDeliveryBoys]=useState(null);
 
   const fetchVehicleType = async () => {
     try {
@@ -26,6 +27,15 @@ export const GlobalDataProvider = ({ children }) => {
     }
   };
   const fetchVehicle = async () => {
+    try {
+      const response = await GetVehicles();
+      console.log('vehicle',response)
+      setVehicle(response);
+    } catch (error) {
+      setVehicle([]);
+    }
+  };
+  const fetchDeliveryboy = async () => {
     try {
       const response = await GetVehicles();
       console.log('vehicle',response)
@@ -77,12 +87,14 @@ export const GlobalDataProvider = ({ children }) => {
       vehicleType, 
       workType, 
       vehicle ,
+      deliveryBoys,
       fetchVehicleType,
       fetchVehicle,
       fetchCountry,
       fetchState,
       fetchCity,
-      fetchWorkType
+      fetchWorkType,
+      fetchDeliveryboy
     }}>
       {children}
     </GlobalDataContext.Provider>

@@ -169,7 +169,7 @@ const ConsumerUsers = () => {
                       </svg>
                     </button>
                     <button className="hover:text-primary">
-                      <i class="fa-solid fa-pen-to-square"></i>
+                      <i className="fa-solid fa-pen-to-square"></i>
                     </button>
                   </div>
                 </td>
@@ -192,13 +192,13 @@ const ConsumerUsers = () => {
               onClick={handleDownload}
               className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
             >
-              Download <span><i class="fa-solid fa-download"></i></span>
+              Download <span><i className="fa-solid fa-download"></i></span>
             </button>
             <button
               onClick={handleDelete}
               className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
             >
-              Delete <span><i class="fa-solid fa-trash"></i></span>
+              Delete <span><i className="fa-solid fa-trash"></i></span>
             </button>
           </div>
         </div>

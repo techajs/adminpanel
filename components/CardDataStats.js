@@ -15,7 +15,7 @@ const CardDataStats = ({
           {children}
         </div>
         <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4">
-          <i class="fa-solid fa-circle-info"></i>
+          <i className="fa-solid fa-circle-info"></i>
         </div>
       </div>
       <div className="mt-4 flex items-end justify-between">
