@@ -1,5 +1,5 @@
 import {getCommonlist, UpdateQuery, UpdateStatusQuery } from "@/app/_lib/action";
-import { API } from "@/utils/constants";
+import { API, getValidedImageUrl } from "@/utils/constants";
 
 export const GetVehicles = () => {
   const apiStartpoint =API.vehicles;
@@ -132,4 +132,10 @@ export const UdateVehicleTypeStatus = (params,Id) => {
       }
     );
   });
+};
+
+
+export const getImageByUrl = async (url) => {
+  const getRes = await getValidedImageUrl(url);
+  return getRes;
 };

@@ -9,6 +9,8 @@ import {
   maskPhoneNumber,
 } from "@/utils/constants";
 import Image from "next/image";
+import Link from "next/link";
+import { FaEdit } from "react-icons/fa";
 
 const EnterpriseInfo = ({ data }) => {
   const maskedEmail = maskEmail(data?.email || "N/A");
@@ -73,6 +75,10 @@ const EnterpriseInfo = ({ data }) => {
             <div className="flex items-center gap-2 mt-2">
               <span className="text-sm">📞 {maskedPhoneNumber}</span>
             </div>
+            <div className="flex items-center justify-end gap-2 mt-2">
+              <Link  href={`/enterprise/${data?.ext_id}/edit`} className="text-sm text-primary"><FaEdit size={25}/></Link>
+              <span className="text-sm">Edit</span>
+            </div>  
           </div>
         </div>
         <div>

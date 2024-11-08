@@ -17,6 +17,7 @@ const useFetchGlobalData = () => {
     fetchVehicle,
     fetchVehicleType,
   } = useGlobalData();
+
   useEffect(() => {
     if (!vehicle) fetchVehicle();
     if (!country) fetchCountry();
@@ -24,9 +25,10 @@ const useFetchGlobalData = () => {
     if (!state) fetchState();
     if (!city) fetchCity();
     if (!workType) fetchWorkType();
-  }, []);
+  }, [vehicle, vehicleType, country, state, city, workType]); 
 
-  return { vehicle, vehicleType,fetchVehicle,fetchVehicleType };
+  // Ensure that all values are returned if needed
+  return { vehicle, vehicleType, country, state, city, workType, fetchCountry,fetchState,fetchCity };
 };
 
 export default useFetchGlobalData;

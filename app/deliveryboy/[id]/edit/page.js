@@ -1,15 +1,18 @@
-import LayoutPage from "@/components/Layouts/layout"
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import EditDeliveryboyPage from "@/components/deliveryboy/edit";
+import LayoutPage from "@/components/Layouts/layout";
+import EditVehicle from "@/components/vehicle/edit-vehicle";
 
-
-const EditConsumer = ({params}) =>{
-
-
+const EditConsumer = ({ params }) => {
   return (
     <LayoutPage>
-        <h1>edit page</h1>
+      <Breadcrumb pageName={`Edit Delivery boy`} title={"deliveryboy"} />
+      <div>
+        <EditDeliveryboyPage deliveryboyId={params?.id}/>
+        <EditVehicle VehicleId={params?.id} actionType={`deliveryboy`} />
+      </div>
     </LayoutPage>
-    
-  )
-}
+  );
+};
 
-export default EditConsumer
+export default EditConsumer;

@@ -47,7 +47,6 @@ export const GlobalDataProvider = ({ children }) => {
   const fetchCountry = async () => {
     try {
       const response = await GetCountry();
-      console.log('country',response)
       setCountry(response);
     } catch (error) {
       setCountry([]);

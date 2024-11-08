@@ -1,37 +1,33 @@
-"use client";
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import LayoutPage from "@/components/Layouts/layout";
-import { useState } from "react";
 
-const ViewVehicle = () => {
-  const [enabled, setEnabled] = useState(false);
+"use client"
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import Waiting from "@/components/common/waiting";
+import LayoutPage from "@/components/Layouts/layout";
+import VehicleAndTypeView from "@/components/vehicle/view-page";
+import useFetchGlobalData from "@/hooks/useFetchData";
+import { useEffect, useState } from "react";
+
+
+const ViewVehicle = ({params}) => {
+  const {vehicle} = useFetchGlobalData()
+  const [vehicleData, setVehicleData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true)
+    if (vehicle) {
+      const foundVehicle = vehicle.find(
+        (v) => String(v.id) === String(params.id)
+      );
+      if (foundVehicle) {
+        setVehicleData(foundVehicle);
+      }
+      setLoading(false);
+    }
+  }, [vehicle]);
   return (
     <LayoutPage>
-      <Breadcrumb pageName="Edit Vehicle" title="vehicle" />
-      <div x-data="{ switcherToggle: false }">
-        <label
-          htmlFor="toggle2"
-          className="flex cursor-pointer select-none items-center"
-        >
-          <div className="relative">
-            <input
-              id="toggle2"
-              type="checkbox"
-              className="sr-only"
-              onChange={() => {
-                setEnabled(!enabled);
-              }}
-            />
-            <div className={`h-6 w-12 rounded-full ${enabled ? 'bg-success' :'bg-red'} shadow-inner`}></div>
-            <div
-              className={`dot absolute -top-0 left-0 h-6 w-6 rounded-full bg-white shadow-switch-1 transition ${
-                enabled &&
-                "!right-0 !translate-x-full !bg-white dark:!bg-white"
-              }`}
-            ></div>
-          </div>
-        </label>
-      </div>
+      <Breadcrumb pageName="View Vehicle" title="vehicle" />
+      {loading ? <Waiting /> : <VehicleAndTypeView data={[vehicleData]} datatype={`vehicle`} />}
     </LayoutPage>
   );
 };

@@ -188,3 +188,40 @@ export const consumerValidationSchema =  Yup.object({
     })
     .required("Country is required"),
 });
+
+
+export const delvieryboySchema = Yup.object().shape({
+  name: Yup
+    .string()
+    .required("First name is required")
+    .min(2, "First name must be at least 2 characters long"),
+  lastname: Yup.string(),
+  email: Yup
+    .string()
+    .required("Email is required")
+    .email("Please enter a valid email"),
+  phoneNumber: Yup
+    .string()
+    .required("Phone number is required")
+    .matches(/^\d+$/, "Phone number should contain only digits")
+    .min(8, "Phone number must be at least 8 digits"),
+  country: Yup
+    .object({
+      value: Yup.string().required("Country is required"),
+    })
+    .required("Country is required"),
+  city: Yup
+    .object({
+      value: Yup.string().required("City is required"),
+    })
+    .required("City is required"),
+  state: Yup
+    .object({
+      value: Yup.string().required("State is required"),
+    })
+    .required("State is required"),
+  siret: Yup.string().required("Siret number is required"),
+  terms: Yup
+    .boolean()
+    .oneOf([true], "You must accept the terms and conditions"),
+});

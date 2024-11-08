@@ -217,8 +217,43 @@ export const documentHeader = ()=>{
 export const baseProfilePicUrl = 'http://16.171.224.246:3009/api/documents/view/';
 
 export const getValidImageUrl = (profilePic) => {
-    const url=`${baseProfilePicUrl}`+profilePic?.replace(/\.[^.]+$/, '')
-    return url;
+    const url = `${baseProfilePicUrl}${profilePic?.replace(/\.[^.]+$/, '')}`;
+   return url
+};
+export const getValidedImageUrl = async (profilePic) => {
+  const url = `${baseProfilePicUrl}${profilePic?.replace(/\.[^.]+$/, '')}`;
+  try {
+      const response = await fetch(url, {method: 'GET',});
+      if (response.status ==200) {
+          return {
+            url,
+            status:true
+          };
+      } else {
+        return {
+          url,
+          status:false
+        }; 
+      }
+  } catch (error) {
+    return {
+      url,
+      status:false
+    };
+  }
+};
+
+
+export const checkImageExists = async (url) => {
+  try {
+    const response = await fetch(url, { method: "GET" });
+    if(response.status==400){
+      return false
+    }
+    return response.ok; 
+  } catch (error) {
+    return false;
+  }
 };
 
 export const getAddressLine= (address,city,state,postal_code,country)=>{

@@ -1,27 +1,31 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import Waiting from "@/components/common/waiting";
 import LayoutPage from "@/components/Layouts/layout";
-import BaseViewTable from "@/components/tables/views/base-table";
+import VehicleAndTypeView from "@/components/vehicle/view-page";
+import useFetchGlobalData from "@/hooks/useFetchData";
+import { useEffect, useState } from "react";
 
 const DeliverboyDocs = ({ params }) => {
-  const data = [];
+  const {vehicle} = useFetchGlobalData()
+  const [vehicleData, setVehicleData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true)
+    if (vehicle) {
+      const foundVehicle = vehicle.find(
+        (v) => String(v.ext_id) === String(params.id)
+      );
+      if (foundVehicle) {
+        setVehicleData(foundVehicle);
+      }
+      setLoading(false);
+    }
+  }, [params.id]);
   return (
     <LayoutPage>
-      <Breadcrumb pageName="Document" title="deliveryboy" />
-      <div
-        className="rounded-sm border border-stroke  bg-white  px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1"
-        style={{ height: "auto" }}
-      >
-        <div className="max-w-full overflow-x-autor">
-          <div className="flex justify-center max-w-full">
-            <div className=" text-white bg-boxdark dark:border-strokedark dark:bg-boxdark border-b rounded-md p-2 mb-3 items-center">
-              <button>Kalim's Document Details</button>
-            </div>
-          </div>
-
-          <BaseViewTable data={data} datatype="document" />
-        </div>
-      </div>
+      <Breadcrumb pageName="View Vehicle" title="vehicle" />
+      {loading ? <Waiting /> : <VehicleAndTypeView data={[vehicleData]} datatype={`vehicle`} />}
     </LayoutPage>
   );
 };

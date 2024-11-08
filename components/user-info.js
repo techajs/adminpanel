@@ -1,6 +1,6 @@
+import { formatDate } from "@/utils/constants";
 import Link from "next/link";
 import React from "react";
-import { FaEye } from "react-icons/fa";
 
 export default function UserInfo({ data, userType }) {
   return (
@@ -15,7 +15,6 @@ export default function UserInfo({ data, userType }) {
                   <p>
                     <strong>Vehicle Name:</strong>{" "}
                     <Link
-                      target="_blank"
                       className="text-primary"
                       href={`/vehicle/${item.id}`}
                     >
@@ -31,22 +30,26 @@ export default function UserInfo({ data, userType }) {
                   <p>
                     <strong>Vehicle Type:</strong>{" "}
                     <Link
-                      target="_blank"
                       className="text-primary"
                       href={`/vehicletype/${item.vehicle_type_id}`}
                     >
                       {item?.vehicle_type}
                     </Link>
                   </p>
-                  <p className="flex items-center gap-2">
-                    <strong>Vehicle Docs:</strong>{" "}
-                    <Link
-                      target="_blank"
-                      className="text-white p-2 rounded-md bg-secondary dark:bg-boxdark dark:text-white"
-                      href={`/vehicle/document/${item.id}`}
-                    >
-                      <FaEye size={20} />
-                    </Link>
+                  <p>
+                    <strong>Make:</strong>{" "}
+                 
+                      {item?.make || 'N/A'}
+                  </p>
+                  <p>
+                    <strong>Variant :</strong>{" "}
+                 
+                      {item?.variant || 'N/A'}
+                  </p>
+                  <p>
+                    <strong>Created On :</strong>{" "}
+                 
+                      {formatDate(item?.created_on) || 'N/A'}
                   </p>
                 </div>
               ))

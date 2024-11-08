@@ -1,8 +1,9 @@
-"use client"
+
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+
 export default function AdminLandingPage() {
-  const router = useRouter();
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-300 p-8">
       {/* Admin Panel Heading */}
@@ -21,12 +22,12 @@ export default function AdminLandingPage() {
         </p>
 
         {/* Button to Login */}
-        <button
-          onClick={() => router.push("/dashboard")}
+        <Link
+          href={"/dashboard"}
           className="mt-8 bg-indigo-600 text-white px-6 py-3 rounded-md text-lg font-medium hover:bg-indigo-700"
         >
           Go to Dashboard
-        </button>
+        </Link>
       </div>
     </div>
   );

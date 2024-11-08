@@ -5,6 +5,8 @@ import TabLayout from "../common/tab-item";
 import UserInfo from "../user-info";
 import BaseViewTable from "../tables/views/base-table";
 import Image from "next/image";
+import Link from "next/link";
+import { FaEdit } from "react-icons/fa";
 
 const ConsumerInfo = ({ data }) => {
   const maskedEmail = maskEmail(data?.email || "N/A");
@@ -69,6 +71,10 @@ const ConsumerInfo = ({ data }) => {
             </div>
             <div className="flex items-center gap-2 mt-2">
               <span className="text-sm">📞 {maskedPhoneNumber}</span>
+            </div>
+            <div className="flex items-center justify-end gap-2 mt-2">
+              <Link  href={`/consumer/${data?.ext_id}/edit`} className="text-sm text-primary"><FaEdit size={25}/></Link>
+              <span className="text-sm">Edit</span>
             </div>
           </div>
         </div>

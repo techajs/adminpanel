@@ -47,7 +47,7 @@ const VehicleTypeTableItem = ({ data, url, refreshData }) => {
                 <div className="bg-green-500 w-12 h-12 rounded-full flex items-center justify-center">
                   {item.pis ? (
                     <Image
-                      src={getValidImageUrl(item.pic)}
+                      src={getValidImageUrl(item.pic).url}
                       alt={`${data.vehicle_type || item.vehicle_type} ${
                         data.last_name || ""
                       }`}
@@ -94,6 +94,13 @@ const VehicleTypeTableItem = ({ data, url, refreshData }) => {
             </td>
             <td className="border-b text-left border-[#eee] px-4 py-5 dark:border-strokedark">
               <div className="flex items-center space-x-3.5">
+              <p
+                  className={`inline-flex rounded-full bg-opacity-10 px-2 py-2 dark:text-white text-sm font-medium bg-boxdark `}
+                >
+                  <Link href={`${url}/${item.id}`}>
+                    <FaEye size={15} />
+                  </Link>
+                </p>
                 <p
                   className={`inline-flex rounded-full bg-opacity-70 px-2 py-2 text-white text-sm font-medium bg-success `}
                 >

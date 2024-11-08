@@ -5,6 +5,8 @@ import TabLayout from "../common/tab-item";
 import UserInfo from "../user-info";
 import BaseViewTable from "../tables/views/base-table";
 import Image from "next/image";
+import { FaEdit } from "react-icons/fa";
+import Link from "next/link";
 
 const DeliveryboyInfo = ({ data = {} }) => {
   const maskedEmail = maskEmail(data.email || "N/A");
@@ -21,7 +23,7 @@ const DeliveryboyInfo = ({ data = {} }) => {
     <div className="flex gap-6">
       {/* Left Column - Profile Info */}
       <div className="w-1/4 rounded-lg">
-        <div className="bg-boxdark dark:border-strokedark dark:bg-boxdark p-6 rounded-lg" style={{ height: "350px" }}>
+        <div className="bg-boxdark dark:border-strokedark dark:bg-boxdark p-6 rounded-lg" style={{ height: "375px" }}>
           {/* Profile Picture */}
           <div className="flex flex-col items-center">
             <div className="bg-green-500 w-16 h-16 rounded-full flex items-center justify-center mb-4">
@@ -66,6 +68,10 @@ const DeliveryboyInfo = ({ data = {} }) => {
             </div>
             <div className="flex items-center gap-2 mt-2">
               <span className="text-sm">📞 {maskedPhoneNumber}</span>
+            </div>
+            <div className="flex items-center justify-end gap-2 mt-2">
+              <Link  href={`/deliveryboy/${data?.ext_id}/edit`} className="text-sm text-primary"><FaEdit size={25}/></Link>
+              <span className="text-sm">Edit</span>
             </div>
           </div>
         </div>
