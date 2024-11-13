@@ -1,3 +1,4 @@
+
 import { getCommonlist, uploadDocumentsApi } from "@/app/_lib/action";
 import { API } from "@/utils/constants";
 
@@ -73,6 +74,30 @@ export const GetCity = () => {
 };
 export const GetWorkType = () => {
   const apiStartpoint = API.workTypeList;
+
+  const apiUrl = `${apiStartpoint}`;
+  return new Promise((resolve, reject) => {
+    const params = {};
+    getCommonlist(
+      apiUrl,
+      params,
+      (successResponse) => {
+        if (successResponse[0]._success) {
+          const data = successResponse[0]._response;
+          resolve(data);
+        } else {
+          reject([]);
+        }
+      },
+      (errorResponse) => {
+        reject([]);
+      }
+    );
+  });
+};
+
+export const GetIndusty = () => {
+  const apiStartpoint = API.industry;
 
   const apiUrl = `${apiStartpoint}`;
   return new Promise((resolve, reject) => {

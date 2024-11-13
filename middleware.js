@@ -8,12 +8,14 @@ export default withAuth({
     async authorized({ req, token }) {
       const currentTime = Math.floor(Date.now() / 1000);
       if (token?.expiresAt && currentTime >= token.expiresAt) {
-        return false; // Redirect to login
+        return false; // Redirect to login if token expired
       }
       return !!token;
     },
   },
 });
+
 export const config = {
-  matcher: ["/:path*"], // Protect all routes
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"], // Protect all routes except specified paths
 };
+

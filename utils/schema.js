@@ -1,16 +1,22 @@
 import * as Yup from "yup";
 export const vehicleValicationSchema = Yup.object({
-    extdelivery_boy_ext_id:Yup.string(),
-    vehicle_type:Yup.string().required('Vehicle type is required.'),
-    modal: Yup.string().min(4, "Model must be at least 4 characters").required("Model is required"),
-    make: Yup.string().min(4, "Make must be at least 4 characters").required("Make is required"),
-    variant: Yup.string().required("Variant is required"),
-    reg_doc: Yup.mixed(),
-    driving_license: Yup.mixed(),
-    insurance: Yup.mixed(),
-    passport: Yup.mixed(),
-    plat_no: Yup.string().min(6, "Plan number must be at least 6 characters").required("Plat number is required"),
-})
+  extdelivery_boy_ext_id: Yup.string(),
+  vehicle_type: Yup.string().required("Vehicle type is required."),
+  modal: Yup.string()
+    .min(4, "Model must be at least 4 characters")
+    .required("Model is required"),
+  make: Yup.string()
+    .min(4, "Make must be at least 4 characters")
+    .required("Make is required"),
+  variant: Yup.string().required("Variant is required"),
+  reg_doc: Yup.mixed(),
+  driving_license: Yup.mixed(),
+  insurance: Yup.mixed(),
+  passport: Yup.mixed(),
+  plat_no: Yup.string()
+    .min(6, "Plan number must be at least 6 characters")
+    .required("Plat number is required"),
+});
 
 export const vehicleTypeValidationSchema = Yup.object({
   vehicle_type: Yup.string().required("Vehicle type is required."),
@@ -156,72 +162,112 @@ export const vehicleTypeValidationSchema = Yup.object({
           value !== null &&
           /^(\d+(\.\d{1,2})?)$/.test(value.toString()))
     ),
-    pic: Yup.mixed(),
+  pic: Yup.mixed(),
 });
 
-
-export const consumerValidationSchema =  Yup.object({
-    name: Yup
-    .string()
+export const consumerValidationSchema = Yup.object({
+  name: Yup.string()
     .required("Name is required")
     .min(2, "Name must be at least 2 characters long"),
-  email: Yup
-    .string()
+  email: Yup.string()
     .required("Email is required")
     .email("Please enter a valid email"),
-  password: Yup
-    .string()
+  password: Yup.string()
     .required("Password is required")
     .min(6, "Password must be at least 6 characters long"),
-  confirmPassword: Yup
-    .string()
+  confirmPassword: Yup.string()
     .required("Confirm password is required")
     .oneOf([Yup.ref("password")], "Passwords must match"),
-  phoneNumber: Yup
-    .string()
+  phoneNumber: Yup.string()
     .required("Phone number is required")
     .matches(/^\d+$/, "Phone number should contain only digits")
     .min(8, "Phone number must be at least 8 digits"),
-  country: Yup
-    .object({
-      value: Yup.string().required("Country is required"),
-    })
-    .required("Country is required"),
+  country: Yup.object({
+    value: Yup.string().required("Country is required"),
+  }).required("Country is required"),
 });
 
-
 export const delvieryboySchema = Yup.object().shape({
-  name: Yup
-    .string()
+  name: Yup.string()
     .required("First name is required")
     .min(2, "First name must be at least 2 characters long"),
   lastname: Yup.string(),
-  email: Yup
-    .string()
+  email: Yup.string()
     .required("Email is required")
     .email("Please enter a valid email"),
-  phoneNumber: Yup
-    .string()
+  phoneNumber: Yup.string()
     .required("Phone number is required")
     .matches(/^\d+$/, "Phone number should contain only digits")
     .min(8, "Phone number must be at least 8 digits"),
-  country: Yup
-    .object({
-      value: Yup.string().required("Country is required"),
-    })
-    .required("Country is required"),
-  city: Yup
-    .object({
-      value: Yup.string().required("City is required"),
-    })
-    .required("City is required"),
-  state: Yup
-    .object({
-      value: Yup.string().required("State is required"),
-    })
-    .required("State is required"),
+  country: Yup.object({
+    value: Yup.string().required("Country is required"),
+  }).required("Country is required"),
+  city: Yup.object({
+    value: Yup.string().required("City is required"),
+  }).required("City is required"),
+  state: Yup.object({
+    value: Yup.string().required("State is required"),
+  }).required("State is required"),
   siret: Yup.string().required("Siret number is required"),
-  terms: Yup
-    .boolean()
-    .oneOf([true], "You must accept the terms and conditions"),
+  terms: Yup.boolean().oneOf(
+    [true],
+    "You must accept the terms and conditions"
+  ),
+});
+
+export const enterpriseSchema = Yup.object().shape({
+  name: Yup.string()
+    .required("First name is required")
+    .min(2, "First name must be at least 2 characters long"),
+  lastname: Yup.string(),
+  email: Yup.string()
+    .required("Email is required")
+    .email("Please enter a valid email"),
+  phoneNumber: Yup.string()
+    .required("Phone number is required")
+    .matches(/^\d+$/, "Phone number should contain only digits")
+    .min(8, "Phone number must be at least 8 digits"),
+  country: Yup.object({
+    value: Yup.string().required("Country is required"),
+  }).required("Country is required"),
+  city: Yup.object({
+    value: Yup.string().required("City is required"),
+  }).required("City is required"),
+  state: Yup.object({
+    value: Yup.string().required("State is required"),
+  }).required("State is required"),
+  company: Yup.string().required("Company name is required"),
+  siret: Yup.string().required("Siret number is required"),
+  comments: Yup.string().required("Please describe your projects"),
+  industry: Yup.object({
+    value: Yup.string().required("Industry is required"),
+  }).required("Industry is required"),
+  deliveries: Yup.string()
+    .required("Delivery Deliveries per month is required")
+    .matches(/^\d+$/, "Delivery should contain only digits"),
+  terms: Yup.boolean().oneOf(
+    [true],
+    "You must accept the terms and conditions"
+  ),
+  termss: Yup.boolean().oneOf(
+    [true],
+    "You must accept the terms and conditions"
+  ),
+});
+
+export const consumerSchema = Yup.object().shape({
+  name: Yup.string()
+    .required("First name is required")
+    .min(2, "First name must be at least 2 characters long"),
+  lastname: Yup.string(),
+  email: Yup.string()
+    .required("Email is required")
+    .email("Please enter a valid email"),
+  phoneNumber: Yup.string()
+    .required("Phone number is required")
+    .matches(/^\d+$/, "Phone number should contain only digits")
+    .min(8, "Phone number must be at least 8 digits"),
+  country: Yup.object({
+    value: Yup.string().required("Country is required"),
+  }).required("Country is required"),
 });

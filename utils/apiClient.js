@@ -46,7 +46,13 @@ export const axiosCall= async (
       }
     },
     function (error) {
-      let parseError = JSON.stringify(error.response.data);
+      let err='';
+      if(error?.response){
+        err=error?.response
+      }else{
+        err=error
+      }
+      let parseError = JSON.stringify(err);
       let errorResponse = JSON.parse(parseError)
       return callbackErrorResponse(errorResponse);
     },

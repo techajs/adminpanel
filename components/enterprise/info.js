@@ -25,7 +25,7 @@ const EnterpriseInfo = ({ data }) => {
       <div className="w-1/4 rounded-lg">
         <div
           className=" bg-boxdark dark:border-strokedark dark:bg-boxdark p-6 rounded-lg"
-          style={{ height: "350px" }}
+          style={{ height: "375px" }}
         >
           {/* Profile Picture */}
           <div className="flex flex-col items-center">

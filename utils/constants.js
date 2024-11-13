@@ -83,6 +83,7 @@ export const API = {
   getDeliveryboy: "/deliveryboy",
   getAllorderList: "/order",
   getAdmindashboard: "/dashboard/admin",
+  industry: "/industry",
 };
 
 export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -214,7 +215,7 @@ export const documentHeader = ()=>{
   ]
 }
 
-export const baseProfilePicUrl = 'http://16.171.224.246:3009/api/documents/view/';
+export const baseProfilePicUrl = process.env.DOCUMENT_URL;
 
 export const getValidImageUrl = (profilePic) => {
     const url = `${baseProfilePicUrl}${profilePic?.replace(/\.[^.]+$/, '')}`;
