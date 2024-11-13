@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
@@ -21,6 +21,7 @@ const validationSchema = Yup.object({
 
 export default function Login() {
   const { data: session, status } = useSession();
+  const searchParams = useSearchParams();
   const [error, setError] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function Login() {
   useEffect(() => {
     if (status === "authenticated") {
       // Redirect to the callback URL or default dashboard if authenticated
-      const callbackUrl = router.query?.callbackUrl || "/dashboard";
+      const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
       router.replace(callbackUrl); // Using replace to prevent going back to login
     }
   }, [status, router]);
@@ -49,8 +50,9 @@ export default function Login() {
       });
 
       if (res?.ok) {
-        const callbackUrl = router.query?.callbackUrl || "/dashboard";
-        console.log("url",callbackUrl)
+        const callUrl=searchParams.get("callbackUrl")
+        const callbackUrl = callUrl || "/dashboard";
+        console.log("url",callUrl)
         setIsLogin(false);
         router.replace(callbackUrl); // Redirect on successful login
       } else {
