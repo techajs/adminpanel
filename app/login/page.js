@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
@@ -21,18 +21,18 @@ const validationSchema = Yup.object({
 
 export default function Login() {
   const { data: session, status } = useSession();
-  const searchParams = useSearchParams();
   const [error, setError] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     if (status === "authenticated") {
-      const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
-      router.replace(callbackUrl); // Using replace instead of push
+      // Redirect to the callback URL or default dashboard if authenticated
+      const callbackUrl = router.query?.callbackUrl || "/dashboard";
+      router.replace(callbackUrl); // Using replace to prevent going back to login
     }
-  }, [status, router, searchParams]);
-  
+  }, [status, router]);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -47,18 +47,19 @@ export default function Login() {
         email: values.email,
         password: values.password,
       });
-  
+
       if (res?.ok) {
-        const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
-        setIsLogin(false)
-        router.replace(callbackUrl); // Immediate redirect using replace
+        const callbackUrl = router.query?.callbackUrl || "/dashboard";
+        console.log("url",callbackUrl)
+        setIsLogin(false);
+        router.replace(callbackUrl); // Redirect on successful login
       } else {
         setIsLogin(false);
         setError(res?.status === 401 ? "Invalid email or password. Please try again." : `Login failed: ${res?.error || "Unknown error"}`);
       }
     },
   });
- 
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
@@ -69,9 +70,7 @@ export default function Login() {
               <span className="text-3xl font-semibold text-gray-900 dark:text-white">Rapidmate</span>
             </div>
           </Link>
-          <p className="text-gray-600 dark:text-gray-300">
-            Welcome back! Please login to your account.
-          </p>
+          <p className="text-gray-600 dark:text-gray-300">Welcome back! Please login to your account.</p>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={formik.handleSubmit}>
@@ -86,11 +85,7 @@ export default function Login() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
-                className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${
-                  formik.errors.email && formik.touched.email
-                    ? "border-red-500"
-                    : "border-gray-300"
-                } placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${formik.errors.email && formik.touched.email ? "border-red-500" : "border-gray-300"} placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                 placeholder="Email address"
               />
               {formik.touched.email && formik.errors.email && (
@@ -108,11 +103,7 @@ export default function Login() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
-                className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${
-                  formik.errors.password && formik.touched.password
-                    ? "border-red-500"
-                    : "border-gray-300"
-                } placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${formik.errors.password && formik.touched.password ? "border-red-500" : "border-gray-300"} placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                 placeholder="Password"
               />
               {formik.touched.password && formik.errors.password && (

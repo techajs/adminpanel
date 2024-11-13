@@ -29,6 +29,7 @@ yarn-error.log*
 .env*.local
 .env*.production
 pm2.config.js
+ecosystem.config.js
 
 # vercel
 .vercel

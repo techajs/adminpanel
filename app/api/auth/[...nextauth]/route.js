@@ -54,33 +54,43 @@ const authOptions = {
       const currentTime = Math.floor(Date.now() / 1000);
 
       if (user) {
-        // On initial login
+        // On initial login, store user info and set token expiry time
         token.username = user.username;
         token.email = user.email;
         token.token = user.token;
         token.role = user.role;
         token.firstname = user.firstname;
         token.lastname = user.lastname;
-        token.expiresAt = currentTime + 60 * 60;
+        token.expiresAt = currentTime + 60 * 60; // Set token expiry time (1 hour)
       }
+
+      // Check if the token is expired and invalidate it if necessary
       if (token.expiresAt && currentTime >= token.expiresAt) {
-        signOut({ callbackUrl: "/login" })
+        return { ...token, expired: true };
       }
+
       return token;
     },
     async session({ session, token }) {
+      // Pass user data from token to session
       session.username = token.username;
       session.lastname = token.lastname;
       session.firstname = token.firstname;
       session.email = token.email;
       session.token = token.token;
       session.role = token.role;
-      session.expiresAt = token.expiresAt;  // Pass expiry to session
+      session.expiresAt = token.expiresAt;
+
+      // If token is expired, trigger signOut
+      if (token.expired) {
+        signOut({ callbackUrl: "/login" });
+      }
+
       return session;
     },
   },
   pages: {
-    signIn: "/login", // Redirect to login page
+    signIn: "/login", // Custom login page
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
