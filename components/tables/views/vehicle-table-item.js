@@ -2,6 +2,7 @@
 import Switcher from "@/components/common/switcher";
 import Waiting from "@/components/common/waiting";
 import { UdateVehicleStatus } from "@/services";
+import Image from "next/image";
 import Link from "next/link";
 import {useState } from "react";
 import { FaEye, FaRegEdit, FaRegTrashAlt } from "react-icons/fa";

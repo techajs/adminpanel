@@ -8,6 +8,7 @@ import PhoneInput from "react-phone-input-2";
 import Select from "react-select";
 import "react-phone-input-2/lib/style.css";
 import { GetConsumerById, updateConsumer } from "@/services/consumer";
+import Waiting from "../common/waiting";
 
 const EditConsumerVeiw = ({ consumerId }) => {
   const {
