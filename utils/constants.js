@@ -215,7 +215,7 @@ export const documentHeader = ()=>{
   ]
 }
 
-export const baseProfilePicUrl = process.env.DOCUMENT_URL;
+export const baseProfilePicUrl = process.env.NEXT_PUBLIC_DOCUMENT_URL;
 
 export const getValidImageUrl = (profilePic) => {
     const url = `${baseProfilePicUrl}${profilePic?.replace(/\.[^.]+$/, '')}`;

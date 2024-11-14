@@ -41,9 +41,9 @@ const BaseViewTable = ({ extId, datatype, userType }) => {
   };
 
   const orderMap = {
-    deliveryboy: (currentSearch,pageSize) => getOrderByDeliveryboyEXT(currentSearch,pageSize,extId),
-    consumer: (currentSearch,pageSize) => GetOrderById(currentSearch,pageSize,extId),
-    enterprise: (currentSearch,pageSize) => getOrderByInterpriseEXT(currentSearch,pageSize,extId),
+    deliveryboy: (currentSearch,pageSize,extId) => getOrderByDeliveryboyEXT(currentSearch,pageSize,extId),
+    consumer: (currentSearch,pageSize,extId) => GetOrderById(currentSearch,pageSize,extId),
+    enterprise: (currentSearch,pageSize,extId) => getOrderByInterpriseEXT(currentSearch,pageSize,extId),
   };
 
   const header =
@@ -60,9 +60,10 @@ const BaseViewTable = ({ extId, datatype, userType }) => {
       } catch (error) {
         throw new Error("Error fetching order list:", error);
       }
+      console.log("ext id => ",extId)
     };
     fetchOrder();
-  }, [searchParams,getOrderList,pageSize]);
+  }, [searchParams,getOrderList,pageSize,extId]);
 
   const handleSearchChange = useCallback(
     debounce((e) => {
@@ -99,6 +100,9 @@ const BaseViewTable = ({ extId, datatype, userType }) => {
     }
     router.replace(`${pathname}?${params}`);
   };
+
+  console.log("data ",extId)
+  
   return (
     <>
       <div className="flex justify-between items-center mb-4">

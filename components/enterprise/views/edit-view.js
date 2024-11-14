@@ -1,6 +1,6 @@
 "use client";
 import useFetchGlobalData from "@/hooks/useFetchData";
-import { GetDetail, updateDeliveryboy } from "@/services/enterprise";
+import { GetDetail, updateEnterprise} from "@/services/enterprise";
 import { enterpriseSchema } from "@/utils/schema";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -109,7 +109,7 @@ const EditEnterprisePage = ({ enterpriseId }) => {
       };
 
       try {
-        const response = await updateDeliveryboy(payload);
+        const response = await updateEnterprise(payload);
         setStatusMessage({ text: response, type: "success" });
       } catch (error) {
         setStatusMessage({ text: "Error updating deliveryboy.", type: "error" });

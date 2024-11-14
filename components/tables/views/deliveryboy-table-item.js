@@ -97,13 +97,13 @@ const DeliveryboyTableItem = ({
                     <FaRegEdit size={15} />
                   </Link>
                 </p>
-                <p
+                {/* <p
                   className={`inline-flex rounded-full bg-opacity-full px-2 py-2 text-white text-sm font-medium bg-danger `}
                 >
                   <Link href={`${url}/${item.ext_id}`}>
                     <FaRegTrashAlt size={15} />
                   </Link>
-                </p>
+                </p> */}
               </div>
             </td>
           </tr>

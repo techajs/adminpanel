@@ -21,7 +21,7 @@ const EnterpriseTableItem = ({ data, url, refreshData, selected, handleCheckboxC
                 <div className="bg-green-500 w-12 h-12 rounded-full flex  justify-center">
                   {item.profile_pic ? (
                     <Image
-                      src={getValidImageUrl(item.profile_pic)}
+                      src={`${getValidImageUrl(item.profile_pic)}`}
                       alt={`${data.first_name || "N/A"} ${
                         data.last_name || ""
                       }`}
@@ -86,13 +86,13 @@ const EnterpriseTableItem = ({ data, url, refreshData, selected, handleCheckboxC
                     <FaRegEdit size={15} />
                   </Link>
                 </p>
-                <p
+                {/* <p
                   className={`inline-flex rounded-full bg-opacity-full px-2 py-2 text-white text-sm font-medium bg-danger `}
                 >
                   <Link href={`${url}/${item.ext_id}`}>
                     <FaRegTrashAlt size={15} />
                   </Link>
-                </p>
+                </p> */}
               </div>
             </td>
           </tr>

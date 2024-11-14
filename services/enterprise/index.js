@@ -1,4 +1,4 @@
-import { getByID, getCommonlist } from "@/app/_lib/action";
+import { getByID, getCommonlist, UpdateStatusQuery } from "@/app/_lib/action";
 import { API } from "@/utils/constants";
 
 
@@ -54,9 +54,10 @@ export const GetDetail = async (ext_id)=>{
   });
 };
 
-export const getOrderByInterpriseEXT = async (search,pageSize,ext_id)=>{
+export const getOrderByInterpriseEXT = async (search,pageSize,extId)=>{
   
-  const apiStartpoint =`${API.enterpriseOrdersUrl}${ext_id}`;
+  const apiStartpoint =`${API.enterpriseOrdersUrl}${extId}`;
+  console.log('url',apiStartpoint)
   const queryParams = new URLSearchParams();
   if (parseInt(pageSize) > 0) queryParams.append('size', pageSize);
   if (search) queryParams.append('o', search);
@@ -101,6 +102,28 @@ export const GetOrderByNumber = async (OrderNumber)=>{
       },
       (errorResponse) => {
         reject([]);
+      }
+    );
+  });
+}
+
+export const updateEnterprise = async (params)=>{
+  const apiUrl =`${API.getEnterprise}`;
+  console.log("url => ",apiUrl)
+  return new Promise((resolve, reject) => {
+    UpdateStatusQuery(
+      apiUrl,
+      params,
+      (successResponse) => {
+        if (successResponse[0]._success) {
+          const data = successResponse[0]._response;
+          resolve(data);
+        } else {
+          reject([]);
+        }
+      },
+      (errorResponse) => {
+        reject(errorResponse);
       }
     );
   });

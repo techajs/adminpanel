@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import Select from "react-select";
 import "react-phone-input-2/lib/style.css";
-import { GetConsumerById } from "@/services/consumer";
+import { GetConsumerById, updateConsumer } from "@/services/consumer";
 
 const EditConsumerVeiw = ({ consumerId }) => {
   const {
@@ -69,7 +69,7 @@ const EditConsumerVeiw = ({ consumerId }) => {
       };
 
       try {
-        const response = await updateDeliveryboy(payload);
+        const response = await updateConsumer(payload);
         setStatusMessage({ text: response, type: "success" });
       } catch (error) {
         setStatusMessage({ text: "Error updating deliveryboy.", type: "error" });
