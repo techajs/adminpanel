@@ -28,7 +28,7 @@ const useFetchGlobalData = () => {
   }, [vehicle, vehicleType, country, state, city, workType]); 
 
   // Ensure that all values are returned if needed
-  return { vehicle, vehicleType, country, state, city, workType, fetchCountry,fetchState,fetchCity };
+  return { vehicle, vehicleType,fetchVehicle, country, state, city, workType, fetchCountry,fetchState,fetchCity };
 };
 
 export default useFetchGlobalData;

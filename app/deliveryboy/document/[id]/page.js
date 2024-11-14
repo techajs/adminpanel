@@ -7,7 +7,7 @@ import useFetchGlobalData from "@/hooks/useFetchData";
 import { useEffect, useState } from "react";
 
 const DeliverboyDocs = ({ params }) => {
-  const {vehicle} = useFetchGlobalData()
+  const {vehicle,fetchVehicle} = useFetchGlobalData()
   const [vehicleData, setVehicleData] = useState(null);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -16,10 +16,14 @@ const DeliverboyDocs = ({ params }) => {
       const foundVehicle = vehicle.find(
         (v) => String(v.ext_id) === String(params.id)
       );
+      console.log("upper test ",vehicle)
       if (foundVehicle) {
+        console.log("test ",foundVehicle)
         setVehicleData(foundVehicle);
       }
       setLoading(false);
+    }else{
+      fetchVehicle()
     }
   }, [params.id]);
   return (

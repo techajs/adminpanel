@@ -1,4 +1,5 @@
 "use client";
+
 import {
   payoutHeader,
   rideConsumer,
@@ -29,6 +30,7 @@ const BaseViewTable = ({ extId, datatype, userType }) => {
     pageSize: 10,
     totalPages: 0,
   });
+
   const headersMap = {
     ride: {
       deliveryboy: rideHeader(),
@@ -41,29 +43,32 @@ const BaseViewTable = ({ extId, datatype, userType }) => {
   };
 
   const orderMap = {
-    deliveryboy: (currentSearch,pageSize,extId) => getOrderByDeliveryboyEXT(currentSearch,pageSize,extId),
-    consumer: (currentSearch,pageSize,extId) => GetOrderById(currentSearch,pageSize,extId),
-    enterprise: (currentSearch,pageSize,extId) => getOrderByInterpriseEXT(currentSearch,pageSize,extId),
+    deliveryboy: (currentSearch, pageSize, extId) =>
+      getOrderByDeliveryboyEXT(currentSearch, pageSize, extId),
+    consumer: (currentSearch, pageSize, extId) =>
+      GetOrderById(currentSearch, pageSize, extId),
+    enterprise: (currentSearch, pageSize, extId) =>
+      getOrderByInterpriseEXT(currentSearch, pageSize, extId), // Ensure extId is passed here
   };
 
   const header =
     datatype === "ride" ? headersMap[datatype][userType] : headersMap[datatype];
 
-  const getOrderList = useMemo(() => orderMap[userType], [extId, userType]);
+  // Get the correct order fetching function based on userType
+  const getOrderList = useMemo(() => orderMap[userType], [userType]);
 
   useEffect(() => {
     const fetchOrder = async () => {
       try {
         const currentSearch = searchParams.get("search") || "";
-        const orderList = await getOrderList(currentSearch,pageSize);
+        const orderList = await getOrderList(currentSearch, pageSize, extId); // Pass extId here
         setOrder(orderList);
       } catch (error) {
-        throw new Error("Error fetching order list:", error);
+        console.error("Error fetching order list:", error);
       }
-      console.log("ext id => ",extId)
     };
     fetchOrder();
-  }, [searchParams,getOrderList,pageSize,extId]);
+  }, [searchParams, getOrderList, pageSize, extId]); // Added extId as a dependency
 
   const handleSearchChange = useCallback(
     debounce((e) => {
@@ -72,7 +77,7 @@ const BaseViewTable = ({ extId, datatype, userType }) => {
       const params = new URLSearchParams(searchParams);
       if (e.target.value) {
         params.set("search", newSearch);
-        setPageSize(0)
+        setPageSize(0);
       } else {
         params.delete("search");
       }
@@ -80,12 +85,13 @@ const BaseViewTable = ({ extId, datatype, userType }) => {
     }, 300),
     [searchParams, pathname]
   );
+
   const handlePageSize = (e) => {
     const newPageSize = e.target.value;
     setPageSize(newPageSize);
     if (newPageSize) {
       const params = new URLSearchParams(searchParams);
-      params.delete('search')
+      params.delete("search");
       router.replace(`${pathname}?${params}`);
     }
   };
@@ -101,8 +107,6 @@ const BaseViewTable = ({ extId, datatype, userType }) => {
     router.replace(`${pathname}?${params}`);
   };
 
-  console.log("data ",extId)
-  
   return (
     <>
       <div className="flex justify-between items-center mb-4">

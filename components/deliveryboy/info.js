@@ -8,9 +8,9 @@ import Image from "next/image";
 import { FaEdit } from "react-icons/fa";
 import Link from "next/link";
 
-const DeliveryboyInfo = ({ data = {} }) => {
-  const maskedEmail = maskEmail(data.email || "N/A");
-  const maskedPhoneNumber = maskPhoneNumber(data.phone || "N/A");
+const DeliveryboyInfo = ({ data }) => {
+  const maskedEmail = maskEmail(data?.email || "N/A");
+  const maskedPhoneNumber = maskPhoneNumber(data?.phone || "N/A");
   const [selectedTab, setSelectedTab] = useState("ride");
 
   const tabs = [
@@ -27,7 +27,7 @@ const DeliveryboyInfo = ({ data = {} }) => {
           {/* Profile Picture */}
           <div className="flex flex-col items-center">
             <div className="bg-green-500 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-              {data.profile_pic ? (
+              {data?.profile_pic ? (
                 <Image
                   src={getValidImageUrl(data.profile_pic)}
                   alt={`${data.first_name || "User"} ${data.last_name || ""}`}

@@ -58,7 +58,7 @@ export const GetOrderById = async (search,pageSize,ext_id) => {
   const queryParams = new URLSearchParams();
   if (parseInt(pageSize) > 0) queryParams.append('size', pageSize);
   if (search) queryParams.append('o', search);
-  const apiUrl = `${apiStartpoint}?${queryParams.toString()}`;
+  const apiUrl = queryParams.toString() ? `${apiStartpoint}?${queryParams.toString()}` : apiStartpoint;
   return new Promise((resolve, reject) => {
     const params = {};
     getByID(

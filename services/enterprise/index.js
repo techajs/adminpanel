@@ -61,7 +61,7 @@ export const getOrderByInterpriseEXT = async (search,pageSize,extId)=>{
   const queryParams = new URLSearchParams();
   if (parseInt(pageSize) > 0) queryParams.append('size', pageSize);
   if (search) queryParams.append('o', search);
-  const apiUrl = `${apiStartpoint}?${queryParams.toString()}`;
+  const apiUrl = queryParams.toString() ? `${apiStartpoint}?${queryParams.toString()}` : apiStartpoint;
   return new Promise((resolve, reject) => {
     const params = {};
     getByID(
@@ -109,7 +109,6 @@ export const GetOrderByNumber = async (OrderNumber)=>{
 
 export const updateEnterprise = async (params)=>{
   const apiUrl =`${API.getEnterprise}`;
-  console.log("url => ",apiUrl)
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
       apiUrl,

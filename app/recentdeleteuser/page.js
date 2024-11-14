@@ -5,7 +5,7 @@ const RecentDeleteUser = () =>{
    return (
     <LayoutPage>
         <Breadcrumb pageName="Recent delete user"/>
-        <h1>same page</h1>
+        <h1>Recent delete user page</h1>
     </LayoutPage>
    )
 }
