@@ -1,6 +1,6 @@
 "use client";
 const { useGlobalData } = require("@/app/context/GlobalDataContext");
-const { useEffect } = require("react");
+import { useEffect} from "react";
 
 const useFetchGlobalData = () => {
   const {
