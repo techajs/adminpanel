@@ -180,7 +180,7 @@ export const consumerValidationSchema = Yup.object({
     .oneOf([Yup.ref("password")], "Passwords must match"),
   phoneNumber: Yup.string()
     .required("Phone number is required")
-    .matches(/^\d+$/, "Phone number should contain only digits")
+    .matches(/^\+?\d+$/, "Phone number should contain only digits")
     .min(8, "Phone number must be at least 8 digits"),
   country: Yup.object({
     value: Yup.string().required("Country is required"),
@@ -197,7 +197,7 @@ export const delvieryboySchema = Yup.object().shape({
     .email("Please enter a valid email"),
   phoneNumber: Yup.string()
     .required("Phone number is required")
-    .matches(/^\d+$/, "Phone number should contain only digits")
+    .matches(/^\+?\d+$/, "Phone number should contain only digits")
     .min(8, "Phone number must be at least 8 digits"),
   country: Yup.object({
     value: Yup.string().required("Country is required"),
@@ -225,7 +225,7 @@ export const enterpriseSchema = Yup.object().shape({
     .email("Please enter a valid email"),
   phoneNumber: Yup.string()
     .required("Phone number is required")
-    .matches(/^\d+$/, "Phone number should contain only digits")
+    .matches(/^\+?\d+$/, "Phone number should contain only digits")
     .min(8, "Phone number must be at least 8 digits"),
   country: Yup.object({
     value: Yup.string().required("Country is required"),
@@ -244,7 +244,7 @@ export const enterpriseSchema = Yup.object().shape({
   }).required("Industry is required"),
   deliveries: Yup.string()
     .required("Delivery Deliveries per month is required")
-    .matches(/^\d+$/, "Delivery should contain only digits"),
+    .matches(/^\+?\d+$/, "Delivery should contain only digits"),
   terms: Yup.boolean().oneOf(
     [true],
     "You must accept the terms and conditions"
@@ -265,7 +265,7 @@ export const consumerSchema = Yup.object().shape({
     .email("Please enter a valid email"),
   phoneNumber: Yup.string()
     .required("Phone number is required")
-    .matches(/^\d+$/, "Phone number should contain only digits")
+    .matches(/^\+?\d+$/, "Phone number should contain only digits")
     .min(8, "Phone number must be at least 8 digits"),
   country: Yup.object({
     value: Yup.string().required("Country is required"),

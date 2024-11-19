@@ -3,7 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaEye, FaFile, FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
-const EnterpriseTableItem = ({ data, url, refreshData, selected, handleCheckboxChange }) => {
+const EnterpriseTableItem = ({
+  data,
+  url,
+  refreshData,
+  selected,
+  handleCheckboxChange,
+}) => {
   return (
     <>
       {data.length > 0 ? (
@@ -64,6 +70,37 @@ const EnterpriseTableItem = ({ data, url, refreshData, selected, handleCheckboxC
                 {item?.company_name}
               </p>
             </td>
+            <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+              <p
+                className={`${
+                  item?.is_active === 2
+                    ? "flex justify-start items-center gap-2"
+                    : ""
+                } text-center rounded-full bg-opacity-10 px-3 py-1 text-sm font-medium ${
+                  item?.is_active === 1
+                    ? "bg-success text-success"
+                    : item?.is_active === 0
+                    ? "bg-warning text-warning" // Style for waiting for approval
+                    : "bg-danger text-danger"
+                }`}
+              >
+                {item?.is_active === 1 ? (
+                  "Accepted"
+                ) : item?.is_active === 0 ? (
+                  <Link href={`/joinrequest/${item.ext_id}`}>
+                    Waiting for Approval
+                  </Link>
+                ) : (
+                  <>
+                    <span>Rejected </span>
+                    <Link href={`/joinrequest/${item.ext_id}`}>
+                      <FaEye size={15} />
+                    </Link>
+                  </>
+                )}
+              </p>
+            </td>
+
             <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
               <p className="text-black text-sm dark:text-white">
                 {formatDate(item.created_on)}

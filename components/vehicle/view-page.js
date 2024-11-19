@@ -10,7 +10,7 @@ const VehicleAndTypeView = ({ data, datatype }) => {
       {
         id: 1,
         name: "Vehicle Registration",
-        imageUrl: "6fea233543b840e2885accb8c8207f5a",
+        imageUrl: data[0]?.reg_doc,
         status: true,
       },
       {

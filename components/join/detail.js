@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 
 import DeliveryboyView from "./view/delivery-boy-view";
-import { GetDetail } from "@/services/joinrequest/join.";
+import { GetDetail } from "@/services/joinrequest/join";
 import EnterpriseView from "./view/enterprise-view";
 import ConsumerView from "./view/consumer-view";
 
@@ -23,7 +23,7 @@ function NewJoinRequestPage({extId}) {
   useEffect(() => {
     fetchJoinView(extid);
   }, [extid]);
-
+  console.log(joinview)
   return (
     <>
       {joinview && joinview.role === "DELIVERY_BOY" && (

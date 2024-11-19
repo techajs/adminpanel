@@ -85,9 +85,10 @@ const EditEnterprisePage = ({ enterpriseId }) => {
       siret: deliveryboy?.siret_no || "",
       terms: deliveryboy?.term_cond1 || 0,
       termss: deliveryboy?.term_cond2 || 0,
-      company: deliveryboy?.company || "",
+      company: deliveryboy?.company_name || "",
       industry: industryList.find((ind) => ind.value === deliveryboy?.industry_type_id) || null,
       deliveries: deliveryboy?.deliveryMonthHours?.match(/\d+/)?.[0] || null,
+      comments: deliveryboy?.description || null,
     },
     enableReinitialize: true,
     validationSchema: enterpriseSchema,
@@ -97,7 +98,7 @@ const EditEnterprisePage = ({ enterpriseId }) => {
         ext_id: enterpriseId,
         first_name: values.name,
         last_name: values.lastname,
-        phone: values.phoneNumber,
+        phone: values.phoneNumber.replace(/\D/g, ""),
         country_id: values.country.value,
         state_id: values.state.value,
         city_id: values.city.value,
@@ -187,7 +188,7 @@ const EditEnterprisePage = ({ enterpriseId }) => {
             <PhoneInput
               country="fr"
               value={formik.values.phoneNumber}
-              onChange={(value) => formik.setFieldValue("phoneNumber", value)}
+              onChange={(value) => formik.setFieldValue("phoneNumber", value.replace(/\D/g, ""))}
               onBlur={() => formik.setFieldTouched("phoneNumber", true)}
               className="border rounded-md"
               inputStyle={{ width: "100%" }}

@@ -79,12 +79,7 @@ const OrderTableItem = ({
                         >
                           <FaEye  size={17}/>
                         </Link>
-                        <Link
-                          href={`${url}/${item.ext_id}/edit`}
-                          className="hover:text-primary bg-red p-2 rounded-full text-white dark:bg-boxdark "
-                        >
-                          <FaRegTrashAlt size={17} />
-                        </Link>
+                        
                       </div>
                     </td>
                   </tr>

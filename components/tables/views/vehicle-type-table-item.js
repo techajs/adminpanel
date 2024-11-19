@@ -4,13 +4,16 @@ import { UdateVehicleTypeStatus } from "@/services";
 import { getValidImageUrl } from "@/utils/constants";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaEye, FaFile, FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
 const VehicleTypeTableItem = ({ data, url, refreshData }) => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [matchId, setMatchId] = useState(null);
   const [successMsg, setSuccessMsg] = useState("");
+  const [localData, setLocalData] = useState(data); 
   const statusChange = async (value, Id) => {
     setLoading(true);
     setMatchId(Id);
@@ -21,6 +24,11 @@ const VehicleTypeTableItem = ({ data, url, refreshData }) => {
       const response = await UdateVehicleTypeStatus(payload, Id);
       setSuccessMsg(response);
       refreshData();
+      setLocalData((prev) =>
+        prev.map((item) =>
+          item.id === Id ? { ...item, is_del: payload.status } : item
+        )
+      );
     } catch (err) {
       if (err[0]?._errors) {
         console.log(err[0]._errors.message);
@@ -34,8 +42,8 @@ const VehicleTypeTableItem = ({ data, url, refreshData }) => {
   };
   return (
     <>
-      {data.length > 0 ? (
-        data.map((item, key) => (
+      {localData.length > 0 ? (
+        localData.map((item, key) => (
           <tr key={key}>
             <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
               <p className="text-primary text-sm">

@@ -1,8 +1,8 @@
-"use clientyy"
+"use clientyy";
 import { useState } from "react";
 import JoinRequestRejectionModal from "../modal/reject-modal";
 import ActionButtion from "./action-view";
-import { ChangeStatus } from "@/services/joinrequest/join.";
+import { ChangeStatus } from "@/services/joinrequest/join";
 import { getRole } from "@/utils/constants";
 // Make sure to import the API function
 
@@ -10,14 +10,19 @@ export default function EnterpriseView({ data }) {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
   const [successmessage, setSuccessmessage] = useState(null);
-  const [reason, setReason] = useState('');
+  const [reason, setReason] = useState("");
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
   const submitHandler = async (reason) => {
     try {
-      const response = await ChangeStatus(data.role, 'REJECTED', data.enterpriseId, reason);
+      const response = await ChangeStatus(
+        data.role,
+        "REJECTED",
+        data.enterpriseId,
+        reason
+      );
       setSuccessmessage("Rejection submitted successfully");
       setError(null); // Clear any existing errors
     } catch (error) {
@@ -30,7 +35,9 @@ export default function EnterpriseView({ data }) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Account Type */}
         <div className="col-span-1">
-          <p className="text-sm font-regular text-black dark:text-white">User Type</p>
+          <p className="text-sm font-regular text-black dark:text-white">
+            User Type
+          </p>
           <span className="inline-flex rounded-full bg-opacity-10 px-3 py-1 text-sm font-medium bg-success text-success mt-2">
             {getRole(data?.role)}
           </span>
@@ -54,7 +61,6 @@ export default function EnterpriseView({ data }) {
             {data?.email}
           </h5>
         </div>
-
 
         {/* Phone */}
         <div className="col-span-1">
@@ -82,7 +88,7 @@ export default function EnterpriseView({ data }) {
             Industry
           </p>
           <h5 className="text-lg font-semibold text-black dark:text-white">
-          {data?.industry_type}
+            {data?.industry_type}
           </h5>
         </div>
 
@@ -92,7 +98,7 @@ export default function EnterpriseView({ data }) {
             Deliveries per month
           </p>
           <h5 className="text-lg font-semibold text-black dark:text-white">
-            {data?.deliveryMonthHours || 'not given'}
+            {data?.deliveryMonthHours || "not given"}
           </h5>
         </div>
 
@@ -135,14 +141,18 @@ export default function EnterpriseView({ data }) {
         </div>
 
         <div className="col-span-1">
-          <p className="text-sm font-regular text-black dark:text-white">Status</p>
-          <span className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-sm font-medium ${
-                        data.status === "Active"
-                          ? "bg-success text-success"
-                          : data.status === "Rejected"
-                          ? "bg-danger text-danger"
-                          : "bg-warning text-warning"
-                      }`}>
+          <p className="text-sm font-regular text-black dark:text-white">
+            Status
+          </p>
+          <span
+            className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-sm font-medium ${
+              data.status === "Active"
+                ? "bg-success text-success"
+                : data.status === "Rejected"
+                ? "bg-danger text-danger"
+                : "bg-warning text-warning"
+            }`}
+          >
             {data?.status}
           </span>
         </div>
@@ -156,9 +166,22 @@ export default function EnterpriseView({ data }) {
             {data?.description}
           </h5>
         </div>
+        {data?.is_active === 2 && (
+          <div className="flex items-center  mt-4 gap-2">
+            <span className="text-sm">Reason :</span>
+            <spen>{data?.ereason}</spen>
+          </div>
+        )}
       </div>
 
-      <ActionButtion onChange={openModal} role={data.role} status="ACCEPTED" ext_id={data.enterpriseId} reason="" isShow={data?.status || 'Pending'} />
+      <ActionButtion
+        onChange={openModal}
+        role={data.role}
+        status="ACCEPTED"
+        ext_id={data.enterpriseId}
+        reason={data?.ereason}
+        isShow={data?.status || "Pending"}
+      />
       <JoinRequestRejectionModal
         showModal={showModal}
         closeModal={closeModal}

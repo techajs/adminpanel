@@ -22,7 +22,7 @@ const OrderView = () => {
   });
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(searchParams.get("search") || "");
-  const [orderstatus, setOrderStatus] = useState(searchParams.get("status") || "");
+  const [orderstatus, setOrderStatus] = useState("current");
   const [pageSize, setPageSize] = useState("");
   const fetchOrderList = useCallback(
     async (currentPage, currentSearch, currentStatus,pageSize) => {
@@ -60,7 +60,6 @@ const OrderView = () => {
   useEffect(() => {
     const page = searchParams.get("page") || 1;
     const currentSearch = searchParams.get("search") || "";
-    setOrderStatus(searchParams.get("status") || "current");
     setSearch(currentSearch);
     fetchOrderList(page, currentSearch, orderstatus,pageSize);
   }, [searchParams, fetchOrderList, orderstatus,pageSize]);

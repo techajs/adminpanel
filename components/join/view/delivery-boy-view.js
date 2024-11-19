@@ -2,7 +2,7 @@
 import { useState } from "react";
 import JoinRequestRejectionModal from "../modal/reject-modal";
 import ActionButtion from "./action-view";
-import { ChangeStatus } from "@/services/joinrequest/join.";
+import { ChangeStatus } from "@/services/joinrequest/join";
 import { getRole, getValidImageUrl } from "@/utils/constants";
 import Image from "next/image";
 import UserInfo from "@/components/user-info";
@@ -37,7 +37,7 @@ export default function DeliveryboyView({ data }) {
         <div className="w-1/4 rounded-lg">
           <div
             className="bg-boxdark dark:border-strokedark dark:bg-boxdark p-6 rounded-lg"
-            style={{ height: "420px" }}
+            style={{ height: "450px" }}
           >
             <div className="flex flex-col items-center">
               <div className="bg-green-500 w-30 h-30 rounded-full flex items-center justify-center mb-4">
@@ -83,13 +83,19 @@ export default function DeliveryboyView({ data }) {
                   <FaEye size={25} />
                 </Link>
               </div>
+              {data?.is_active === 2 && (
+                <div className="flex items-center  mt-4 gap-2">
+                  <span className="text-sm">Reason :</span>
+                  <spen>{data?.dreason}</spen>
+                </div>
+              )}
             </div>
             <ActionButtion
               onChange={openModal}
-              role={data.role}
+              role={data?.role}
               status="ACCEPTED"
-              ext_id={data.deliveryboyId}
-              reason=""
+              ext_id={data?.deliveryboyId}
+              reason={data?.dreason}
               isShow={data?.status || "Pending"}
             />
             <JoinRequestRejectionModal

@@ -56,10 +56,6 @@ const DeliveryboyInfo = ({ data }) => {
             </p>
           </div>
 
-          {/* Add Wallet Button */}
-          <button className="bg-green-500 text-white mt-4 px-4 py-2 rounded-lg w-full">
-            + Add Wallet Amount
-          </button>
 
           {/* Contact Info */}
           <div className="mt-4 text-white">

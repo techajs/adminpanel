@@ -65,7 +65,7 @@ const EditConsumerVeiw = ({ consumerId }) => {
       const payload = {
         ext_id: consumerId,
         first_name: values.name,
-        phone: values.phoneNumber,
+        phone: values.phoneNumber.replace(/\D/g, ""),
         country_id: values.country.value,
       };
 
@@ -130,7 +130,7 @@ const EditConsumerVeiw = ({ consumerId }) => {
             <PhoneInput
               country="fr"
               value={formik.values.phoneNumber}
-              onChange={(value) => formik.setFieldValue("phoneNumber", value)}
+              onChange={(value) => formik.setFieldValue("phoneNumber", value.replace(/\D/g, ""))}
               onBlur={() => formik.setFieldTouched("phoneNumber", true)}
               className="border rounded-md"
               inputStyle={{ width: "100%" }}

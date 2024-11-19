@@ -1,4 +1,4 @@
-import { ChangeStatus } from "@/services/joinrequest/join.";
+import { ChangeStatus } from "@/services/joinrequest/join";
 import Link from "next/link";
 import { useState } from "react";
 

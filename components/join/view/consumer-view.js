@@ -2,7 +2,7 @@
 import { useState } from "react";
 import JoinRequestRejectionModal from "../modal/reject-modal";
 import ActionButtion from "./action-view";
-import { ChangeStatus } from "@/services/joinrequest/join.";
+import { ChangeStatus } from "@/services/joinrequest/join";
 import { getRole } from "@/utils/constants";
 import Image from "next/image";
 import UserInfo from "@/components/user-info";
