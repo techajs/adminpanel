@@ -1,12 +1,12 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import ListDeliveryboy from "./delivery-list";
 import { getAvailableDeliveryboy } from "@/services/deliveryboy";
 import { getValidImageUrl } from "@/utils/constants";
 import Image from "next/image";
+import ListDeliveryboy from "@/components/order/views/orderdetail/delivery-list";
 
-const BillingDetail = ({ order, userType }) => {
+const EnterpirseBillingDetail = ({ order, userType }) => {
   const [deliveryBoys, setDeliveryBoys] = useState(null);
   if (order == "") {
     return (
@@ -105,4 +105,4 @@ const BillingDetail = ({ order, userType }) => {
   );
 };
 
-export default BillingDetail;
+export default EnterpirseBillingDetail;

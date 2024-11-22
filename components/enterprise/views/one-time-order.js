@@ -4,13 +4,16 @@ import BasicDetail from "@/components/order/views/orderdetail/basic-detail";
 import BillingDetail from "@/components/order/views/orderdetail/billing-detail";
 import React from "react";
 import { FaPrint } from "react-icons/fa";
+import EnterpriseBasicDetail from "./common/basicdetail";
+import EnterpriseAdditionDetail from "./common/additiondetail";
 const OnetimeOrder = ({ order, deliveryboy, vehicle, orderLine }) => {
   return (
     <>
       <div className="flex gap-3 mb-4">
         <div className="w-2/4 rounded-lg bg-white border p-6 shadow-md dark:bg-boxdark">
           <h2 className="text-lg font-semibold mb-4">General Details</h2>
-          <BasicDetail order={order} />
+          <EnterpriseBasicDetail order={order} orderLine={orderLine}/>
+
         </div>
         {/* Billing Details Section */}
         <div className="w-2/4 rounded-lg bg-white border p-6 shadow-md dark:bg-boxdark">
@@ -28,7 +31,8 @@ const OnetimeOrder = ({ order, deliveryboy, vehicle, orderLine }) => {
         <div className="w-2/4">
           <div className="rounded-lg bg-white border p-6 shadow-md mb-4 dark:bg-boxdark">
             <h2 className="text-lg font-semibold mb-4">Map View</h2>
-            <MapComponent latitude={order?.latitude} longitude={order?.longitude}dlatitude={order?.dlatitude} dlongitude={order?.dlongitude} />
+            <MapComponent latitude={order?.latitude} longitude={order?.longitude}dlatitude={order?.dlatitude} dlongitude={order?.dlongitude} multiple={false}
+              locations={[]} />
           </div>
         </div>
 
@@ -45,7 +49,7 @@ const OnetimeOrder = ({ order, deliveryboy, vehicle, orderLine }) => {
           {/* Additional Section */}
           <div className="rounded-lg bg-white border p-6 shadow-md dark:bg-boxdark">
             <h2 className="text-lg font-semibold mb-4">Additional Details</h2>
-            <AdditionDetail order={order}/>
+            <EnterpriseAdditionDetail order={order} vehicle={vehicle}/>
           </div>
         </div>
       </div>

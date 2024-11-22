@@ -62,7 +62,7 @@ const ListItem = ({ data, datatype,userType }) => {
                 </td>
                 <td className="border-b border-[#eee] px-2 py-2 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
-                    {item?.amount} €
+                    {item?.amount ? item?.amount?.toFixed(2) + " €" : ''}
                   </div>
                 </td>
               </tr>

@@ -29,6 +29,29 @@ export const GetDeliveryboys = (page, search,pageSize) => {
   });
 };
 
+export const getAvailableDeliveryboy = () =>{
+  const apiStartpoint =API.getDeliveryboy;
+  const apiUrl = `${apiStartpoint}/availability`;
+  return new Promise((resolve, reject) => {
+    const params = {};
+    getCommonlist(
+      apiUrl,
+      params,
+      (successResponse) => {
+        if (successResponse[0]._success) {
+          const data = successResponse[0]._response;
+          resolve(data);
+        } else {
+          reject([]);
+        }
+      },
+      (errorResponse) => {
+        reject([]);
+      }
+    );
+  });
+}
+
 export const GetDeliveryboyById = async (ext_id)=>{
   let apiUrl = `${API.getDeliveryboy}/${ext_id}`;
   
@@ -101,3 +124,24 @@ export const updateDeliveryboy = async (params)=>{
     );
   });
 }
+
+export const allocatedDeliveryboy = (params) => {
+  const apiUrl =`${API.estatus}`;
+  return new Promise((resolve, reject) => {
+    UpdateStatusQuery(
+      apiUrl,
+      params,
+      (successResponse) => {
+        if (successResponse[0]._success) {
+          const data = successResponse[0]._response;
+          resolve(data);
+        } else {
+          reject([]);
+        }
+      },
+      (errorResponse) => {
+        reject(errorResponse);
+      }
+    );
+  });
+};

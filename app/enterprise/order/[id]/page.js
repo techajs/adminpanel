@@ -12,20 +12,23 @@ const EorderView = ({ params }) => {
     const [deliveryboy, setDeliveryboy] = useState(null);
     const [orderLine, setOrderLine] = useState(null);
     const [vehicle, setVehicle] = useState(null);
+    const [slotList, setSlotList] = useState(null);
 
     const fetchEnterpriseOrder = async (ext_id) => {
         try {
             const response = await GetOrderByNumber(ext_id);
 
             if (response) {
-                const { order, deliveryBoy, orderLines, vehicle } = response;
+                const { order, deliveryBoy, orderLines, vehicle,slots } = response;
                 if (deliveryBoy) {
                     order.delivery_boy_name = `${deliveryBoy.first_name} ${deliveryBoy.last_name}`;
                     order.delivery_boy_mobile = deliveryBoy.phone;
                     order.delivery_boy_ext = deliveryBoy.ext_id;
+                    order.delivery_pic = deliveryBoy.profile_pic;
                 }
 
                 setOrder(order || null);
+                setSlotList(slots || null)
                 setDeliveryboy(deliveryBoy || null);
                 setOrderLine(orderLines || null);
                 setVehicle(vehicle || null);
@@ -41,10 +44,9 @@ const EorderView = ({ params }) => {
             fetchEnterpriseOrder(params.id);
         }
     }, [params?.id]);
-
     return (
         <LayoutPage>
-            <Breadcrumb pageName="Order Details" title="enterprise" />
+            <Breadcrumb pageName="Order Details" title={`enterprise/${order?.consumer_ext}`} />
             {order && order.delivery_type_id === 1 && (
                 <OnetimeOrder order={order} deliveryboy={deliveryboy} vehicle={vehicle} orderLine={orderLine} />
             )}
@@ -52,7 +54,7 @@ const EorderView = ({ params }) => {
                 <MultipleOrder order={order} deliveryboy={deliveryboy} vehicle={vehicle} orderLine={orderLine} />
             )}
              {order && order.delivery_type_id === 3 && (
-                <ShiftOrder order={order} deliveryboy={deliveryboy} vehicle={vehicle} orderLine={orderLine} />
+                <ShiftOrder order={order} deliveryboy={deliveryboy} vehicle={vehicle} orderLine={orderLine} slots={slotList} />
             )}
         </LayoutPage>
     );

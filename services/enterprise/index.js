@@ -127,3 +127,25 @@ export const updateEnterprise = async (params)=>{
     );
   });
 }
+
+//update vehicle status 
+export const UpdateStatus = (params) => {
+  const apiUrl =`${API.estatus}`;
+  return new Promise((resolve, reject) => {
+    UpdateStatusQuery(
+      apiUrl,
+      params,
+      (successResponse) => {
+        if (successResponse[0]._success) {
+          const data = successResponse[0]._response;
+          resolve(data);
+        } else {
+          reject([]);
+        }
+      },
+      (errorResponse) => {
+        reject(errorResponse);
+      }
+    );
+  });
+};

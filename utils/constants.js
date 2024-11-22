@@ -76,9 +76,11 @@ export const API = {
   enterprisePaymentMethodUrl: "/enterprise/paymentmethod",
   //admin side
   updateJoinStatus: "/joinrequest/action",
+  estatus:'/enterprise/order/estatus',
   getJoinRequest: "/joinrequest/getall",
   getJoinDetail: "/joinrequest/getjoinrequest",
   getConsumer: "/consumer",
+  enterpriseAllOrder: "/enterprise/order/list", 
   getEnterprise: "/enterprise",
   getDeliveryboy: "/deliveryboy",
   getAllorderList: "/order",
@@ -89,7 +91,7 @@ export const API = {
 export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 // export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const formatDate = (isoString) => {
+export const formatDate = (isoString ,isTime=true) => {
   const date = new Date(isoString);
 
   // Get day, month, year, hours, and minutes
@@ -102,8 +104,32 @@ export const formatDate = (isoString) => {
   const minutes = String(date.getMinutes()).padStart(2, "0");
 
   // Construct the formatted string
-  return `${day}-${month}-${year} at ${hours}:${minutes}`;
+  return isTime ? `${day}-${month}-${year} at ${hours}:${minutes}` : `${day}-${month}-${year}`
+
 };
+
+export const calculateHoursDifference = (startTime, endTime) => {
+  // Convert times to Date objects
+  const [startHours, startMinutes, startSeconds] = startTime.split(':').map(Number);
+  const [endHours, endMinutes, endSeconds] = endTime.split(':').map(Number);
+
+  // Create Date objects for both times
+  const startDate = new Date(2000, 0, 1, startHours, startMinutes, startSeconds);
+  const endDate = new Date(2000, 0, 1, endHours, endMinutes, endSeconds);
+
+  // If the end time is earlier than the start time, add 24 hours to the end time
+  if (endDate < startDate) {
+    endDate.setHours(endDate.getHours() + 24);
+  }
+
+  // Calculate the difference in milliseconds
+  const differenceInMilliseconds = endDate - startDate;
+
+  // Convert milliseconds to hours
+  const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
+
+  return differenceInHours;
+}
 
 export const getRole = (role) => {
   switch (role) {
@@ -138,6 +164,8 @@ export const getStatus = (status) => {
       return "Completed";
     case "CANCELLED":
       return "Cancelled";
+    case "REQUEST_PENDING":
+      return "Request Pending";
     default:
       return status;
   }
@@ -258,11 +286,11 @@ export const checkImageExists = async (url) => {
 };
 
 export const getAddressLine= (address,city,state,postal_code,country)=>{
-  let code =postal_code+'-'
+  let code ='-'+postal_code
   if(postal_code == null){
      code=''
   }
-  return `${address},${city},${state},${code} ${country}`
+  return `${address},${city},${state},${country}${code}`
 }
 
 

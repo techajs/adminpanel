@@ -76,7 +76,7 @@ const menuGroups = [
         route: "#",
          children: [
           { label: "Order List", route: "/order" },
-          // { label: "Schedule Order", route: "/schedule" },
+          // { label: "Enterprise Order", route: "/enterprise/order" },
         ],
       },
       {
