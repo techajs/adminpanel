@@ -73,10 +73,10 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
         setDeliveryBoys([]);
       }
     };
-    if(!localData?.delivery_boy_name) {
+    if(localData && !localData?.delivery_boy_name) {
       getDeliveryboyAvailable();
     }
-  }, [slots,localData]);
+  }, [slots]);
   return (
     <>
       <div className="container mx-auto p-8">

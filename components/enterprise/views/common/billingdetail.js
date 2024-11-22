@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getAvailableDeliveryboy } from "@/services/deliveryboy";
 import { getValidImageUrl } from "@/utils/constants";
 import Image from "next/image";
@@ -18,20 +18,7 @@ const EnterpirseBillingDetail = ({ order, userType }) => {
   const handleStatusChange = (e) => {
     console.log(e.target.value);
   };
-  useEffect(() => {
-    const getDeliveryboyAvailable = async () => {
-      try {
-        const response = await getAvailableDeliveryboy();
-        console.log(response);
-        setDeliveryBoys(response);
-      } catch (error) {
-        setDeliveryBoys([]);
-      }
-    };
-    if(!order?.delivery_boy_name) {
-      getDeliveryboyAvailable();
-    }
-  }, [order]);
+ 
 
   return (
     <div className="space-y-2">
@@ -90,13 +77,7 @@ const EnterpirseBillingDetail = ({ order, userType }) => {
             {order?.delivery_boy_name}
           </Link>
         </div>
-        ) : (
-          <ListDeliveryboy
-            selectedOption={order?.delivery_boy_id}
-            onPageChange={handleStatusChange}
-            optionValue={deliveryBoys}
-          />
-        )}
+        ) : "N/A"}
       </p>
       <p className="border-b-2 border-dotted border-gray-300 pb-2">
         <strong>Phone:</strong> {order?.delivery_boy_mobile || "N/A"}
