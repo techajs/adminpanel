@@ -1,13 +1,12 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, useSession,signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useEffect, useState } from "react";
-import Waiting from "@/components/common/waiting";
 
 // Define Yup validation schema
 const validationSchema = Yup.object({
@@ -24,15 +23,19 @@ export default function Login() {
   const searchParams = useSearchParams();
   const [error, setError] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     if (status === "authenticated") {
-      // Redirect to the callback URL or default dashboard if authenticated
       const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
-      router.replace(callbackUrl); // Using replace to prevent going back to login
+      setIsLogin(true); // Show loading during redirect
+      router.replace(callbackUrl);
     }
   }, [status, router]);
+
+  
 
   const formik = useFormik({
     initialValues: {
@@ -42,7 +45,7 @@ export default function Login() {
     validationSchema,
     onSubmit: async (values) => {
       setError("");
-      setIsLogin(true);
+      setLoading(true);
       const res = await signIn("credentials", {
         redirect: false,
         email: values.email,
@@ -50,14 +53,17 @@ export default function Login() {
       });
 
       if (res?.ok) {
-        const callUrl=searchParams.get("callbackUrl")
+        const callUrl = searchParams.get("callbackUrl");
         const callbackUrl = callUrl || "/dashboard";
-        console.log("url",callUrl)
-        setIsLogin(false);
-        router.replace(callbackUrl); // Redirect on successful login
+        setLoading(false);
+        router.replace(callbackUrl);
       } else {
-        setIsLogin(false);
-        setError(res?.status === 401 ? "Invalid email or password. Please try again." : `Login failed: ${res?.error || "Unknown error"}`);
+        setLoading(false);
+        const errorMessage =
+          res?.status === 401
+            ? "Invalid email or password. Please try again."
+            : "An unexpected error occurred. Please try again later.";
+        setError(errorMessage);
       }
     },
   });
@@ -95,12 +101,12 @@ export default function Login() {
               )}
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 relative">
               <label htmlFor="password" className="sr-only">Password</label>
               <input
                 id="password"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -108,6 +114,13 @@ export default function Login() {
                 className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${formik.errors.password && formik.touched.password ? "border-red-500" : "border-gray-300"} placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                 placeholder="Password"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 flex items-center px-3 text-sm text-gray-500"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
               {formik.touched.password && formik.errors.password && (
                 <div className="text-red-500 text-sm mt-1">{formik.errors.password}</div>
               )}
@@ -118,12 +131,16 @@ export default function Login() {
             <button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              disabled={isLogin}
+              disabled={loading}
             >
-              {isLogin ? 'Logging in...' : 'Sign In'}
+              {loading ? "Logging in..." : "Sign In"}
             </button>
           </div>
-          {error && <div className="text-red-500 text-sm mt-2 text-center">{error}</div>}
+          {error && (
+            <div className="text-red-500 text-sm mt-2 text-center" aria-live="assertive">
+              {error}
+            </div>
+          )}
         </form>
       </div>
     </div>

@@ -1,16 +1,18 @@
+"use client"
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
-
+import { useRouter } from "next/navigation";
 const Breadcrumb = ({ pageName, title }) => {
+  const router = useRouter();
   return (
     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <h2 className="text-sm font-semibold text-black dark:text-white">
         <h2 className="text-sm font-semibold text-black dark:text-white">
           <div className="flex items-center gap-3">
             {title && (
-              <Link className="font-medium text-primary" href={`/${title}`}>
+              <button className="font-medium text-primary"onClick={() => router.back()}>
                 <FaArrowLeft className="mr-2" size={20} />
-              </Link>
+              </button>
             )}
             {pageName}
           </div>

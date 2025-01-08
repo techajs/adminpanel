@@ -1,26 +1,40 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const ListDeliveryboy = ({selectedOption,onPageChange,optionValue}) => {
+const ListDeliveryboy = ({ selectedOptionId, onPageChange, optionValue, shiftId,orderNumber=""}) => {
   const [isOptionSelected, setIsOptionSelected] = useState(false);
+
+  // Update isOptionSelected when selectedOptionId changes
+  useEffect(() => {
+    if (selectedOptionId) {
+      setIsOptionSelected(true);
+    } else {
+      setIsOptionSelected(false);
+    }
+  }, [selectedOptionId]);
+
   const assignDeliveryboy = (e) => {
-    onPageChange(e);
-    setIsOptionSelected(true)
+    const selectedId = e.target.value;
+    console.log(selectedId)
+    onPageChange(selectedId, shiftId,orderNumber); // Pass the selected ID and shiftId to the parent
   };
+
   return (
     <div className="relative z-20 bg-white dark:bg-form-input">
       <select
-        value={selectedOption}
+        value={selectedOptionId} // Ensure this is bound to selectedOptionId
         onChange={assignDeliveryboy}
         className={`relative z-20 w-[120px] appearance-none rounded border border-stroke bg-transparent py-1 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${
           isOptionSelected ? "text-black dark:text-white" : ""
         }`}
       >
-        <option value="" className="text-body dark:text-bodydark">
-          Assign
-        </option>
-        {optionValue?.map((item,key)=>(
-            <option key={key} value={item.id} className="text-body dark:text-bodydark">
+        {!selectedOptionId && (
+          <option value="" className="text-body dark:text-bodydark">
+            Assign
+          </option>
+        )}
+        {optionValue?.map((item, key) => (
+          <option key={key} selected={selectedOptionId===item.ext_id} value={item.ext_id} className="text-body dark:text-bodydark">
             {item?.first_name} {item?.last_name}
           </option>
         ))}

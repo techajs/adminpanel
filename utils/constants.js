@@ -55,6 +55,8 @@ export const API = {
   paymentCancelRequestUrl: "/payment/update",
   enterpriseOrdersUrl: "/enterprise/order/getbyext/",
   viewEnterpriseOrderDetail: "/enterprise/order/view/",
+  assignDeliveryboy: "/order/shift/deliveryboy/allocate",
+  assignMultipleDeliveryboy:"/order/shift/multiple/deliveryboy/allocate",
   getDeliveryBoyWalletUrl: "/deliveryboy/wallet/balance/",
   getDeliveryBoyTransactionUrl: "/deliveryboy/wallet/transaction/",
   orderStatusUpdateUrl: "/order/update/status",

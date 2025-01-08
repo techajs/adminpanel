@@ -36,7 +36,6 @@ export const GlobalDataProvider = ({ children }) => {
   const fetchDeliveryboy = async () => {
     try {
       const response = await GetVehicles();
-      console.log('vehicle',response)
       setVehicle(response);
     } catch (error) {
       setVehicle([]);

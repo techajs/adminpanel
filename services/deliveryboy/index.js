@@ -1,4 +1,4 @@
-import { getByID, getCommonlist, UpdateStatusQuery } from "@/app/_lib/action";
+import { assginMultipleDeliveryboy, getByID, getCommonlist, UpdateStatusQuery } from "@/app/_lib/action";
 import { API } from "@/utils/constants";
 
 
@@ -129,6 +129,48 @@ export const allocatedDeliveryboy = (params) => {
   const apiUrl =`${API.estatus}`;
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
+      apiUrl,
+      params,
+      (successResponse) => {
+        if (successResponse[0]._success) {
+          const data = successResponse[0]._response;
+          resolve(data);
+        } else {
+          reject([]);
+        }
+      },
+      (errorResponse) => {
+        reject(errorResponse);
+      }
+    );
+  });
+};
+
+export const assignDeliveryboyshift = (params) => {
+  const apiUrl =`${API.assignDeliveryboy}`;
+  return new Promise((resolve, reject) => {
+    UpdateStatusQuery(
+      apiUrl,
+      params,
+      (successResponse) => {
+        if (successResponse[0]._success) {
+          const data = successResponse[0]._response;
+          resolve(data);
+        } else {
+          reject([]);
+        }
+      },
+      (errorResponse) => {
+        reject(errorResponse);
+      }
+    );
+  });
+};
+
+export const assignMultipleDeliveryboyshift = (params) => {
+  const apiUrl =`${API.assignMultipleDeliveryboy}`;
+  return new Promise((resolve, reject) => {
+    assginMultipleDeliveryboy(
       apiUrl,
       params,
       (successResponse) => {

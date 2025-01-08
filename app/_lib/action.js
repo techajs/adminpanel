@@ -141,3 +141,17 @@ export const uploadDocumentsApi = (params, successCallback, errorCallback) => {
     .then(result => successCallback(result))
     .catch(error => errorCallback(error));
 };
+
+export const assginMultipleDeliveryboy=(url,params, successCallback, errorCallback) => {
+  axiosCall(
+    url,
+    HTTPMethod.POST,
+    params,
+    response => {
+      successCallback(response);
+    },
+    errorResponse => {
+      errorCallback(errorResponse);
+    },
+  );
+};

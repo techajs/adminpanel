@@ -77,13 +77,14 @@ export const GetOrderByNumber = async (orderNumber) => {
   });
 };
 
-export const getEnterpriseOrder = (page, search, ordertype, pageSize) => {
+export const getEnterpriseOrder = (page, search, ordertype, pageSize,status) => {
   const apiStartpoint = API.enterpriseAllOrder;
   const queryParams = new URLSearchParams();
-
+  
   if (parseInt(page) > 0) queryParams.append('page', page);
   if (parseInt(pageSize) > 0) queryParams.append('pagesize', pageSize);
-  if (ordertype) queryParams.append('status', ordertype);
+  if (ordertype) queryParams.append('ordertype', ordertype);
+  if (status) queryParams.append('status', status);
   if (search) queryParams.append('o', search);
 
   const apiUrl = queryParams.toString() ? `${apiStartpoint}?${queryParams.toString()}` : apiStartpoint;
