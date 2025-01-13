@@ -7,8 +7,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "localhost",
+        protocol: "https",
+        hostname: "admin.rapidmate.fr",
         port: "3000",
         pathname: "/**",
       },
