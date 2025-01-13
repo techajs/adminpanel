@@ -10,7 +10,7 @@ import useFetchGlobalData from "@/hooks/useFetchData";
 import Waiting from "../common/waiting";
 
 const DashboardLayout = () => {
-  const {country,state,city} = useFetchGlobalData();
+  const { country, state, city } = useFetchGlobalData();
   const [dashboardData, setDashboardData] = useState(null);
 
   useEffect(() => {
@@ -27,54 +27,54 @@ const DashboardLayout = () => {
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats
-          title="Total Consumer"
-          total={dashboardData[0]?.totalConsumers || 0}
-        >
-          <Link href="/consumer">
+        <Link href="/consumer">
+          <CardDataStats
+            title="Total Consumer"
+            total={dashboardData[0]?.totalConsumers || 0}
+          >
             <FaUser />
-          </Link>
-        </CardDataStats>
-        <CardDataStats
-          title="Total Delivery boy"
-          total={dashboardData[0]?.totalDeliveryBoys || 0}
-        >
-          <Link href="/deliveryboy">
+          </CardDataStats>
+        </Link>
+        <Link href="/deliveryboy">
+          <CardDataStats
+            title="Total Delivery boy"
+            total={dashboardData[0]?.totalDeliveryBoys || 0}
+          >
             <FaUser />
-          </Link>
-        </CardDataStats>
-        <CardDataStats
-          title="Total Enterprise"
-          total={dashboardData[0]?.totalEnterprises || 0}
-        >
-          <Link href="/enterprise">
+          </CardDataStats>
+        </Link>
+        <Link href="/enterprise">
+          <CardDataStats
+            title="Total Enterprise"
+            total={dashboardData[0]?.totalEnterprises || 0}
+          >
             <FaCartShopping />
-          </Link>
-        </CardDataStats>
-        <CardDataStats
-          title="Total Order"
-          total={dashboardData[0]?.totalOrders || 0}
-        >
-          <Link href="/order">
+          </CardDataStats>
+        </Link>
+        <Link href="/order">
+          <CardDataStats
+            title="Total Order"
+            total={dashboardData[0]?.totalOrders || 0}
+          >
             <FaTruck />
-          </Link>
-        </CardDataStats>
-        <CardDataStats
-          title="Completed Order"
-          total={dashboardData[0]?.completedOrders || 0}
-        >
-          <Link href="/order?status=past">
+          </CardDataStats>
+        </Link>
+        <Link href="/order?status=past">
+          <CardDataStats
+            title="Completed Order"
+            total={dashboardData[0]?.completedOrders || 0}
+          >
             <FaClipboardCheck />
-          </Link>
-        </CardDataStats>
-        <CardDataStats
-          title="Cancelled Order"
-          total={dashboardData[0]?.canceledOrders || 0}
-        >
-          <Link href="/order?status=cancelled">
+          </CardDataStats>
+        </Link>
+        <Link href="/order?status=cancelled">
+          <CardDataStats
+            title="Cancelled Order"
+            total={dashboardData[0]?.canceledOrders || 0}
+          >
             <FaFileExcel />
-          </Link>
-        </CardDataStats>
+          </CardDataStats>
+        </Link>
       </div>
 
       {/* New Request Card starts here */}
