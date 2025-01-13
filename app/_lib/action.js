@@ -145,7 +145,7 @@ export const uploadDocumentsApi = (params, successCallback, errorCallback) => {
 export const assginMultipleDeliveryboy=(url,params, successCallback, errorCallback) => {
   axiosCall(
     url,
-    HTTPMethod.POST,
+    HTTPMethod.PUT,
     params,
     response => {
       successCallback(response);
