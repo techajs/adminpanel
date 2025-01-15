@@ -470,7 +470,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                           )}
 
                           <h5 className="font-medium text-black dark:text-white">
-                            {key + 1}
+                            {index + 1}
                           </h5>
                         </div>
                       </td>
@@ -478,8 +478,9 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                         <p className="text-black dark:text-white">
                           {packageItem.slot_date == null
                             ? "N/A"
-                            : packageItem.slot_date}
+                            : formatDate(packageItem.slot_date,false)}
                         </p>
+                        
                       </td>
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                         <p className="text-black dark:text-white">
@@ -530,7 +531,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                                 onClick={handleStatusChange}
                                 className="w-full text-center border border-red-500 text-red-500 p-2 rounded-lg hover:bg-red-100 dark:border-red-400 dark:hover:bg-red-700 dark:text-white "
                               >
-                                Assign
+                                Update
                               </button>
                               <button
                                 onClick={() =>

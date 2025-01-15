@@ -9,13 +9,11 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "admin.rapidmate.fr",
-        port: "3000",
         pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "api.rapidmate.fr",
-        port: "3009",
         pathname: "/**",
       },
     ],
