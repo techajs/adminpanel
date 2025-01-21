@@ -33,7 +33,7 @@ import {
 } from "@/services/deliveryboy";
 import { MdClose } from "react-icons/md";
 
-const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
+const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots,token }) => {
   const [hours, setHours] = useState(0);
   const [loading, setLoading] = useState(false);
   const [localData, setLocalData] = useState(order);
@@ -69,7 +69,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
     setSlotRowId(null);
     setLoading(true);
     try {
-      const response = await assignDeliveryboyshift(payload);
+      const response = await assignDeliveryboyshift(payload,token);
       setSuccessMessage("Delivery boy assigned successfully done.");
     } catch (error) {
       console.log(error);
@@ -81,7 +81,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
 
   const refreshData = async () => {
     try {
-      const response = await GetOrderByNumber(localData.order_number);
+      const response = await GetOrderByNumber(localData.order_number,token);
 
       if (response) {
         const { order, deliveryBoy, orderLines, vehicle, slots } = response;
@@ -110,8 +110,12 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
       order_number,
     };
     try {
-      const response = await UpdateStatus(payload);
+      const response = await UpdateStatus(payload,token);
       setSuccessMessage("Shift accepted");
+      setLocalData((prevData) => ({
+        ...prevData,
+        order_status: status,
+      }));
     } catch (err) {
       if (err[0]?._errors) {
         console.log(err[0]._errors.message);
@@ -127,7 +131,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
     setHours(totalHours || 0);
     const getDeliveryboyAvailable = async () => {
       try {
-        const response = await getAvailableDeliveryboy();
+        const response = await getAvailableDeliveryboy(token);
         const formattedDeliveryBoys = response.map((boy) => ({
           value: boy.id,
           label: boy.first_name + " " + boy.last_name,
@@ -216,7 +220,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
     // Log the payload
     setLoading(true)
     try {
-      const response = await assignMultipleDeliveryboyshift(requestPayload);
+      const response = await assignMultipleDeliveryboyshift(requestPayload,token);
       setSuccessMessage("Delivery boy assigned successfully done.");
       setSelectAll(!selectAll);
     } catch (error) {
@@ -362,19 +366,17 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                     {getStatus(localData?.order_status) || "Request"}
                   </p>
                 </div>
-                {localData?.order_status == "REQUEST_PENDING" && (
+                
                   <div className="mt-4">
-                    <Link
-                      href="#"
-                      onClick={() =>
-                        updateStatusHandler("accepted", localData?.order_number)
-                      }
-                      className="w-full block text-center bg-blue-800 text-white py-2 px-4 rounded-lg hover:bg-blue-900 dark:bg-blue-600"
+                    <button
+                      disabled={localData.order_status == "REQUEST_PENDING" ? false : true}
+                      onClick={localData.order_status === "REQUEST_PENDING" ? () => updateStatusHandler("accepted", localData?.order_number) : undefined}
+                      className={`w-full block text-center ${localData.order_status === "REQUEST_PENDING" ? "bg-blue-800 hover:bg-blue-900 dark:bg-blue-600" : "bg-success hover:bg-success dark:bg-success"}  text-white py-2 px-4 rounded-lg  `}
                     >
-                      Accept
-                    </Link>
+                     {localData.order_status === "REQUEST_PENDING" ? 'Accept' : getStatus(localData?.order_status) }
+                    </button>
                   </div>
-                )}
+             
               </div>
             </div>
           </div>

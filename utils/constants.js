@@ -1,3 +1,5 @@
+import { useSession } from "next-auth/react";
+
 export const HTTPMethod = {
   POST: "post",
   GET: "get",
@@ -244,7 +246,11 @@ export const documentHeader = ()=>{
     {label:"Action"},
   ]
 }
-
+export const useAuthToken = () => {
+  const { data: session } = useSession();
+  // Return the session token or null if not available
+  return session ? session.token : null;
+};
 export const baseProfilePicUrl = process.env.NEXT_PUBLIC_DOCUMENT_URL;
 
 export const getValidImageUrl = (profilePic) => {

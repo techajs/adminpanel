@@ -2,7 +2,7 @@ import { getJoinlist, updateJoinStatus } from "@/app/_lib/action";
 import { API } from "@/utils/constants";
 
 
-export const JoinRequest = async (page, status,search) => {
+export const JoinRequest = async (page, status,search,token) => {
   let apiStartpoint = API.getJoinRequest;
   let apiUrl='';
   let addon=''
@@ -39,12 +39,12 @@ export const JoinRequest = async (page, status,search) => {
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 };
 
-export const GetDetail = async (ext_id)=>{
+export const GetDetail = async (ext_id,token)=>{
   let apiUrl = `${API.getJoinDetail}?ext_id=${ext_id}`;
   
   return new Promise((resolve, reject) => {
@@ -62,12 +62,12 @@ export const GetDetail = async (ext_id)=>{
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 };
 
-export const ChangeStatus = async (role,status,ext_id,reason) =>{
+export const ChangeStatus = async (role,status,ext_id,reason,token) =>{
   return new Promise((resolve, reject) => {
     const params = {
       role,
@@ -87,7 +87,7 @@ export const ChangeStatus = async (role,status,ext_id,reason) =>{
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 };

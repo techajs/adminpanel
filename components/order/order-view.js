@@ -8,6 +8,7 @@ import OrderTableItem from "../tables/orderItem";
 import { GetOrders } from "@/services/order";
 import OrderStatus from "../tables/order-status";
 import PageFilter from "../common/page-filter";
+import { useAuthToken } from "@/utils/constants";
 
 const OrderView = () => {
   const router = useRouter();
@@ -20,6 +21,7 @@ const OrderView = () => {
     pageSize: 10,
     totalPages: 0,
   });
+  const token = useAuthToken();
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(searchParams.get("search") || "");
   const [orderstatus, setOrderStatus] = useState("current");
@@ -32,7 +34,8 @@ const OrderView = () => {
           currentPage,
           currentSearch,
           currentStatus,
-          pageSize
+          pageSize,
+          token
         );
         setOrder(response.data);
         setPagination({

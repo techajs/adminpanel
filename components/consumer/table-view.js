@@ -9,9 +9,11 @@ import { GetConsumers } from "@/services/consumer";
 import TableItem from "../tables/table-items";
 import { FaDownload, FaTrash } from "react-icons/fa";
 import PageFilter from "../common/page-filter";
+import { useAuthToken } from "@/utils/constants";
 
 const ConsumerTable = () => {
   const router = useRouter();
+  const token = useAuthToken();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const [consumer, setConsumer] = useState([]);
@@ -29,7 +31,7 @@ const ConsumerTable = () => {
   const fetchConsumer = useCallback(async (currentPage, currentSearch,pageSize) => {
     setLoading(true);
     try {
-      const response = await GetConsumers(currentPage, currentSearch,pageSize);
+      const response = await GetConsumers(currentPage, currentSearch,pageSize,token);
       setConsumer(response.data);
       setPagination({
         total: response.total,

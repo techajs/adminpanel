@@ -3,7 +3,7 @@ import { API } from "@/utils/constants";
 
 
 
-export const GetEnterprises = (page, search,pageSize) => {
+export const GetEnterprises = (page, search,pageSize,token) => {
   const apiStartpoint =API.getEnterprise;
   const queryParams = new URLSearchParams();
   if (parseInt(page) > 0) queryParams.append('page', page);
@@ -25,13 +25,13 @@ export const GetEnterprises = (page, search,pageSize) => {
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 };
 
 
-export const GetDetail = async (ext_id)=>{
+export const GetDetail = async (ext_id,token)=>{
   let apiUrl = `${API.getEnterprise}/${ext_id}`;
   
   return new Promise((resolve, reject) => {
@@ -49,12 +49,12 @@ export const GetDetail = async (ext_id)=>{
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 };
 
-export const getOrderByInterpriseEXT = async (search,pageSize,extId)=>{
+export const getOrderByInterpriseEXT = async (search,pageSize,extId,token)=>{
   
   const apiStartpoint =`${API.enterpriseOrdersUrl}${extId}`;
   console.log('url',apiStartpoint)
@@ -77,14 +77,14 @@ export const getOrderByInterpriseEXT = async (search,pageSize,extId)=>{
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 }
 
 
 
-export const GetOrderByNumber = async (OrderNumber)=>{
+export const GetOrderByNumber = async (OrderNumber,token)=>{
   const apiStartpoint =`${API.viewEnterpriseOrderDetail}${OrderNumber}`;
   const apiUrl = `${apiStartpoint}`;
   return new Promise((resolve, reject) => {
@@ -102,12 +102,12 @@ export const GetOrderByNumber = async (OrderNumber)=>{
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 }
 
-export const updateEnterprise = async (params)=>{
+export const updateEnterprise = async (params,token)=>{
   const apiUrl =`${API.getEnterprise}`;
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
@@ -123,13 +123,13 @@ export const updateEnterprise = async (params)=>{
       },
       (errorResponse) => {
         reject(errorResponse);
-      }
+      },token
     );
   });
 }
 
 //update vehicle status 
-export const UpdateStatus = (params) => {
+export const UpdateStatus = (params,token) => {
   const apiUrl =`${API.estatus}`;
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
@@ -145,7 +145,7 @@ export const UpdateStatus = (params) => {
       },
       (errorResponse) => {
         reject(errorResponse);
-      }
+      },token
     );
   });
 };

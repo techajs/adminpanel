@@ -7,7 +7,7 @@ import { API, BASE_URL, HTTPMethod } from "@/utils/constants";
 
 
 
-export const getEnterprise = (params, successCallback, errorCallback) => {
+export const getEnterprise = (params, successCallback, errorCallback,token) => {
   axiosCall(
     API.getEnterprise,
     HTTPMethod.GET,
@@ -18,10 +18,11 @@ export const getEnterprise = (params, successCallback, errorCallback) => {
     errorResponse => {
       errorCallback(errorResponse);
     },
+    token,
   );
 };
 
-export const getAdmindashboard = (params, successCallback, errorCallback) => {
+export const getAdmindashboard = (params, successCallback, errorCallback,token) => {
   axiosCall(
     API.getAdmindashboard,
     HTTPMethod.GET,
@@ -32,10 +33,11 @@ export const getAdmindashboard = (params, successCallback, errorCallback) => {
     errorResponse => {
       errorCallback(errorResponse);
     },
+    token,
   );
 };
 
-export const getJoinlist = (url,params, successCallback, errorCallback) => {
+export const getJoinlist = (url,params, successCallback, errorCallback,token) => {
   axiosCall(
     url,
     HTTPMethod.GET,
@@ -46,6 +48,7 @@ export const getJoinlist = (url,params, successCallback, errorCallback) => {
     errorResponse => {
       errorCallback(errorResponse);
     },
+    token,
   );
 };
 
@@ -54,6 +57,7 @@ export const updateJoinStatus = (
   params,
   successCallback,
   errorCallback,
+  token
 ) => {
   axiosCall(
     API.updateJoinStatus,
@@ -65,10 +69,11 @@ export const updateJoinStatus = (
     errorResponse => {
       errorCallback(errorResponse);
     },
+    token,
   );
 };
 
-export const getCommonlist=(url,params, successCallback, errorCallback) => {
+export const getCommonlist=(url,params, successCallback, errorCallback,token) => {
   axiosCall(
     url,
     HTTPMethod.GET,
@@ -79,11 +84,12 @@ export const getCommonlist=(url,params, successCallback, errorCallback) => {
     errorResponse => {
       errorCallback(errorResponse);
     },
+    token,
   );
 };
 
 
-export const getByID=(url,params, successCallback, errorCallback) => {
+export const getByID=(url,params, successCallback, errorCallback,token) => {
   axiosCall(
     url,
     HTTPMethod.GET,
@@ -94,10 +100,11 @@ export const getByID=(url,params, successCallback, errorCallback) => {
     errorResponse => {
       errorCallback(errorResponse);
     },
+    token,
   );
 };
 
-export const UpdateQuery=(url,params, successCallback, errorCallback) => {
+export const UpdateQuery=(url,params, successCallback, errorCallback,token) => {
   axiosCall(
     url,
     HTTPMethod.PUT,
@@ -108,10 +115,11 @@ export const UpdateQuery=(url,params, successCallback, errorCallback) => {
     errorResponse => {
       errorCallback(errorResponse);
     },
+    token,
   );
 };
 
-export const UpdateStatusQuery=(url,params, successCallback, errorCallback) => {
+export const UpdateStatusQuery=(url,params, successCallback, errorCallback,token) => {
   axiosCall(
     url,
     HTTPMethod.PUT,
@@ -122,6 +130,7 @@ export const UpdateStatusQuery=(url,params, successCallback, errorCallback) => {
     errorResponse => {
       errorCallback(errorResponse);
     },
+    token,
   );
 };
 
@@ -142,7 +151,7 @@ export const uploadDocumentsApi = (params, successCallback, errorCallback) => {
     .catch(error => errorCallback(error));
 };
 
-export const assginMultipleDeliveryboy=(url,params, successCallback, errorCallback) => {
+export const assginMultipleDeliveryboy=(url,params, successCallback,token) => {
   axiosCall(
     url,
     HTTPMethod.PUT,
@@ -153,5 +162,6 @@ export const assginMultipleDeliveryboy=(url,params, successCallback, errorCallba
     errorResponse => {
       errorCallback(errorResponse);
     },
+    token,
   );
 };

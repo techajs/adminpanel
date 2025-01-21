@@ -1,5 +1,5 @@
 "use client";
-import { getValidImageUrl, maskEmail, maskPhoneNumber } from "@/utils/constants";
+import { getValidImageUrl, maskEmail, maskPhoneNumber, useAuthToken } from "@/utils/constants";
 import { useState } from "react";
 import TabLayout from "../common/tab-item";
 import UserInfo from "../user-info";
@@ -12,7 +12,7 @@ const DeliveryboyInfo = ({ data }) => {
   const maskedEmail = maskEmail(data?.email || "N/A");
   const maskedPhoneNumber = maskPhoneNumber(data?.phone || "N/A");
   const [selectedTab, setSelectedTab] = useState("ride");
-
+  const token=useAuthToken()
   const tabs = [
     { id: "ride", label: "Ride List" },
     { id: "wallet", label: "Wallet Transactions" },
@@ -78,7 +78,7 @@ const DeliveryboyInfo = ({ data }) => {
       <div className="w-3/4 rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
           <TabLayout tabs={tabs} selectedTab={selectedTab} setSelected={setSelectedTab} />
-          <BaseViewTable extId={data.ext_id} datatype={selectedTab} userType="deliveryboy" />
+          <BaseViewTable extId={data.ext_id} datatype={selectedTab} userType="deliveryboy" token={token}/>
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
 import getDashboardData from "./getdashbaorddata";
 
 
-export const DashboardService = async ()=>{
-    const dashboard = await getDashboardData();
+export const DashboardService = async (token)=>{
+    const dashboard = await getDashboardData(token);
     const data={
         data:dashboard || []
     }

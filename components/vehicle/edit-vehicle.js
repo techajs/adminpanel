@@ -3,12 +3,14 @@ import Waiting from "@/components/common/waiting";
 import useFetchGlobalData from "@/hooks/useFetchData";
 import { updateVehicle } from "@/services";
 import { uploadImage } from "@/services/common";
-import { getValidImageUrl } from "@/utils/constants";
+import { getValidImageUrl, useAuthToken } from "@/utils/constants";
 import { vehicleValicationSchema } from "@/utils/schema";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 const EditVehicle = ({ VehicleId,actionType }) => {
+    const token = useAuthToken();
+  
   const router = useRouter()
   const { vehicle, vehicleType,fetchVehicle} = useFetchGlobalData();
   const [vehicleData, setVehicleData] = useState(null);
@@ -84,7 +86,7 @@ const EditVehicle = ({ VehicleId,actionType }) => {
         if (hasFileChanged("reg_doc")) {
           const regDocFormData = new FormData();
           regDocFormData.append("file", values.reg_doc);
-          const regDocResponse = await uploadImage(regDocFormData)
+          const regDocResponse = await uploadImage(regDocFormData,token)
           console.log("reg_doc",regDocResponse)
           vehicleParams.reg_doc = regDocResponse;
         }
@@ -92,7 +94,7 @@ const EditVehicle = ({ VehicleId,actionType }) => {
         if (hasFileChanged("driving_license")) {
           const drivingLicenseFormData = new FormData();
           drivingLicenseFormData.append("file", values.driving_license);
-          const drivingLicenseResponse = await uploadImage(drivingLicenseFormData)
+          const drivingLicenseResponse = await uploadImage(drivingLicenseFormData,token)
           console.log("response => ",drivingLicenseResponse)
           vehicleParams.driving_license =drivingLicenseResponse;
         }
@@ -100,7 +102,7 @@ const EditVehicle = ({ VehicleId,actionType }) => {
         if (hasFileChanged("insurance")) {
           const insuranceFormData = new FormData();
           insuranceFormData.append("file", values.insurance);
-          const insuranceResponse = await uploadImage(insuranceFormData)
+          const insuranceResponse = await uploadImage(insuranceFormData,token)
           console.log('insurance',insuranceResponse)
           vehicleParams.insurance = insuranceResponse;
         }

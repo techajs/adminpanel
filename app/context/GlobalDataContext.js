@@ -1,6 +1,7 @@
 "use client";
 import { GetVehicles, GetVehicleTypes } from '@/services';
 import { GetCity, GetCountry, GetState, GetWorkType } from '@/services/common';
+import { useAuthToken } from '@/utils/constants';
 import { createContext, useContext, useState } from 'react';
 
 const GlobalDataContext = createContext();
@@ -16,10 +17,10 @@ export const GlobalDataProvider = ({ children }) => {
   const [workType, setWorkType] = useState(null);
   const [vehicleType, setVehicleType] = useState(null);
   const [vehicle, setVehicle] = useState(null);
-
+  const token = useAuthToken()
   const fetchVehicleType = async () => {
     try {
-      const response = await GetVehicleTypes();
+      const response = await GetVehicleTypes(token);
       setVehicleType(response);
     } catch (error) {
       setVehicleType([]);
@@ -27,7 +28,7 @@ export const GlobalDataProvider = ({ children }) => {
   };
   const fetchVehicle = async () => {
     try {
-      const response = await GetVehicles();
+      const response = await GetVehicles(token);
       setVehicle(response);
     } catch (error) {
       setVehicle([]);
@@ -35,7 +36,7 @@ export const GlobalDataProvider = ({ children }) => {
   };
   const fetchDeliveryboy = async () => {
     try {
-      const response = await GetVehicles();
+      const response = await GetVehicles(token);
       setVehicle(response);
     } catch (error) {
       setVehicle([]);
@@ -43,7 +44,7 @@ export const GlobalDataProvider = ({ children }) => {
   };
   const fetchCountry = async () => {
     try {
-      const response = await GetCountry();
+      const response = await GetCountry(token);
       setCountry(response);
     } catch (error) {
       setCountry([]);
@@ -51,7 +52,7 @@ export const GlobalDataProvider = ({ children }) => {
   };
   const fetchState = async () => {
     try {
-      const response = await GetState();
+      const response = await GetState(token);
       setState(response);
     } catch (error) {
       setState([]);
@@ -59,7 +60,7 @@ export const GlobalDataProvider = ({ children }) => {
   };
   const fetchCity = async () => {
     try {
-      const response = await GetCity();
+      const response = await GetCity(token);
       setCity(response);
     } catch (error) {
       setCity([]);
@@ -67,7 +68,7 @@ export const GlobalDataProvider = ({ children }) => {
   };
   const fetchWorkType = async () => {
     try {
-      const response = await GetWorkType();
+      const response = await GetWorkType(token);
      
       setWorkType(response);
     } catch (error) {

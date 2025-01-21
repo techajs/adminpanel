@@ -10,6 +10,7 @@ import Waiting from "@/components/common/waiting";
 import useFetchGlobalData from "@/hooks/useFetchData";
 import { updateVehicleType } from "@/services";
 import { uploadImage } from "@/services/common";
+import { useAuthToken } from "@/utils/constants";
 
  // Ensure path is correct
 
@@ -21,6 +22,7 @@ const EditVehicleType = ({ params, vehicleTypes }) => {
   const [vehicleTypeData,setVehicleTypeData] = useState(null)
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const token =useAuthToken()
   const [previews, setPreviews] = useState({
     pic: null,
   });
@@ -87,7 +89,7 @@ const EditVehicleType = ({ params, vehicleTypes }) => {
       }
       try {
         if (Object.keys(vehicleTypeParams).length > 0) {
-            const response = await updateVehicleType(vehicleTypeParams,vehicleTypeId);
+            const response = await updateVehicleType(vehicleTypeParams,vehicleTypeId,token);
             console.log(vehicleTypeParams)
             setSuccessMessage(response)
         }

@@ -5,7 +5,7 @@ import LayoutPage from "@/components/Layouts/layout";
 import MapComponent from "@/components/MapComponent";
 import { FaEuroSign, FaPrint } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
-import { formatDate, getAddressLine } from "@/utils/constants";
+import { formatDate, getAddressLine, useAuthToken } from "@/utils/constants";
 import { GetOrderByNumber } from "@/services/order";
 import Link from "next/link";
 import BasicDetail from "@/components/order/views/orderdetail/basic-detail";
@@ -16,10 +16,10 @@ const ViewOrder = ({ params }) => {
   const orderNumber = params?.id || "";
   const [order, setOrder] = useState(null);
   const [error, setError] = useState(null);
-
+  const token=useAuthToken()
   const getOrder = useCallback(async () => {
     try {
-      const orderData = await GetOrderByNumber(orderNumber);
+      const orderData = await GetOrderByNumber(orderNumber,token);
       setOrder(orderData?.order || null);
     } catch (err) {
       console.error("Failed to fetch order data:", err);

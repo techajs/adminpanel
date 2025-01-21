@@ -1,7 +1,7 @@
 import { getAdmindashboard } from "@/app/_lib/action";
 
 
-const getDashboardData =()=>{
+const getDashboardData =(token)=>{
     return new Promise((resolve, reject) => {
         const params = {};
         getAdmindashboard(
@@ -16,7 +16,8 @@ const getDashboardData =()=>{
           },
           (errorResponse) => {
             reject([]);
-          }
+          },
+          token
         );
       });
 }

@@ -52,7 +52,6 @@ const authOptions = {
   callbacks: {
     async jwt({ token, user }) {
       const currentTime = Math.floor(Date.now() / 1000);
-
       if (user) {
         // On initial login, store user info and set token expiry time
         token.username = user.username;
@@ -80,7 +79,7 @@ const authOptions = {
       session.token = token.token;
       session.role = token.role;
       session.expiresAt = token.expiresAt;
-
+      
       // If token is expired, trigger signOut
       if (token.expired) {
         signOut({ callbackUrl: "/login" });

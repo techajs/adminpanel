@@ -2,7 +2,7 @@ import { assginMultipleDeliveryboy, getByID, getCommonlist, UpdateStatusQuery } 
 import { API } from "@/utils/constants";
 
 
-export const GetDeliveryboys = (page, search,pageSize) => {
+export const GetDeliveryboys = (page, search,pageSize,token) => {
   const apiStartpoint =API.getDeliveryboy;
   const queryParams = new URLSearchParams();
   if (parseInt(page) > 0) queryParams.append('page', page);
@@ -24,12 +24,12 @@ export const GetDeliveryboys = (page, search,pageSize) => {
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 };
 
-export const getAvailableDeliveryboy = () =>{
+export const getAvailableDeliveryboy = (token) =>{
   const apiStartpoint =API.getDeliveryboy;
   const apiUrl = `${apiStartpoint}/availability`;
   return new Promise((resolve, reject) => {
@@ -47,12 +47,12 @@ export const getAvailableDeliveryboy = () =>{
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 }
 
-export const GetDeliveryboyById = async (ext_id)=>{
+export const GetDeliveryboyById = async (ext_id,token)=>{
   let apiUrl = `${API.getDeliveryboy}/${ext_id}`;
   
   return new Promise((resolve, reject) => {
@@ -70,13 +70,14 @@ export const GetDeliveryboyById = async (ext_id)=>{
       },
       (errorResponse) => {
         reject([]);
-      }
+      },
+      token
     );
   });
 };
 
 
-export const getOrderByDeliveryboyEXT = async (search,pageSize,ext_id) =>{
+export const getOrderByDeliveryboyEXT = async (search,pageSize,ext_id,token) =>{
   const apiStartpoint =`${API.viewDeliveryBoyOrderUrl}${ext_id}`;
   const queryParams = new URLSearchParams();
   if (parseInt(pageSize) > 0) queryParams.append('size', pageSize);
@@ -97,13 +98,13 @@ export const getOrderByDeliveryboyEXT = async (search,pageSize,ext_id) =>{
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 }
 
 
-export const updateDeliveryboy = async (params)=>{
+export const updateDeliveryboy = async (params,token)=>{
   const apiUrl =`${API.getDeliveryboy}`;
   console.log("url => ",apiUrl)
   return new Promise((resolve, reject) => {
@@ -120,12 +121,13 @@ export const updateDeliveryboy = async (params)=>{
       },
       (errorResponse) => {
         reject(errorResponse);
-      }
+      },
+      token
     );
   });
 }
 
-export const allocatedDeliveryboy = (params) => {
+export const allocatedDeliveryboy = (params,token) => {
   const apiUrl =`${API.estatus}`;
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
@@ -141,12 +143,12 @@ export const allocatedDeliveryboy = (params) => {
       },
       (errorResponse) => {
         reject(errorResponse);
-      }
+      },token
     );
   });
 };
 
-export const assignDeliveryboyshift = (params) => {
+export const assignDeliveryboyshift = (params,token) => {
   const apiUrl =`${API.assignDeliveryboy}`;
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
@@ -162,12 +164,12 @@ export const assignDeliveryboyshift = (params) => {
       },
       (errorResponse) => {
         reject(errorResponse);
-      }
+      },token
     );
   });
 };
 
-export const assignMultipleDeliveryboyshift = (params) => {
+export const assignMultipleDeliveryboyshift = (params,token) => {
   const apiUrl =`${API.assignMultipleDeliveryboy}`;
   return new Promise((resolve, reject) => {
     assginMultipleDeliveryboy(
@@ -183,7 +185,7 @@ export const assignMultipleDeliveryboyshift = (params) => {
       },
       (errorResponse) => {
         reject(errorResponse);
-      }
+      },token
     );
   });
 };

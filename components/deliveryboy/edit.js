@@ -10,6 +10,7 @@ import { GetDeliveryboyById, updateDeliveryboy } from "@/services/deliveryboy";
 import { delvieryboySchema } from "@/utils/schema";
 import Waiting from "../common/waiting";
 import { useRouter } from "next/navigation";
+import { useAuthToken } from "@/utils/constants";
 const EditDeliveryboyPage = ({ deliveryboyId }) => {
 
   const { country, fetchCountry, city, state, fetchCity, fetchState } =useFetchGlobalData();
@@ -21,9 +22,10 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const token=useAuthToken()
   const fetchDeliveryboyView = async (deliveryboyId) => {
     try {
-      const response = await GetDeliveryboyById(deliveryboyId);
+      const response = await GetDeliveryboyById(deliveryboyId,token);
       setDeliveryboy(response);
     } catch (error) {
       setDeliveryboy([]);
@@ -105,7 +107,7 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
         siret_no: values.siret,
       };
       try {
-        const response = await updateDeliveryboy(payload);
+        const response = await updateDeliveryboy(payload,token);
         setSuccessMessage(response);
       } catch (err) {
         setError("An error occurred while updating deliveryboy.");

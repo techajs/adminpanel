@@ -7,6 +7,7 @@ import {
   getValidImageUrl,
   maskEmail,
   maskPhoneNumber,
+  useAuthToken,
 } from "@/utils/constants";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,6 +17,7 @@ const EnterpriseInfo = ({ data }) => {
   const maskedEmail = maskEmail(data?.email || "N/A");
   const maskedPhoneNumber = maskPhoneNumber(data?.phone || "N/A");
   const [selectedTab, setSelectedTab] = useState("ride"); // Default selected tab
+  const token = useAuthToken()
   const tabs = [
     { id: "ride", label: "Order List" },
   ];
@@ -95,6 +97,7 @@ const EnterpriseInfo = ({ data }) => {
             extId={data?.ext_id}
             datatype={selectedTab}
             userType="enterprise"
+            token={token}
           />
         </div>
       </div>

@@ -2,7 +2,7 @@
 import { getCommonlist, uploadDocumentsApi } from "@/app/_lib/action";
 import { API } from "@/utils/constants";
 
-export const GetCountry = () => {
+export const GetCountry = (token) => {
   const apiStartpoint = API.countryList;
 
   const apiUrl = `${apiStartpoint}`;
@@ -21,12 +21,12 @@ export const GetCountry = () => {
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 };
 
-export const GetState = () => {
+export const GetState = (token) => {
   const apiStartpoint = API.stateList;
 
   const apiUrl = `${apiStartpoint}`;
@@ -45,11 +45,11 @@ export const GetState = () => {
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 };
-export const GetCity = () => {
+export const GetCity = (token) => {
   const apiStartpoint = API.cityList;
 
   const apiUrl = `${apiStartpoint}`;
@@ -68,11 +68,11 @@ export const GetCity = () => {
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 };
-export const GetWorkType = () => {
+export const GetWorkType = (token) => {
   const apiStartpoint = API.workTypeList;
 
   const apiUrl = `${apiStartpoint}`;
@@ -91,12 +91,13 @@ export const GetWorkType = () => {
       },
       (errorResponse) => {
         reject([]);
-      }
+      },
+      token
     );
   });
 };
 
-export const GetIndusty = () => {
+export const GetIndusty = (token) => {
   const apiStartpoint = API.industry;
 
   const apiUrl = `${apiStartpoint}`;
@@ -115,13 +116,13 @@ export const GetIndusty = () => {
       },
       (errorResponse) => {
         reject([]);
-      }
+      },token
     );
   });
 };
 
 
-export const uploadImage = async (formData) => {
+export const uploadImage = async (formData,token) => {
   return new Promise((resolve, reject) => {
     uploadDocumentsApi(
       formData,
@@ -132,7 +133,8 @@ export const uploadImage = async (formData) => {
       errorResponse => {
         console.log('print_data ==> errorResponseuploadDocumentsApi', errorResponse);
         reject(errorResponse);
-      }
+      },
+      token
     );
   });
 };
