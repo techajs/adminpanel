@@ -3,7 +3,7 @@ import { useState } from "react";
 import JoinRequestRejectionModal from "../modal/reject-modal";
 import ActionButtion from "./action-view";
 import { ChangeStatus } from "@/services/joinrequest/join";
-import { getRole, getValidImageUrl } from "@/utils/constants";
+import { getRole, getValidImageUrl, useAuthToken } from "@/utils/constants";
 import Image from "next/image";
 import UserInfo from "@/components/user-info";
 import { FaEye } from "react-icons/fa";
@@ -16,14 +16,15 @@ export default function DeliveryboyView({ data }) {
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
-
+  const token=useAuthToken()
   const submitHandler = async (reason) => {
     try {
       const response = await ChangeStatus(
         data.role,
         "REJECTED",
         data.deliveryboyId,
-        reason
+        reason,
+        token
       );
       setSuccessmessage("Rejection submitted successfully");
       setError(null); // Clear any existing errors

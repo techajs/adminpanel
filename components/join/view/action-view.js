@@ -1,4 +1,5 @@
 import { ChangeStatus } from "@/services/joinrequest/join";
+import { useAuthToken } from "@/utils/constants";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -12,11 +13,11 @@ export default function ActionButtion({
 }) {
   const [error, setError] = useState(null);
   const [successmessage, setSuccessmessage] = useState(null);
-
+  const token =useAuthToken()
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await ChangeStatus(role, status, ext_id, reason);
+      const response = await ChangeStatus(role, status, ext_id, reason,token);
       setSuccessmessage(response);
     } catch (error) {
       setError(error.message);
