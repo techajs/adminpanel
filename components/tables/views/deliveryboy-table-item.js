@@ -1,6 +1,10 @@
-import { formatDate, getValidImageUrl } from "@/utils/constants";
+import Switcher from "@/components/common/switcher";
+import Waiting from "@/components/common/waiting";
+import { activeAndInactiveDeliveyboy } from "@/services/deliveryboy";
+import { formatDate, getValidImageUrl, useAuthToken } from "@/utils/constants";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { FaEye, FaFile, FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
 const DeliveryboyTableItem = ({
@@ -10,6 +14,32 @@ const DeliveryboyTableItem = ({
   selected,
   handleCheckboxChange,
 }) => {
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+    const [matchId, setMatchId] = useState(null);
+    const token=useAuthToken()
+     const statusChange = async (value, Id) => {
+
+        setLoading(true);
+        setMatchId(Id);
+        const payload = {
+          is_available: value ? 1 : 0,
+        };
+        try {
+          const response = await activeAndInactiveDeliveyboy(payload, Id,token);
+          setSuccessMsg(response)
+        } catch (err) {
+          if (err[0]?._errors) {
+            console.log(err[0]._errors.message);
+          } else {
+            console.log(err);
+          }
+          // console.log(err)
+        } finally {
+          setLoading(false);
+        }
+       
+      };
   return (
     <>
       {data.length > 0 ? (
@@ -109,6 +139,17 @@ const DeliveryboyTableItem = ({
                   </>
                 )}
               </p>
+            </td>
+            <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+            {matchId === item.id && loading ? (
+                <Waiting />
+              ) : (
+                <Switcher
+                  enabledValue={item.is_availability == 0 ? false : true}
+                  valueId={item?.ext_id}
+                  onChange={statusChange}
+                />
+              )}
             </td>
             <td className="border-b text-left border-[#eee] px-4 py-5 dark:border-strokedark">
               <div className="flex items-center space-x-3.5">

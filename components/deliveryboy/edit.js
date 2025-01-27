@@ -31,6 +31,7 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
       setDeliveryboy([]);
     }
   };
+
   useEffect(() => {
     if (country) {
       const countries = country.map((country) => ({
@@ -45,9 +46,7 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
     if (deliveryboyId) {
       fetchDeliveryboyView(deliveryboyId);
     }
-  }, [deliveryboyId, fetchCountry]);
 
-  useEffect(() => {
     if (state) {
       const states = state.map((state) => ({
         label: state.state_name,
@@ -57,8 +56,6 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
     } else {
       fetchState();
     }
-  }, [fetchState]);
-  useEffect(() => {
     if (city) {
       const cities = city.map((city) => ({
         label: city.city_name,
@@ -69,7 +66,8 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
     } else {
       fetchCity();
     }
-  }, [fetchCity]);
+  }, [deliveryboyId]);
+
 
   const formik = useFormik({
     initialValues: {

@@ -106,7 +106,6 @@ export const getOrderByDeliveryboyEXT = async (search,pageSize,ext_id,token) =>{
 
 export const updateDeliveryboy = async (params,token)=>{
   const apiUrl =`${API.getDeliveryboy}`;
-  console.log("url => ",apiUrl)
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
       apiUrl,
@@ -189,3 +188,25 @@ export const assignMultipleDeliveryboyshift = (params,token) => {
     );
   });
 };
+
+export const activeAndInactiveDeliveyboy = async (params,id,token)=>{
+  const apiUrl =`${API.deliveryboyUpdateavailability}/${id}`;
+  return new Promise((resolve, reject) => {
+    UpdateStatusQuery(
+      apiUrl,
+      params,
+      (successResponse) => {
+        if (successResponse[0]._success) {
+          const data = successResponse[0]._response;
+          resolve(data);
+        } else {
+          reject([]);
+        }
+      },
+      (errorResponse) => {
+        reject(errorResponse);
+      },
+      token
+    );
+  });
+}

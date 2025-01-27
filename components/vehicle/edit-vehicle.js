@@ -46,7 +46,7 @@ const EditVehicle = ({ VehicleId,actionType }) => {
       }
       setLoading(false);
     }
-  }, [VehicleId,fetchVehicle]);
+  }, [VehicleId]);
 
   const formik = useFormik({
     initialValues: {
