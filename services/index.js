@@ -69,7 +69,7 @@ export const updateVehicle = (params,token) => {
   });
 };
 
-export const updateVehicleType = (params,token) => {
+export const updateVehicleType = (params,vehicleTypeId,token) => {
   const apiUrl =`${API.vehicletypesUrl}/${vehicleTypeId}`;
   return new Promise((resolve, reject) => {
     UpdateQuery(

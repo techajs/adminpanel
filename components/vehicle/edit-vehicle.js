@@ -116,7 +116,7 @@ const EditVehicle = ({ VehicleId,actionType }) => {
           vehicleParams.passport =passportResponse;
         }
         if (Object.keys(vehicleParams).length > 0) {
-          const response = await updateVehicle(vehicleParams);
+          const response = await updateVehicle(vehicleParams,token);
           setSuccessMessage(response)
         }
       } catch (error) {
