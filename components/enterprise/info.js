@@ -22,9 +22,9 @@ const EnterpriseInfo = ({ data }) => {
     { id: "ride", label: "Order List" },
   ];
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col sm:flex-row gap-6">
       {/* Left Column - Profile Info */}
-      <div className="w-1/4 rounded-lg">
+      <div className="w-[390px] sm:w-1/4 rounded-lg">
         <div
           className=" bg-boxdark dark:border-strokedark dark:bg-boxdark p-6 rounded-lg"
           style={{ height: "375px" }}
@@ -84,7 +84,7 @@ const EnterpriseInfo = ({ data }) => {
       </div>
       {/* left side content */}
       <div
-        className="w-3/4 rounded-sm border border-stroke bg-white  px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1"
+        className="w-[390px] sm:w-3/4 rounded-sm border border-stroke bg-white  px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1"
         style={{ height: "auto" }}
       >
         <div className="max-w-full overflow-x-auto">

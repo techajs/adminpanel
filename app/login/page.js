@@ -31,7 +31,7 @@ export default function Login() {
     if (status === "authenticated") {
       const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
       setIsLogin(true); // Show loading during redirect
-      router.replace(callbackUrl);
+      router.push(callbackUrl);
     }
   }, [status, router]);
 
@@ -56,7 +56,7 @@ export default function Login() {
         const callUrl = searchParams.get("callbackUrl");
         const callbackUrl = callUrl || "/dashboard";
         setLoading(false);
-        router.replace(callbackUrl);
+        router.push(callbackUrl);
       } else {
         setLoading(false);
         const errorMessage =

@@ -154,7 +154,7 @@ const EnterpriseOrderView = () => {
         selectedTab={selectedTab}
         setSelected={setSelectedTab}
       />
-      <div className="max-w-full overflow-x-auto">
+      <div className="w-[395px] overflow-x-auto sm:w-full">
         <div className="flex justify-between items-center mb-4">
           <PageFilter
             selectedOption={pageSize}

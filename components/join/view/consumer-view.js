@@ -33,8 +33,8 @@ export default function ConsumerView({ data }) {
   };
   return (
     <>
-      <div className="flex gap-6">
-        <div className="w-1/4 rounded-lg">
+      <div className="flex flex-col sm:flex-row gap-6">
+        <div className="w-[390px] sm:w-1/4 rounded-lg">
           <div
             className="bg-boxdark dark:border-strokedark dark:bg-boxdark p-6 rounded-lg"
             style={{ height: "420px" }}
@@ -93,7 +93,7 @@ export default function ConsumerView({ data }) {
             />
           </div>
         </div>
-        <div className="w-3/4    sm:px-7.5 ">
+        <div className="w-[390px] sm:w-3/4    sm:px-7.5 ">
           <UserInfo data={data} userType="consumer" />
           {error && <p className="text-red-500">{error}</p>}
           {successmessage && <p className="text-green-500">{successmessage}</p>}

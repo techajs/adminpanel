@@ -95,9 +95,10 @@ const JoinRequestTable = () => {
     }, 300),
     [searchParams, pathname]
   );
+  
   return (
     <div className="rounded-sm border border-stroke bg-white  px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <div className="max-w-full overflow-x-auto">
+      <div className="w-[355px] overflow-x-auto sm:w-full">
         <div className="flex items-center justify-between mb-5">
           <div className="relative">
             <button className="absolute left-3 top-1/2 -translate-y-1/2 dark:bg-meta-4 ">
@@ -203,7 +204,7 @@ const JoinRequestTable = () => {
                   <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
                       <Link
-                        href={`joinrequest/${item.ext_id}`}
+                        href={item.status === "Active"? `/${item?.role?.toLowerCase().replace(/_/g, "")}/${item.ext_id}`:`joinrequest/${item.ext_id}`}
                         className="hover:text-primary"
                       >
                         <svg

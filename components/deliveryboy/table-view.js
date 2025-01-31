@@ -27,38 +27,46 @@ const DeliveryboyTable = () => {
 
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-  const token=useAuthToken()
-  const fetchDeliveryboy = useCallback(async (currentPage, currentSearch,pageSize) => {
-    setLoading(true);
-    try {
-      const response = await GetDeliveryboys(currentPage, currentSearch,pageSize,token);
-      setDeliveryboy(response.data);
-      setPagination({
-        total: response.total,
-        page: response.page,
-        pageSize: response.pageSize,
-        totalPages: response.totalPages,
-      });
-    } catch (error) {
-      setDeliveryboy([]);
-      setPagination({
-        total: 0,
-        page: 1,
-        pageSize: 10,
-        totalPages: 0,
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const token = useAuthToken();
+  const fetchDeliveryboy = useCallback(
+    async (currentPage, currentSearch, pageSize) => {
+      setLoading(true);
+      try {
+        const response = await GetDeliveryboys(
+          currentPage,
+          currentSearch,
+          pageSize,
+          token
+        );
+        setDeliveryboy(response.data);
+        setPagination({
+          total: response.total,
+          page: response.page,
+          pageSize: response.pageSize,
+          totalPages: response.totalPages,
+        });
+      } catch (error) {
+        setDeliveryboy([]);
+        setPagination({
+          total: 0,
+          page: 1,
+          pageSize: 10,
+          totalPages: 0,
+        });
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
   // Handle status and page changes using searchParams
   useEffect(() => {
     const page = searchParams.get("page") || 1;
     const currentSearch = searchParams.get("search") || "";
     setSearch(currentSearch);
-    fetchDeliveryboy(page, currentSearch,pageSize);
-  }, [searchParams, fetchDeliveryboy,pageSize]);
+    fetchDeliveryboy(page, currentSearch, pageSize);
+  }, [searchParams, fetchDeliveryboy, pageSize]);
 
   // Handle page change
   const handlePageChange = (newPage) => {
@@ -125,7 +133,6 @@ const DeliveryboyTable = () => {
     const remainingUsers = deliveryboy.filter(
       (_, index) => !selected.includes(index)
     );
-   
   };
 
   const handlePageSize = (e) => {
@@ -133,23 +140,18 @@ const DeliveryboyTable = () => {
     setPageSize(newPageSize);
     if (newPageSize) {
       const params = new URLSearchParams(searchParams);
-      params.delete('search')
-      params.delete('page')
+      params.delete("search");
+      params.delete("page");
       router.replace(`${pathname}?${params}`);
     }
   };
   return (
     <div className="rounded-sm border border-stroke bg-white  px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <div className="max-w-full overflow-x-auto">
+      <div className="w-[355px] overflow-x-auto sm:w-full">
         <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center w-1/2 justify-start space-x-5">
+          <div className="flex items-center w-full sm:w-1/2 justify-start space-x-5">
             {selected.length > 0 && (
               <div className="flex justify-between items-center mt-4 mb-4">
-                {/* <div>
-                  <p className="text-black font-medium dark:text-white">
-                    Selected Users: {selected.length}
-                  </p>
-                </div> */}
                 <div className="space-x-3">
                   <button
                     onClick={handleDownload}
@@ -166,8 +168,10 @@ const DeliveryboyTable = () => {
                 </div>
               </div>
             )}
-            {/* <Add title="Create" url="/users/create/consumer" /> */}
-            <PageFilter selectedOption={pageSize} onPageChanges={handlePageSize} />
+            <PageFilter
+              selectedOption={pageSize}
+              onPageChanges={handlePageSize}
+            />
           </div>
           <div className="relative">
             <button className="absolute left-3 top-1/2 -translate-y-1/2 dark:bg-meta-4 ">
@@ -194,7 +198,7 @@ const DeliveryboyTable = () => {
               </svg>
             </button>
             <input
-              className="min-w-[380px] rounded border border-stroke dark:bg-meta-4  bg-gray-200 text-sm py-1 pl-11.5 pr-4.5 text-black focus:border-secondary focus-visible:outline-none dark:text-white dark:focus:border-primary"
+              className="min-w-[380px] sm:min-w-[250px] rounded border border-stroke dark:bg-meta-4 bg-gray-200 text-sm py-1 pl-11.5 pr-4.5 text-black focus:border-secondary focus-visible:outline-none dark:text-white dark:focus:border-primary"
               type="text"
               name="seacrh"
               placeholder="Search..."
@@ -213,7 +217,7 @@ const DeliveryboyTable = () => {
           handleCheckboxChange={handleCheckboxChange}
         />
         <div className="flex items-center justify-end mb-5 mt-5">
-          <div className="flex items-center w-1/2 justify-end space-x-5 gap-3">
+          <div className="flex items-center w-full sm:w-1/2 justify-end space-x-5 gap-3">
             {pagination.totalPages > 1 && (
               <Pagination
                 currentPage={pagination.page}

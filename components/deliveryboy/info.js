@@ -20,9 +20,9 @@ const DeliveryboyInfo = ({ data }) => {
   ];
 
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col sm:flex-row gap-6">
       {/* Left Column - Profile Info */}
-      <div className="w-1/4 rounded-lg">
+      <div className="w-[390px] sm:w-1/4 rounded-lg">
         <div className="bg-boxdark dark:border-strokedark dark:bg-boxdark p-6 rounded-lg" style={{ height: "375px" }}>
           {/* Profile Picture */}
           <div className="flex flex-col items-center">
@@ -75,7 +75,7 @@ const DeliveryboyInfo = ({ data }) => {
       </div>
 
       {/* Right Column - Tab Content */}
-      <div className="w-3/4 rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+      <div className="w-[390px] sm:w-3/4 rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
           <TabLayout tabs={tabs} selectedTab={selectedTab} setSelected={setSelectedTab} />
           <BaseViewTable extId={data.ext_id} datatype={selectedTab} userType="deliveryboy" token={token}/>
