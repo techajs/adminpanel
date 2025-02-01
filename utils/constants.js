@@ -333,6 +333,7 @@ export const headers = {
     "Company",
     "Status",
     "Created On",
+    "Pay later",
     "Action",
   ],
   vehicle: [

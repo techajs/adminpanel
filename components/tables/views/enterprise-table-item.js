@@ -1,6 +1,10 @@
+import Switcher from "@/components/common/switcher";
+import Waiting from "@/components/common/waiting";
+import { updateEnterprise } from "@/services/enterprise";
 import { formatDate, getValidImageUrl } from "@/utils/constants";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { FaEye, FaFile, FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
 const EnterpriseTableItem = ({
@@ -10,6 +14,30 @@ const EnterpriseTableItem = ({
   selected,
   handleCheckboxChange,
 }) => {
+  const [matchId, setMatchId] = useState(null);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [loading,setLoading]=useState(false)
+  const statusChange = async (value, Id) => {
+    setLoading(true);
+    setMatchId(Id);
+    const payload = {
+      ext_id: Id,
+      isPaylater: value ? 1 : 0,
+    };
+    try {
+      const response = await updateEnterprise(payload);
+      setSuccessMsg(response?.message || "updated")
+    } catch (err) {
+      if (err[0]?._errors) {
+        console.log(err[0]._errors.message);
+      } else {
+        console.log(err);
+      }
+      // console.log(err)
+    } finally {
+      setLoading(false);
+    } 
+  };
   return (
     <>
       {data.length > 0 ? (
@@ -105,6 +133,17 @@ const EnterpriseTableItem = ({
               <p className="text-black text-sm dark:text-white">
                 {formatDate(item.created_on)}
               </p>
+            </td>
+            <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+            {matchId === item.id && loading ? (
+                <Waiting />
+              ) : (
+                <Switcher
+                  enabledValue={item.is_pay_later == 0 ? false : true}
+                  valueId={item?.ext_id}
+                  onChange={statusChange}
+                />
+              )}
             </td>
 
             <td className="border-b text-left border-[#eee] px-4 py-5 dark:border-strokedark">
