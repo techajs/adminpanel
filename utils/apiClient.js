@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL, HTTPMethod } from './constants';
+import { signOut,getSession } from 'next-auth/react';
 
 export const axiosCall = async (
   url,
@@ -7,7 +8,6 @@ export const axiosCall = async (
   params = {},
   callbackResponse,
   callbackErrorResponse,
-  token // Accept the token as a parameter
 ) => {
   const axiosInstance = axios.create({
     baseURL: BASE_URL,
@@ -18,9 +18,10 @@ export const axiosCall = async (
   });
 
   axiosInstance.interceptors.request.use(
-    function (config) {
-      if (token) {
-        config.headers.Authorization =token
+    async function (config) {
+      const session = await getSession();
+      if (session) {
+        config.headers.Authorization =session.token
       }
       return config;
     },
@@ -32,10 +33,11 @@ export const axiosCall = async (
   );
 
   axiosInstance.interceptors.response.use(
-    function (response) {
+    async function (response) {
       if (response.status === 200 || response.status === 201) {
         return callbackResponse(response.data);
       } else if (response.status === 401) {
+        await signOut({ redirect: true, callbackUrl: "/login" })
         return callbackErrorResponse(response.data);
       } else {
         return callbackErrorResponse(response.data);

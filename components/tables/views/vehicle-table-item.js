@@ -2,7 +2,6 @@
 import Switcher from "@/components/common/switcher";
 import Waiting from "@/components/common/waiting";
 import { UdateVehicleStatus } from "@/services";
-import { useAuthToken } from "@/utils/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,7 +14,6 @@ const VehicleTableItem = ({ data, url, refreshData }) => {
   const [matchId, setMatchId] = useState(null);
   const [successMsg, setSuccessMsg] = useState("");
   const [localData, setLocalData] = useState(data); 
-   const token=useAuthToken()
 
   const statusChange = async (value, Id) => {
     setLoading(true);
@@ -24,7 +22,7 @@ const VehicleTableItem = ({ data, url, refreshData }) => {
       status: value ? 0 : 1,
     };
     try {
-      const response = await UdateVehicleStatus(payload, Id,token);
+      const response = await UdateVehicleStatus(payload, Id);
       setSuccessMsg(response)
       refreshData();
       setLocalData((prev) =>

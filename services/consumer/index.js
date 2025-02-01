@@ -2,7 +2,7 @@ import { getByID, getCommonlist, UpdateStatusQuery } from "@/app/_lib/action";
 import { API } from "@/utils/constants";
 
 
-export const GetConsumers = (page, search,pageSize,token) => {
+export const GetConsumers = (page, search,pageSize) => {
   const apiStartpoint =API.getConsumer;
   const queryParams = new URLSearchParams();
   if (parseInt(page) > 0) queryParams.append('page', page);
@@ -25,13 +25,12 @@ export const GetConsumers = (page, search,pageSize,token) => {
       },
       (errorResponse) => {
         reject([]);
-      },
-      token
+      }
     );
   });
 };
 
-export const GetConsumerById = async (ext_id,token) => {
+export const GetConsumerById = async (ext_id) => {
   let apiUrl = `${API.getConsumer}/${ext_id}`;
   return new Promise((resolve, reject) => {
     const params = {};
@@ -48,13 +47,13 @@ export const GetConsumerById = async (ext_id,token) => {
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 };
 
 
-export const GetOrderById = async (search,pageSize,ext_id,token) => {
+export const GetOrderById = async (search,pageSize,ext_id) => {
   const apiStartpoint =`${API.viewConsumerOrderUrl}${ext_id}`;
   const queryParams = new URLSearchParams();
   if (parseInt(pageSize) > 0) queryParams.append('size', pageSize);
@@ -75,14 +74,13 @@ export const GetOrderById = async (search,pageSize,ext_id,token) => {
       },
       (errorResponse) => {
         reject([]);
-      },
-      token
+      }
     );
   });
 };
 
 
-export const updateConsumer = async (params,token)=>{
+export const updateConsumer = async (params)=>{
   const apiUrl =`${API.getConsumer}`;
   console.log("url => ",apiUrl)
   return new Promise((resolve, reject) => {
@@ -99,8 +97,7 @@ export const updateConsumer = async (params,token)=>{
       },
       (errorResponse) => {
         reject(errorResponse);
-      },
-      token
+      }
     );
   });
 }

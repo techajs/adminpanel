@@ -9,7 +9,6 @@ import PhoneInput from "react-phone-input-2";
 import Select from "react-select";
 import "react-phone-input-2/lib/style.css";
 import Waiting from "@/components/common/waiting";
-import { useAuthToken } from "@/utils/constants";
 
 const EditEnterprisePage = ({ enterpriseId }) => {
   const {
@@ -29,10 +28,9 @@ const EditEnterprisePage = ({ enterpriseId }) => {
   const [countryData, setCountryData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
-  const token=useAuthToken()
   const fetchEnterpriseData = async (id) => {
     try {
-      const response = await GetDetail(id,token);
+      const response = await GetDetail(id);
       setDeliveryboy(response[0] || {});
     } catch (error) {
       setDeliveryboy({});
@@ -112,7 +110,7 @@ const EditEnterprisePage = ({ enterpriseId }) => {
       };
 
       try {
-        const response = await updateEnterprise(payload,token);
+        const response = await updateEnterprise(payload);
         setStatusMessage({ text: response, type: "success" });
       } catch (error) {
         setStatusMessage({ text: "Error updating deliveryboy.", type: "error" });

@@ -2,7 +2,7 @@ import { getByID, getCommonlist } from "@/app/_lib/action";
 import { API } from "@/utils/constants";
 
 
-export const GetOrders = (page, search, ordertype, pageSize,token) => {
+export const GetOrders = (page, search, ordertype, pageSize) => {
   const apiStartpoint = API.getAllorderList;
   const queryParams = new URLSearchParams();
   if (parseInt(page) > 0) queryParams.append('page', page);
@@ -20,13 +20,12 @@ export const GetOrders = (page, search, ordertype, pageSize,token) => {
       (successResponse) => {if (successResponse[0]._success) { resolve(successResponse[0]._response);
         } else { reject([]);}
       },
-      (errorResponse) => {reject([]);},
-      token
+      (errorResponse) => {reject([]);}
     );
   });
 };
 
-export const GetOrderDetail = async (OrderNumer,token)=>{
+export const GetOrderDetail = async (OrderNumer)=>{
   let apiUrl = `${API.getOrderById}/${OrderNumer}`;
   
   return new Promise((resolve, reject) => {
@@ -44,13 +43,12 @@ export const GetOrderDetail = async (OrderNumer,token)=>{
       },
       (errorResponse) => {
         reject([]);
-      },
-      token
+      }
     );
   });
 };
 
-export const GetOrderByNumber = async (orderNumber,token) => {
+export const GetOrderByNumber = async (orderNumber) => {
   let apiUrl = `${API.viewOrderDetail}${orderNumber}`;
   return new Promise((resolve, reject) => {
     const params = {};
@@ -67,12 +65,12 @@ export const GetOrderByNumber = async (orderNumber,token) => {
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 };
 
-export const getEnterpriseOrder = (page, search, ordertype, pageSize,status,token) => {
+export const getEnterpriseOrder = (page, search, ordertype, pageSize,status) => {
   const apiStartpoint = API.enterpriseAllOrder;
   const queryParams = new URLSearchParams();
   
@@ -98,7 +96,7 @@ export const getEnterpriseOrder = (page, search, ordertype, pageSize,status,toke
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 }

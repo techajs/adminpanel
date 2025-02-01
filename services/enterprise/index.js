@@ -3,7 +3,7 @@ import { API } from "@/utils/constants";
 
 
 
-export const GetEnterprises = (page, search,pageSize,token) => {
+export const GetEnterprises = (page, search,pageSize) => {
   const apiStartpoint =API.getEnterprise;
   const queryParams = new URLSearchParams();
   if (parseInt(page) > 0) queryParams.append('page', page);
@@ -25,13 +25,13 @@ export const GetEnterprises = (page, search,pageSize,token) => {
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 };
 
 
-export const GetDetail = async (ext_id,token)=>{
+export const GetDetail = async (ext_id)=>{
   let apiUrl = `${API.getEnterprise}/${ext_id}`;
   
   return new Promise((resolve, reject) => {
@@ -49,12 +49,12 @@ export const GetDetail = async (ext_id,token)=>{
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 };
 
-export const getOrderByInterpriseEXT = async (search,pageSize,extId,token)=>{
+export const getOrderByInterpriseEXT = async (search,pageSize,extId)=>{
   
   const apiStartpoint =`${API.enterpriseOrdersUrl}${extId}`;
   console.log('url',apiStartpoint)
@@ -77,14 +77,14 @@ export const getOrderByInterpriseEXT = async (search,pageSize,extId,token)=>{
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 }
 
 
 
-export const GetOrderByNumber = async (OrderNumber,token)=>{
+export const GetOrderByNumber = async (OrderNumber)=>{
   const apiStartpoint =`${API.viewEnterpriseOrderDetail}${OrderNumber}`;
   const apiUrl = `${apiStartpoint}`;
   return new Promise((resolve, reject) => {
@@ -102,12 +102,12 @@ export const GetOrderByNumber = async (OrderNumber,token)=>{
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 }
 
-export const updateEnterprise = async (params,token)=>{
+export const updateEnterprise = async (params)=>{
   const apiUrl =`${API.getEnterprise}`;
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
@@ -123,13 +123,13 @@ export const updateEnterprise = async (params,token)=>{
       },
       (errorResponse) => {
         reject(errorResponse);
-      },token
+      }
     );
   });
 }
 
 //update vehicle status 
-export const UpdateStatus = (params,token) => {
+export const UpdateStatus = (params) => {
   const apiUrl =`${API.estatus}`;
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
@@ -145,7 +145,7 @@ export const UpdateStatus = (params,token) => {
       },
       (errorResponse) => {
         reject(errorResponse);
-      },token
+      }
     );
   });
 };

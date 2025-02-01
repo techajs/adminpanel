@@ -6,14 +6,13 @@ import { JoinRequest } from "@/services/joinrequest/join";
 import Link from "next/link";
 import StatusView from "../tables/status-view";
 import { debounce } from "lodash";
-import { formatDate, getRole, useAuthToken } from "@/utils/constants";
+import { formatDate, getRole } from "@/utils/constants";
 
 
 const JoinRequestTable = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const token=useAuthToken()
   const [joinRequests, setJoinRequests] = useState([]);
   const [pagination, setPagination] = useState({
     total: 0,
@@ -27,7 +26,7 @@ const JoinRequestTable = () => {
   const fetchJoinRequests = useCallback(async (currentPage, currentStatus,currentSearch) => {
     setLoading(true);
     try {
-      const response = await JoinRequest(currentPage, currentStatus,currentSearch,token);
+      const response = await JoinRequest(currentPage, currentStatus,currentSearch);
       setJoinRequests(response.data);
       setPagination({
         total: response.total,

@@ -30,15 +30,15 @@ const VehicleAndTypeView = ({ data, datatype }) => {
   }
   return (
     <>
-      <div className="flex gap-6">
+      <div className="flex flex-col sm:flex-row gap-6">
         {datatype == "vehicle" && (
           <>
-            <div className="w-1/4 rounded-lg">
+            <div className="sm:w-1/4 rounded-lg">
               <VehicleView data={data} />
             </div>
 
             <div
-              className={`w-${
+              className={`sm:w-${
                 datatype == "vehicletype" ? "full" : "3/4"
               } rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1`}
             >

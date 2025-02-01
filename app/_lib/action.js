@@ -7,7 +7,7 @@ import { API, BASE_URL, HTTPMethod } from "@/utils/constants";
 
 
 
-export const getEnterprise = (params, successCallback, errorCallback,token) => {
+export const getEnterprise = (params, successCallback, errorCallback) => {
   axiosCall(
     API.getEnterprise,
     HTTPMethod.GET,
@@ -18,11 +18,10 @@ export const getEnterprise = (params, successCallback, errorCallback,token) => {
     errorResponse => {
       errorCallback(errorResponse);
     },
-    token,
   );
 };
 
-export const getAdmindashboard = (params, successCallback, errorCallback,token) => {
+export const getAdmindashboard = (params, successCallback, errorCallback) => {
   axiosCall(
     API.getAdmindashboard,
     HTTPMethod.GET,
@@ -33,11 +32,10 @@ export const getAdmindashboard = (params, successCallback, errorCallback,token) 
     errorResponse => {
       errorCallback(errorResponse);
     },
-    token,
   );
 };
 
-export const getJoinlist = (url,params, successCallback, errorCallback,token) => {
+export const getJoinlist = (url,params, successCallback, errorCallback) => {
   axiosCall(
     url,
     HTTPMethod.GET,
@@ -48,7 +46,6 @@ export const getJoinlist = (url,params, successCallback, errorCallback,token) =>
     errorResponse => {
       errorCallback(errorResponse);
     },
-    token,
   );
 };
 
@@ -57,7 +54,6 @@ export const updateJoinStatus = (
   params,
   successCallback,
   errorCallback,
-  token
 ) => {
   axiosCall(
     API.updateJoinStatus,
@@ -69,11 +65,10 @@ export const updateJoinStatus = (
     errorResponse => {
       errorCallback(errorResponse);
     },
-    token,
   );
 };
 
-export const getCommonlist=(url,params, successCallback, errorCallback,token) => {
+export const getCommonlist=(url,params, successCallback, errorCallback) => {
   axiosCall(
     url,
     HTTPMethod.GET,
@@ -84,12 +79,11 @@ export const getCommonlist=(url,params, successCallback, errorCallback,token) =>
     errorResponse => {
       errorCallback(errorResponse);
     },
-    token,
   );
 };
 
 
-export const getByID=(url,params, successCallback, errorCallback,token) => {
+export const getByID=(url,params, successCallback, errorCallback) => {
   axiosCall(
     url,
     HTTPMethod.GET,
@@ -100,11 +94,10 @@ export const getByID=(url,params, successCallback, errorCallback,token) => {
     errorResponse => {
       errorCallback(errorResponse);
     },
-    token,
   );
 };
 
-export const UpdateQuery=(url,params, successCallback, errorCallback,token) => {
+export const UpdateQuery=(url,params, successCallback, errorCallback) => {
   axiosCall(
     url,
     HTTPMethod.PUT,
@@ -115,11 +108,10 @@ export const UpdateQuery=(url,params, successCallback, errorCallback,token) => {
     errorResponse => {
       errorCallback(errorResponse);
     },
-    token,
   );
 };
 
-export const UpdateStatusQuery=(url,params, successCallback, errorCallback,token) => {
+export const UpdateStatusQuery=(url,params, successCallback, errorCallback) => {
   axiosCall(
     url,
     HTTPMethod.PUT,
@@ -130,14 +122,14 @@ export const UpdateStatusQuery=(url,params, successCallback, errorCallback,token
     errorResponse => {
       errorCallback(errorResponse);
     },
-    token,
   );
 };
 
-export const uploadDocumentsApi = (params, successCallback, errorCallback) => {
+export const uploadDocumentsApi = (params,token,successCallback, errorCallback) => {
   const myHeaders = new Headers();
   // myHeaders.append('upload_type', 'ORDER_DOC');
-
+  
+  myHeaders.append('authorization', `${token}`);
   const requestOptions = {
     method: 'POST',
     headers: myHeaders,
@@ -151,7 +143,7 @@ export const uploadDocumentsApi = (params, successCallback, errorCallback) => {
     .catch(error => errorCallback(error));
 };
 
-export const assginMultipleDeliveryboy=(url,params, successCallback,token) => {
+export const assginMultipleDeliveryboy=(url,params, successCallback,errorCallback) => {
   axiosCall(
     url,
     HTTPMethod.PUT,
@@ -162,6 +154,5 @@ export const assginMultipleDeliveryboy=(url,params, successCallback,token) => {
     errorResponse => {
       errorCallback(errorResponse);
     },
-    token,
   );
 };

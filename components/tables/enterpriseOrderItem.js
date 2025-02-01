@@ -80,15 +80,21 @@ const EnterpriseOrderItem = ({
                 </td>
                 {type != "shift" && (
                   <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                    <p className={`text-black text-sm dark:text-white`}>
-                      {item.delivery_boy_name || 'Not Assigned'}
-                    </p>
+                    {item?.delivery_boy_name ? <Link
+                      href={`/deliveryboy/${item.deliveryboyId}`}
+                      className="text-primary"
+                    >
+                      {" "}
+                      {item.delivery_boy_name}
+                    </Link> : <p className={`text-black text-sm dark:text-white`}>
+                      {'Not Assigned'}
+                    </p>}
                   </td>
                 )}
 
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <p className="text-black text-sm dark:text-white">
-                    {item.service_type}
+                    {item?.service_name || 'N/A'}
                   </p>
                 </td>
 

@@ -1,5 +1,5 @@
 "use client";
-import { baseProfilePicUrl, getValidImageUrl, maskEmail, maskPhoneNumber, useAuthToken } from "@/utils/constants";
+import { baseProfilePicUrl, getValidImageUrl, maskEmail, maskPhoneNumber } from "@/utils/constants";
 import { useState } from "react";
 import TabLayout from "../common/tab-item";
 import UserInfo from "../user-info";
@@ -10,7 +10,6 @@ import { FaEdit } from "react-icons/fa";
 
 const ConsumerInfo = ({ data }) => {
   const maskedEmail = maskEmail(data?.email || "N/A");
-  const token=useAuthToken()
   const maskedPhoneNumber = maskPhoneNumber(data?.phone || "N/A");
   const [selectedTab, setSelectedTab] = useState("ride"); // Default selected tab
   const tabs = [
@@ -94,7 +93,6 @@ const ConsumerInfo = ({ data }) => {
             extId={data?.ext_id}
             datatype={selectedTab}
             userType="consumer"
-            token={token}
           />
         </div>
       </div>

@@ -8,15 +8,13 @@ import { FaCartShopping } from "react-icons/fa6";
 import Dashboarbox from "./box";
 import useFetchGlobalData from "@/hooks/useFetchData";
 import Waiting from "../common/waiting";
-import { useAuthToken } from "@/utils/constants";
 
 const DashboardLayout = () => {
   const { country, state, city } = useFetchGlobalData();
   const [dashboardData, setDashboardData] = useState(null);
-  const token =useAuthToken()
   useEffect(() => {
     const fetchData = async () => {
-      const response = await DashboardService(token);
+      const response = await DashboardService();
       setDashboardData(response.data);
     };
 

@@ -1,7 +1,7 @@
 import Switcher from "@/components/common/switcher";
 import Waiting from "@/components/common/waiting";
 import { activeAndInactiveDeliveyboy } from "@/services/deliveryboy";
-import { formatDate, getValidImageUrl, useAuthToken } from "@/utils/constants";
+import { formatDate, getValidImageUrl } from "@/utils/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -17,7 +17,6 @@ const DeliveryboyTableItem = ({
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
     const [matchId, setMatchId] = useState(null);
-    const token=useAuthToken()
      const statusChange = async (value, Id) => {
 
         setLoading(true);
@@ -26,7 +25,7 @@ const DeliveryboyTableItem = ({
           is_available: value ? 1 : 0,
         };
         try {
-          const response = await activeAndInactiveDeliveyboy(payload, Id,token);
+          const response = await activeAndInactiveDeliveyboy(payload, Id);
           setSuccessMsg(response)
         } catch (err) {
           if (err[0]?._errors) {

@@ -9,14 +9,14 @@ import EnterpriseAdditionDetail from "./common/additiondetail";
 const OnetimeOrder = ({ order, deliveryboy, vehicle, orderLine }) => {
   return (
     <>
-      <div className="flex gap-3 mb-4">
-        <div className="w-2/4 rounded-lg bg-white border p-6 shadow-md dark:bg-boxdark">
+      <div className="flex flex-col sm:flex-row  gap-3 mb-4">
+        <div className="sm:w-2/4 rounded-lg bg-white border p-6 shadow-md dark:bg-boxdark">
           <h2 className="text-lg font-semibold mb-4">General Details</h2>
           <EnterpriseBasicDetail order={order} orderLine={orderLine}/>
 
         </div>
         {/* Billing Details Section */}
-        <div className="w-2/4 rounded-lg bg-white border p-6 shadow-md dark:bg-boxdark">
+        <div className="sm:w-2/4 rounded-lg bg-white border p-6 shadow-md dark:bg-boxdark">
           <h2 className="text-lg font-semibold mb-4 flex justify-between">
             <span>Billing Details</span>{" "}
             <button className="rounded bg-gray-100 p-2 dark:bg-boxdark   ">
@@ -26,9 +26,9 @@ const OnetimeOrder = ({ order, deliveryboy, vehicle, orderLine }) => {
           <BillingDetail order={order} userType="enterprise" />
         </div>
       </div>
-      <div className="flex gap-3">
+      <div className="flex flex-col sm:flex-row gap-3">
         {/* Map and Location Section */}
-        <div className="w-2/4">
+        <div className="sm:w-2/4">
           <div className="rounded-lg bg-white border p-6 shadow-md mb-4 dark:bg-boxdark">
             <h2 className="text-lg font-semibold mb-4">Map View</h2>
             <MapComponent latitude={order?.latitude} longitude={order?.longitude}dlatitude={order?.dlatitude} dlongitude={order?.dlongitude} multiple={false}
@@ -37,7 +37,7 @@ const OnetimeOrder = ({ order, deliveryboy, vehicle, orderLine }) => {
         </div>
 
         {/* Price Details Section */}
-        <div className="w-2/4 space-y-2">
+        <div className="sm:w-2/4 space-y-2">
           <div className="rounded-lg bg-white border p-6 shadow-md dark:bg-boxdark">
             <h2 className="text-lg font-semibold mb-4">Price Details</h2>
             <div className="flex justify-between">

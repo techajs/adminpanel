@@ -8,7 +8,6 @@ import { GetEnterprises } from "@/services/enterprise";
 import TableItem from "../tables/table-items";
 import { FaDownload, FaTrash } from "react-icons/fa";
 import PageFilter from "../common/page-filter";
-import { useAuthToken } from "@/utils/constants";
 
 const EnterpriseTable = () => {
   const router = useRouter();
@@ -26,11 +25,10 @@ const EnterpriseTable = () => {
   const [pageSize, setPageSize] = useState("");
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-  const token=useAuthToken()
   const fetchEnterprise = useCallback(async (currentPage, currentSearch,pageSize) => {
     setLoading(true);
     try {
-      const response = await GetEnterprises(currentPage, currentSearch,pageSize,token);
+      const response = await GetEnterprises(currentPage, currentSearch,pageSize);
       setEnterprise(response.data);
       setPagination({
         total: response.total,

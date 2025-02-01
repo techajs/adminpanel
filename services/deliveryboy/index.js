@@ -2,7 +2,7 @@ import { assginMultipleDeliveryboy, getByID, getCommonlist, UpdateStatusQuery } 
 import { API } from "@/utils/constants";
 
 
-export const GetDeliveryboys = (page, search,pageSize,token) => {
+export const GetDeliveryboys = (page, search,pageSize) => {
   const apiStartpoint =API.getDeliveryboy;
   const queryParams = new URLSearchParams();
   if (parseInt(page) > 0) queryParams.append('page', page);
@@ -24,12 +24,12 @@ export const GetDeliveryboys = (page, search,pageSize,token) => {
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 };
 
-export const getAvailableDeliveryboy = (token) =>{
+export const getAvailableDeliveryboy = () =>{
   const apiStartpoint =API.getDeliveryboy;
   const apiUrl = `${apiStartpoint}/availability`;
   return new Promise((resolve, reject) => {
@@ -47,12 +47,12 @@ export const getAvailableDeliveryboy = (token) =>{
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 }
 
-export const GetDeliveryboyById = async (ext_id,token)=>{
+export const GetDeliveryboyById = async (ext_id)=>{
   let apiUrl = `${API.getDeliveryboy}/${ext_id}`;
   
   return new Promise((resolve, reject) => {
@@ -70,14 +70,13 @@ export const GetDeliveryboyById = async (ext_id,token)=>{
       },
       (errorResponse) => {
         reject([]);
-      },
-      token
+      }
     );
   });
 };
 
 
-export const getOrderByDeliveryboyEXT = async (search,pageSize,ext_id,token) =>{
+export const getOrderByDeliveryboyEXT = async (search,pageSize,ext_id) =>{
   const apiStartpoint =`${API.viewDeliveryBoyOrderUrl}${ext_id}`;
   const queryParams = new URLSearchParams();
   if (parseInt(pageSize) > 0) queryParams.append('size', pageSize);
@@ -98,13 +97,13 @@ export const getOrderByDeliveryboyEXT = async (search,pageSize,ext_id,token) =>{
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 }
 
 
-export const updateDeliveryboy = async (params,token)=>{
+export const updateDeliveryboy = async (params)=>{
   const apiUrl =`${API.getDeliveryboy}`;
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
@@ -120,13 +119,12 @@ export const updateDeliveryboy = async (params,token)=>{
       },
       (errorResponse) => {
         reject(errorResponse);
-      },
-      token
+      }
     );
   });
 }
 
-export const allocatedDeliveryboy = (params,token) => {
+export const allocatedDeliveryboy = (params) => {
   const apiUrl =`${API.estatus}`;
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
@@ -142,12 +140,12 @@ export const allocatedDeliveryboy = (params,token) => {
       },
       (errorResponse) => {
         reject(errorResponse);
-      },token
+      }
     );
   });
 };
 
-export const assignDeliveryboyshift = (params,token) => {
+export const assignDeliveryboyshift = (params) => {
   const apiUrl =`${API.assignDeliveryboy}`;
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
@@ -163,12 +161,12 @@ export const assignDeliveryboyshift = (params,token) => {
       },
       (errorResponse) => {
         reject(errorResponse);
-      },token
+      }
     );
   });
 };
 
-export const assignMultipleDeliveryboyshift = (params,token) => {
+export const assignMultipleDeliveryboyshift = (params) => {
   const apiUrl =`${API.assignMultipleDeliveryboy}`;
   return new Promise((resolve, reject) => {
     assginMultipleDeliveryboy(
@@ -184,12 +182,12 @@ export const assignMultipleDeliveryboyshift = (params,token) => {
       },
       (errorResponse) => {
         reject(errorResponse);
-      },token
+      }
     );
   });
 };
 
-export const activeAndInactiveDeliveyboy = async (params,id,token)=>{
+export const activeAndInactiveDeliveyboy = async (params,id)=>{
   const apiUrl =`${API.deliveryboyUpdateavailability}/${id}`;
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
@@ -205,8 +203,7 @@ export const activeAndInactiveDeliveyboy = async (params,id,token)=>{
       },
       (errorResponse) => {
         reject(errorResponse);
-      },
-      token
+      }
     );
   });
 }

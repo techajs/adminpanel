@@ -8,12 +8,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "admin.rapidmate.fr",
+        hostname: "api.rapidmate.fr",
         pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "api.rapidmate.fr",
+        hostname: "admin.rapidmate.fr",
         pathname: "/**",
       },
     ],

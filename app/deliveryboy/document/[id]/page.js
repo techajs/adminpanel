@@ -16,9 +16,8 @@ const DeliverboyDocs = ({ params }) => {
       const foundVehicle = vehicle.find(
         (v) => String(v.ext_id) === String(params.id)
       );
-      console.log("upper test ",vehicle)
       if (foundVehicle) {
-        console.log("test ",foundVehicle)
+        setLoading(false)
         setVehicleData(foundVehicle);
       }
       setLoading(false);

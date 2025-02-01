@@ -10,7 +10,6 @@ import { GetDeliveryboyById, updateDeliveryboy } from "@/services/deliveryboy";
 import { delvieryboySchema } from "@/utils/schema";
 import Waiting from "../common/waiting";
 import { useRouter } from "next/navigation";
-import { useAuthToken } from "@/utils/constants";
 const EditDeliveryboyPage = ({ deliveryboyId }) => {
 
   const { country, fetchCountry, city, state, fetchCity, fetchState } =useFetchGlobalData();
@@ -22,10 +21,9 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const token=useAuthToken()
   const fetchDeliveryboyView = async (deliveryboyId) => {
     try {
-      const response = await GetDeliveryboyById(deliveryboyId,token);
+      const response = await GetDeliveryboyById(deliveryboyId);
       setDeliveryboy(response);
     } catch (error) {
       setDeliveryboy([]);
@@ -34,7 +32,7 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
 
   useEffect(() => {
     if (country) {
-      const countries = country.map((country) => ({
+      const countries = country?.map((country) => ({
         label: country.country_name,
         value: country.id,
       }));
@@ -48,7 +46,7 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
     }
 
     if (state) {
-      const states = state.map((state) => ({
+      const states = state?.map((state) => ({
         label: state.state_name,
         value: state.id,
       }));
@@ -57,7 +55,7 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
       fetchState();
     }
     if (city) {
-      const cities = city.map((city) => ({
+      const cities = city?.map((city) => ({
         label: city.city_name,
         value: city.id,
       }));
@@ -97,7 +95,7 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
         ext_id: deliveryboyId,
         first_name: values.name,
         last_name: values.lastname,
-        phone: values.phoneNumber.replace(/\D/g, ""),
+        phone: values?.phoneNumber?.replace(/\D/g, ""),
         country_id: values.country.value,
         state_id: values.state.value,
         city_id: values.city.value,
@@ -105,8 +103,8 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
         siret_no: values.siret,
       };
       try {
-        const response = await updateDeliveryboy(payload,token);
-        setSuccessMessage(response);
+        const response = await updateDeliveryboy(payload);
+        setSuccessMessage("Delivery boy updated successfully!");
       } catch (err) {
         setError("An error occurred while updating deliveryboy.");
       } finally {

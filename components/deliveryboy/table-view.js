@@ -8,7 +8,6 @@ import TableItem from "../tables/table-items";
 import { GetDeliveryboys } from "@/services/deliveryboy";
 import { FaDownload, FaTrash } from "react-icons/fa";
 import PageFilter from "../common/page-filter";
-import { useAuthToken } from "@/utils/constants";
 
 const DeliveryboyTable = () => {
   const router = useRouter();
@@ -27,7 +26,6 @@ const DeliveryboyTable = () => {
 
   const [selected, setSelected] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-  const token = useAuthToken();
   const fetchDeliveryboy = useCallback(
     async (currentPage, currentSearch, pageSize) => {
       setLoading(true);
@@ -35,8 +33,7 @@ const DeliveryboyTable = () => {
         const response = await GetDeliveryboys(
           currentPage,
           currentSearch,
-          pageSize,
-          token
+          pageSize
         );
         setDeliveryboy(response.data);
         setPagination({

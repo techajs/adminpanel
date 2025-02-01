@@ -5,7 +5,6 @@ import OnetimeOrder from "@/components/enterprise/views/one-time-order";
 import ShiftOrder from "@/components/enterprise/views/shift-order";
 import LayoutPage from "@/components/Layouts/layout";
 import { GetOrderByNumber } from "@/services/enterprise";
-import { useAuthToken } from "@/utils/constants";
 import { useEffect, useState } from "react";
 
 const EorderView = ({ params }) => {
@@ -14,10 +13,9 @@ const EorderView = ({ params }) => {
     const [orderLine, setOrderLine] = useState(null);
     const [vehicle, setVehicle] = useState(null);
     const [slotList, setSlotList] = useState(null);
-    const token = useAuthToken()
     const fetchEnterpriseOrder = async (ext_id) => {
         try {
-            const response = await GetOrderByNumber(ext_id,token);
+            const response = await GetOrderByNumber(ext_id);
 
             if (response) {
                 const { order, deliveryBoy, orderLines, vehicle,slots } = response;
@@ -49,13 +47,13 @@ const EorderView = ({ params }) => {
         <LayoutPage>
             <Breadcrumb pageName="Order Details" title={`enterprise/${order?.consumer_ext}`} />
             {order && order.delivery_type_id === 1 && (
-                <OnetimeOrder order={order} deliveryboy={deliveryboy} vehicle={vehicle} orderLine={orderLine} token={token}/>
+                <OnetimeOrder order={order} deliveryboy={deliveryboy} vehicle={vehicle} orderLine={orderLine}/>
             )}
             {order && order.delivery_type_id === 2 && (
-                <MultipleOrder order={order} deliveryboy={deliveryboy} vehicle={vehicle} orderLine={orderLine} token={token} />
+                <MultipleOrder order={order} deliveryboy={deliveryboy} vehicle={vehicle} orderLine={orderLine} />
             )}
              {order && order.delivery_type_id === 3 && (
-                <ShiftOrder order={order} deliveryboy={deliveryboy} vehicle={vehicle} orderLine={orderLine} slots={slotList} token={token} />
+                <ShiftOrder order={order} deliveryboy={deliveryboy} vehicle={vehicle} orderLine={orderLine} slots={slotList} />
             )}
         </LayoutPage>
     );

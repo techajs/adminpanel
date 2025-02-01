@@ -3,7 +3,7 @@ import { useState } from "react";
 import JoinRequestRejectionModal from "../modal/reject-modal";
 import ActionButtion from "./action-view";
 import { ChangeStatus } from "@/services/joinrequest/join";
-import { getRole, getValidImageUrl, useAuthToken } from "@/utils/constants";
+import { getRole, getValidImageUrl } from "@/utils/constants";
 import Image from "next/image";
 import UserInfo from "@/components/user-info";
 // Make sure to import the API function
@@ -16,7 +16,6 @@ export default function EnterpriseView({ data }) {
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
-  const token = useAuthToken()
   const submitHandler = async (reason) => {
     try {
       const response = await ChangeStatus(
@@ -24,7 +23,6 @@ export default function EnterpriseView({ data }) {
         "REJECTED",
         data.enterpriseId,
         reason,
-        token
       );
       setSuccessmessage("Rejection submitted successfully");
       setError(null); // Clear any existing errors

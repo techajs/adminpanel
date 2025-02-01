@@ -1,8 +1,9 @@
 
 import { getCommonlist, uploadDocumentsApi } from "@/app/_lib/action";
 import { API } from "@/utils/constants";
+import { getSession } from "next-auth/react";
 
-export const GetCountry = (token) => {
+export const GetCountry = () => {
   const apiStartpoint = API.countryList;
 
   const apiUrl = `${apiStartpoint}`;
@@ -21,12 +22,12 @@ export const GetCountry = (token) => {
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 };
 
-export const GetState = (token) => {
+export const GetState = () => {
   const apiStartpoint = API.stateList;
 
   const apiUrl = `${apiStartpoint}`;
@@ -45,11 +46,11 @@ export const GetState = (token) => {
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 };
-export const GetCity = (token) => {
+export const GetCity = () => {
   const apiStartpoint = API.cityList;
 
   const apiUrl = `${apiStartpoint}`;
@@ -68,11 +69,11 @@ export const GetCity = (token) => {
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 };
-export const GetWorkType = (token) => {
+export const GetWorkType = () => {
   const apiStartpoint = API.workTypeList;
 
   const apiUrl = `${apiStartpoint}`;
@@ -91,13 +92,12 @@ export const GetWorkType = (token) => {
       },
       (errorResponse) => {
         reject([]);
-      },
-      token
+      }
     );
   });
 };
 
-export const GetIndusty = (token) => {
+export const GetIndusty = () => {
   const apiStartpoint = API.industry;
 
   const apiUrl = `${apiStartpoint}`;
@@ -116,16 +116,18 @@ export const GetIndusty = (token) => {
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 };
 
 
-export const uploadImage = async (formData,token) => {
+export const uploadImage = async (formData) => {
+  const session = await getSession();
   return new Promise((resolve, reject) => {
     uploadDocumentsApi(
       formData,
+      session.token,
       successResponse => {
         console.log('print_data ==> successResponseuploadDocumentsApi', JSON.parse(successResponse).id);
         resolve(JSON.parse(successResponse).id);
@@ -133,8 +135,7 @@ export const uploadImage = async (formData,token) => {
       errorResponse => {
         console.log('print_data ==> errorResponseuploadDocumentsApi', errorResponse);
         reject(errorResponse);
-      },
-      token
+      }
     );
   });
 };

@@ -11,7 +11,6 @@ import { FaEye } from "react-icons/fa";
 import Pagination from "../pagination/page";
 import OrderStatus from "../tables/order-status";
 import { getAvailableDeliveryboy } from "@/services/deliveryboy";
-import { useAuthToken } from "@/utils/constants";
 
 const EnterpriseOrderView = () => {
   const router = useRouter();
@@ -38,7 +37,6 @@ const EnterpriseOrderView = () => {
     { id: "shift", label: "Shift Order" },
     // { id: "past", label: "Past Order" },
   ];
-  const token = useAuthToken();
   const fetchOrderList = useCallback(
     async (page, currentSearch, selectedTab, pageSize, status) => {
       setLoading(true);
@@ -49,7 +47,6 @@ const EnterpriseOrderView = () => {
           selectedTab,
           pageSize,
           status,
-          token
         );
         setOrder(response.data);
         setPagination({
@@ -131,7 +128,7 @@ const EnterpriseOrderView = () => {
   useEffect(() => {
     const getDeliveryboyAvailable = async () => {
       try {
-        const response = await getAvailableDeliveryboy(token);
+        const response = await getAvailableDeliveryboy();
         setDeliveryBoys(response);
       } catch (error) {
         setDeliveryBoys([]);

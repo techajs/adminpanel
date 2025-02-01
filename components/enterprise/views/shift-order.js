@@ -33,7 +33,7 @@ import {
 } from "@/services/deliveryboy";
 import { MdClose } from "react-icons/md";
 
-const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots,token }) => {
+const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
   const [hours, setHours] = useState(0);
   const [loading, setLoading] = useState(false);
   const [localData, setLocalData] = useState(order);
@@ -69,7 +69,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots,token }) => 
     setSlotRowId(null);
     setLoading(true);
     try {
-      const response = await assignDeliveryboyshift(payload,token);
+      const response = await assignDeliveryboyshift(payload);
       setSuccessMessage("Delivery boy assigned successfully done.");
     } catch (error) {
       console.log(error);
@@ -81,7 +81,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots,token }) => 
 
   const refreshData = async () => {
     try {
-      const response = await GetOrderByNumber(localData.order_number,token);
+      const response = await GetOrderByNumber(localData.order_number);
 
       if (response) {
         const { order, deliveryBoy, orderLines, vehicle, slots } = response;
@@ -110,7 +110,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots,token }) => 
       order_number,
     };
     try {
-      const response = await UpdateStatus(payload,token);
+      const response = await UpdateStatus(payload);
       setSuccessMessage("Shift accepted");
       setLocalData((prevData) => ({
         ...prevData,
@@ -131,7 +131,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots,token }) => 
     setHours(totalHours || 0);
     const getDeliveryboyAvailable = async () => {
       try {
-        const response = await getAvailableDeliveryboy(token);
+        const response = await getAvailableDeliveryboy();
         const formattedDeliveryBoys = response.map((boy) => ({
           value: boy.id,
           label: boy.first_name + " " + boy.last_name,
@@ -220,7 +220,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots,token }) => 
     // Log the payload
     setLoading(true)
     try {
-      const response = await assignMultipleDeliveryboyshift(requestPayload,token);
+      const response = await assignMultipleDeliveryboyshift(requestPayload);
       setSuccessMessage("Delivery boy assigned successfully done.");
       setSelectAll(!selectAll);
     } catch (error) {
@@ -252,7 +252,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots,token }) => 
   };
   return (
     <>
-      <div className="container mx-auto p-8">
+      <div className="container mx-auto sm:p-5">
         <div className="rounded-sm border border-stroke bg-white px-5 pb-5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
           <div className="w-full">
             <div className="flex flex-col lg:flex-row justify-between">

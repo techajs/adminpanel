@@ -3,7 +3,7 @@ import { useState } from "react";
 import JoinRequestRejectionModal from "../modal/reject-modal";
 import ActionButtion from "./action-view";
 import { ChangeStatus } from "@/services/joinrequest/join";
-import { getRole, useAuthToken } from "@/utils/constants";
+import { getRole } from "@/utils/constants";
 import Image from "next/image";
 import UserInfo from "@/components/user-info";
 
@@ -15,7 +15,6 @@ export default function ConsumerView({ data }) {
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
-  const token=useAuthToken()
   const submitHandler = async (reason) => {
     try {
       const response = await ChangeStatus(
@@ -23,7 +22,6 @@ export default function ConsumerView({ data }) {
         "REJECTED",
         data.consumerId,
         reason,
-        token
       );
       setSuccessmessage("Rejection submitted successfully");
       setError(null); // Clear any existing errors

@@ -1,7 +1,7 @@
 import {getCommonlist, UpdateQuery, UpdateStatusQuery } from "@/app/_lib/action";
 import { API, getValidedImageUrl } from "@/utils/constants";
 
-export const GetVehicles = (token) => {
+export const GetVehicles = () => {
   const apiStartpoint =API.vehicles;
 
   const apiUrl = `${apiStartpoint}`;
@@ -20,12 +20,12 @@ export const GetVehicles = (token) => {
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 };
 
-export const GetVehicleTypes = (token) => {
+export const GetVehicleTypes = () => {
   const apiStartpoint =API.vehicletypesUrl;
   const apiUrl = `${apiStartpoint}`;
   return new Promise((resolve, reject) => {
@@ -43,12 +43,12 @@ export const GetVehicleTypes = (token) => {
       },
       (errorResponse) => {
         reject([]);
-      },token
+      }
     );
   });
 };
 
-export const updateVehicle = (params,token) => {
+export const updateVehicle = (params) => {
   const apiUrl =`${API.vehicles}`;
   return new Promise((resolve, reject) => {
     UpdateQuery(
@@ -64,12 +64,12 @@ export const updateVehicle = (params,token) => {
       },
       (errorResponse) => {
         reject(errorResponse);
-      },token
+      }
     );
   });
 };
 
-export const updateVehicleType = (params,vehicleTypeId,token) => {
+export const updateVehicleType = (params,vehicleTypeId) => {
   const apiUrl =`${API.vehicletypesUrl}/${vehicleTypeId}`;
   return new Promise((resolve, reject) => {
     UpdateQuery(
@@ -85,14 +85,13 @@ export const updateVehicleType = (params,vehicleTypeId,token) => {
       },
       (errorResponse) => {
         reject(errorResponse);
-      },
-      token
+      }
     );
   });
 };
 
 // delete vehicle query
-export const UdateVehicleStatus = (params,Id,token) => {
+export const UdateVehicleStatus = (params,Id) => {
   const apiUrl =`${API.vehiclesStatus}/${Id}`;
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
@@ -108,13 +107,13 @@ export const UdateVehicleStatus = (params,Id,token) => {
       },
       (errorResponse) => {
         reject(errorResponse);
-      },token
+      }
     );
   });
 };
 
 //update vehicle status 
-export const UdateVehicleTypeStatus = (params,Id,token) => {
+export const UdateVehicleTypeStatus = (params,Id) => {
   const apiUrl =`${API.vehiclesTypeStatus}/${Id}`;
   return new Promise((resolve, reject) => {
     UpdateStatusQuery(
@@ -130,8 +129,7 @@ export const UdateVehicleTypeStatus = (params,Id,token) => {
       },
       (errorResponse) => {
         reject(errorResponse);
-      },
-      token
+      }
     );
   });
 };

@@ -17,7 +17,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { debounce } from "lodash";
 import Pagination from "@/components/pagination/page";
 
-const BaseViewTable = ({ extId, datatype, userType,token }) => {
+const BaseViewTable = ({ extId, datatype, userType }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -43,12 +43,12 @@ const BaseViewTable = ({ extId, datatype, userType,token }) => {
   };
 
   const orderMap = {
-    deliveryboy: (currentSearch, pageSize, extId,token) =>
-      getOrderByDeliveryboyEXT(currentSearch, pageSize, extId,token),
-    consumer: (currentSearch, pageSize, extId,token) =>
-      GetOrderById(currentSearch, pageSize, extId,token),
-    enterprise: (currentSearch, pageSize, extId,token) =>
-      getOrderByInterpriseEXT(currentSearch, pageSize, extId,token), // Ensure extId is passed here
+    deliveryboy: (currentSearch, pageSize, extId) =>
+      getOrderByDeliveryboyEXT(currentSearch, pageSize, extId),
+    consumer: (currentSearch, pageSize, extId) =>
+      GetOrderById(currentSearch, pageSize, extId),
+    enterprise: (currentSearch, pageSize, extId) =>
+      getOrderByInterpriseEXT(currentSearch, pageSize, extId), // Ensure extId is passed here
   };
 
   const header =
@@ -61,7 +61,7 @@ const BaseViewTable = ({ extId, datatype, userType,token }) => {
     const fetchOrder = async () => {
       try {
         const currentSearch = searchParams.get("search") || "";
-        const orderList = await getOrderList(currentSearch, pageSize, extId,token); // Pass extId here
+        const orderList = await getOrderList(currentSearch, pageSize, extId); // Pass extId here
         setOrder(orderList);
       } catch (error) {
         console.error("Error fetching order list:", error);

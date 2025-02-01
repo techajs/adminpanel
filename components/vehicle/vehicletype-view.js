@@ -11,8 +11,8 @@ import { getImageByUrl } from "@/services";
 import Waiting from "../common/waiting";
 
 const VehicleTypeView = ({ VehicleTypeId }) => {
-  const { vehicleType } = useFetchGlobalData();
-  const [vehicleTypeData, setVehicleTypeData] = useState(null);
+  const { vehicleType,fetchVehicleType } = useFetchGlobalData();
+  const [vehicleTypeData, setVehicleTypeData] = useState(vehicleType);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => setShowModal(false);
@@ -46,13 +46,15 @@ const VehicleTypeView = ({ VehicleTypeId }) => {
       }
       setLoading(false);
     };
-
+   if(VehicleTypeId){
     fetchVehicleData();
+   }
+  
   }, [VehicleTypeId]);
 
   const openModal = () => setShowModal(true);
   return (
-    <div className="max-w-5xl mx-auto p-6 rounded-lg shadow-lg dark:bg-boxdark">
+    <div className="max-w-5xl mx-auto sm:p-6 rounded-lg shadow-lg dark:bg-boxdark">
       {/* Back Button */}
 
       {/* Header */}
