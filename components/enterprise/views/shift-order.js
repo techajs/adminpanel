@@ -3,13 +3,7 @@ import MapComponent from "@/components/MapComponent";
 import React, { useEffect, useState } from "react";
 import {
   FaCheck,
-  FaCross,
-  FaDownload,
   FaEdit,
-  FaEye,
-  FaPrint,
-  FaSave,
-  FaTrash,
 } from "react-icons/fa";
 import EnterpirseBillingDetail from "./common/billingdetail";
 import EnterpriseAdditionDetail from "./common/additiondetail";
@@ -31,7 +25,7 @@ import {
   assignMultipleDeliveryboyshift,
   getAvailableDeliveryboy,
 } from "@/services/deliveryboy";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdRefresh } from "react-icons/md";
 
 const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
   const [hours, setHours] = useState(0);
@@ -49,6 +43,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
   const [masterDeliveryboy, setMasterDeliveryboy] = useState(null);
   const [slotId, setSlotId] = useState(null);
   const [extId, setExtId] = useState(null);
+  const [isResfresh,setIsRefresh]=useState(false)
   //  console.log('order',order,'deliveryboy',deliveryboy,"vehicle",vehicle,'slots',slots)
   const totalHours = slots?.reduce((acc, slot) => {
     const hours = calculateHoursDifference(slot?.from_time, slot?.to_time);
@@ -116,6 +111,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
         ...prevData,
         order_status: status,
       }));
+      setIsRefresh(true)
     } catch (err) {
       if (err[0]?._errors) {
         console.log(err[0]._errors.message);
@@ -135,6 +131,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
         const formattedDeliveryBoys = response.map((boy) => ({
           value: boy.id,
           label: boy.first_name + " " + boy.last_name,
+          ext_id:boy.ext_id,
         }));
         setDeliveryBoys(formattedDeliveryBoys);
         setMasterDeliveryboy(response);
@@ -183,7 +180,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
     setSelectAll(!selectAll);
     if (!selectAll) {
       const firstSlots = Object.values(groupedSlots)
-        .map((group) => group.find((slot) => slot.delivery_boy_id === null))
+        .map((group) => group.find((slot) => slot.ext_id === null || slot.delivery_boy_id === null))
         .filter((slot) => slot !== undefined) 
         .map((slot) => slot); 
       setSelectedSlots(firstSlots);
@@ -192,6 +189,11 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
     }
   };
   
+  useEffect(()=>{
+    if(isResfresh){
+      refreshData()
+    }
+  },[isResfresh])
 
   const assignDeliveryboyshifts = async () => {
     if (localData?.order_status === "REQUEST_PENDING") {
@@ -241,7 +243,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
 
   const getSelectedDeliveryboy = (deliveryboyId) => {
     const selectedBoy = deliveryBoys?.find(
-      (boy) => boy.value === deliveryboyId
+      (boy) => boy.ext_id === deliveryboyId
     );
     return selectedBoy ? `${selectedBoy.label}` : "Not Assigned";
   };
@@ -273,7 +275,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                       </div>
                       <div>
                         <h2 className="text-3xl font-bold dark:text-white text-black">
-                          {hours}
+                          {hours?.toFixed(2)}
                         </h2>
                         <p className="text-gray-500 dark:text-white">
                           Total Hours
@@ -295,11 +297,11 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                     <div className="flex items-center space-x-4 text-gray-600 dark:text-white">
                       <p>
                         From{" "}
-                        <b> {formatDate(localData?.repeat_until, false)}</b>
+                        <b> {formatDate(localData?.shift_from_date, false)}</b>
                       </p>
                       <span>&rarr;</span>
                       <p>
-                        To <b> {formatDate(localData?.repeat_until, false)}</b>
+                        To <b> {formatDate(localData?.shift_tp_date, false)}</b>
                       </p>
                     </div>
                     <div className="flex items-center space-x-4 text-gray-600 mt-3 dark:text-white">
@@ -356,7 +358,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                       </p>
                     </div>
                   </div>
-                  <p
+                  {/* <p
                     className={`text-center  rounded-full bg-opacity-10 px-1 py-1 text-sm font-medium ${
                       localData.order_status === "REQUEST_PENDING"
                         ? "bg-warning text-warning"
@@ -364,7 +366,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                     }`}
                   >
                     {getStatus(localData?.order_status) || "Request"}
-                  </p>
+                  </p> */}
                 </div>
                 
                   <div className="mt-4">
@@ -375,6 +377,17 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                     >
                      {localData.order_status === "REQUEST_PENDING" ? 'Accept' : getStatus(localData?.order_status) }
                     </button>
+
+                  </div>
+                  <div className="mt-4 flex justify-end">
+                    <button
+                     
+                     onClick={()=>refreshData()}
+                      className={`w-10 block text-center bg-blue-800 hover:bg-blue-900 dark:bg-blue-600 text-white p-2  rounded-lg  `}
+                    >
+                     <MdRefresh size={20} />
+                    </button>
+
                   </div>
              
               </div>
@@ -446,6 +459,9 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                     To Time
                   </th>
                   <th className="text-center px-4 py-4 font-medium text-black dark:text-white">
+                    Next Status
+                  </th>
+                  <th className="text-center px-4 py-4 font-medium text-black dark:text-white">
                     Assigned Delivery Boy
                   </th>
                   <th className="text-center px-4 py-4 font-medium text-black dark:text-white">
@@ -456,11 +472,11 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
               <tbody>
                 {Object.values(groupedSlots).map((group, index) =>
                   group?.map((packageItem, key) => (
-                    <tr key={packageItem.id}>
+                    <tr key={packageItem.id} className={`${packageItem.ext_id && 'bg-green-500 text-white'}`}>
                       <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                         <div className="flex gap-2">
                           {localData?.order_status != "COMPLETED" &&
-                          packageItem?.delivery_boy_id == null ? (
+                          packageItem?.ext_id == null ? (
                             <input
                               type="checkbox"
                               checked={selectedSlots.includes(packageItem)}
@@ -470,14 +486,13 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                           ) : (
                             <FaCheck color="red" />
                           )}
-
-                          <h5 className="font-medium text-black dark:text-white">
+                          <h5 className="font-medium  dark:text-white">
                             {index + 1}
                           </h5>
                         </div>
                       </td>
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                        <p className="text-black dark:text-white">
+                        <p className=" dark:text-white">
                           {packageItem.slot_date == null
                             ? "N/A"
                             : formatDate(packageItem.slot_date,false)}
@@ -485,18 +500,23 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                         
                       </td>
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                        <p className="text-black dark:text-white">
+                        <p className=" dark:text-white">
                           {packageItem.day}
                         </p>
                       </td>
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                        <p className="text-black dark:text-white">
+                        <p className=" dark:text-white">
                           {packageItem.from_time}
                         </p>
                       </td>
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                        <p className="text-black dark:text-white">
+                        <p className=" dark:text-white">
                           {packageItem.to_time}
+                        </p>
+                      </td>
+                      <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
+                        <p className=" text-center dark:text-white">
+                          {packageItem.next_action_status}
                         </p>
                       </td>
 
@@ -505,10 +525,10 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                           <Select
                             options={deliveryBoys}
                             defaultValue={
-                              packageItem.delivery_boy_id
+                              packageItem.ext_id
                                 ? deliveryBoys?.find(
                                     (boy) =>
-                                      boy.value === packageItem.delivery_boy_id
+                                      boy.ext_id === packageItem.ext_id
                                   )
                                 : null
                             }
@@ -522,7 +542,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                             placeholder="Select Delivery Boy"
                           />
                         ) : (
-                          getSelectedDeliveryboy(packageItem.delivery_boy_id)
+                          getSelectedDeliveryboy(packageItem.ext_id)
                         )}
                       </td>
                       <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
@@ -541,7 +561,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                                 }
                                 className="hover:text-primary bg-gray-200 dark:bg-boxdark p-2 rounded-full"
                               >
-                                <MdClose size={17} />
+                                <MdClose size={17} color="red"/>
                               </button>
                             </div>
                           ) : localData?.order_status != "COMPLETED" ? (
@@ -550,7 +570,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                                 onClick={() =>
                                   updateEditDeliveryboy(packageItem.id, true)
                                 }
-                                className="hover:text-primary bg-gray-200 dark:bg-boxdark p-2 rounded-full"
+                                className={`hover:text-primary ${packageItem.ext_id ? 'bg-blue-300' : 'bg-gray-200'} dark:bg-boxdark p-2 rounded-full`}
                               >
                                 <FaEdit size={17} />
                               </button>

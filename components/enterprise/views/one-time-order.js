@@ -28,13 +28,13 @@ const OnetimeOrder = ({ order, deliveryboy, vehicle, orderLine }) => {
       </div>
       <div className="flex flex-col sm:flex-row gap-3">
         {/* Map and Location Section */}
-        <div className="sm:w-2/4">
+        {/* <div className="sm:w-2/4">
           <div className="rounded-lg bg-white border p-6 shadow-md mb-4 dark:bg-boxdark">
             <h2 className="text-lg font-semibold mb-4">Map View</h2>
             <MapComponent latitude={order?.latitude} longitude={order?.longitude}dlatitude={order?.dlatitude} dlongitude={order?.dlongitude} multiple={false}
               locations={[]} />
           </div>
-        </div>
+        </div> */}
 
         {/* Price Details Section */}
         <div className="sm:w-2/4 space-y-2">

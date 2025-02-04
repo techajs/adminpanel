@@ -22,7 +22,8 @@ const EnterpriseTableItem = ({
     setMatchId(Id);
     const payload = {
       ext_id: Id,
-      isPaylater: value ? 1 : 0,
+      isPaylater: 1,
+      isPay:value ? 1 : 0,
     };
     try {
       const response = await updateEnterprise(payload);

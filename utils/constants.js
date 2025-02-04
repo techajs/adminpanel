@@ -91,6 +91,7 @@ export const API = {
   getAllorderList: "/order",
   getAdmindashboard: "/dashboard/admin",
   industry: "/industry",
+  getBillingUrl:"/enterprise/order/reports/billing",
 };
 
 export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
