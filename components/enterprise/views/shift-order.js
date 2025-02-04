@@ -63,8 +63,10 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
     setUpdateEdit(false);
     setSlotRowId(null);
     setLoading(true);
+    
     try {
       const response = await assignDeliveryboyshift(payload);
+      setIsRefresh(true)
       setSuccessMessage("Delivery boy assigned successfully done.");
     } catch (error) {
       console.log(error);
@@ -475,7 +477,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                     <tr key={packageItem.id} className={`${packageItem.ext_id && 'bg-green-500 text-white'}`}>
                       <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                         <div className="flex gap-2">
-                          {localData?.order_status != "COMPLETED" &&
+                          {packageItem?.next_action_status != "Ended" &&
                           packageItem?.ext_id == null ? (
                             <input
                               type="checkbox"
@@ -564,7 +566,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                                 <MdClose size={17} color="red"/>
                               </button>
                             </div>
-                          ) : localData?.order_status != "COMPLETED" ? (
+                          ) : packageItem?.next_action_status != "Ended" ? (
                             <div className="flex items-center space-x-3.5">
                               <button
                                 onClick={() =>
