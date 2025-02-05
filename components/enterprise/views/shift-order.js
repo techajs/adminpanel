@@ -45,11 +45,8 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
   const [extId, setExtId] = useState(null);
   const [isResfresh,setIsRefresh]=useState(false)
   //  console.log('order',order,'deliveryboy',deliveryboy,"vehicle",vehicle,'slots',slots)
-  const totalHours = slots?.reduce((acc, slot) => {
-    const hours = calculateHoursDifference(slot?.from_time, slot?.to_time);
-    return acc + hours;
-  }, 0);
-
+  
+  const totalHours = slots?.reduce((sum, slot) => sum + (slot.total_hours || 0), 0).toFixed(2)
   const handleStatusChange = async () => {
     if (localData?.order_status == "REQUEST_PENDING") {
       alert("before assign accept shift");
@@ -88,6 +85,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
           order.delivery_boy_ext = deliveryBoy.ext_id;
           order.delivery_pic = deliveryBoy.profile_pic;
         }
+        console.log("vehicletype",vehicle)
 
         setLocalData(order || null);
         setLocalSlots(slots || null);
@@ -277,7 +275,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                       </div>
                       <div>
                         <h2 className="text-3xl font-bold dark:text-white text-black">
-                          {hours?.toFixed(2)}
+                          {hours}
                         </h2>
                         <p className="text-gray-500 dark:text-white">
                           Total Hours
