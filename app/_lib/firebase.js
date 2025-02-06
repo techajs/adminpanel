@@ -1,4 +1,3 @@
-// firebase-config.js
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage,isSupported } from "firebase/messaging";
 
@@ -12,8 +11,13 @@ const firebaseConfig = {
     measurementId:process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
-const messaging = getMessaging(firebaseApp);
+const app = initializeApp(firebaseConfig);
+let messaging;
+
+if (typeof window !== "undefined" && "Notification" in window) {
+  messaging = getMessaging(app);
+} else {
+  console.warn("Firebase Messaging is not supported on this browser.");
+}
 
 export { messaging, getToken, onMessage,isSupported };
