@@ -11,11 +11,12 @@ export const NotificationProvider = ({ children }) => {
 
   useEffect(() => {
     requestPermission(setToken);
-    onMessageListener((payload) => {
+    onMessageListener().then((payload) => {
+      console.log("Received Notification:", payload);
       setNotification(payload.notification);
     });
   }, []);
- 
+  
   return (
     <NotificationContext.Provider value={{ notification }}>
       {token && <AutoSessionUpdate token={token} />}
