@@ -92,6 +92,7 @@ export const API = {
   getAdmindashboard: "/dashboard/admin",
   industry: "/industry",
   getBillingUrl:"/enterprise/order/reports/billing",
+  updateWebToken:"/admin/updatewebtoken",
 };
 
 export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;

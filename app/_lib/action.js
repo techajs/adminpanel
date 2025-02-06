@@ -156,3 +156,21 @@ export const assginMultipleDeliveryboy=(url,params, successCallback,errorCallbac
     },
   );
 };
+
+export const updateWebToken = (
+  param,
+  successCallback,
+  errorCallback,
+) => {
+  axiosCall(
+    API.updateWebToken,
+    HTTPMethod.POST,
+    param,
+    response => {
+      successCallback(response);
+    },
+    errorResponse => {
+      errorCallback(errorResponse);
+    },
+  );
+};
