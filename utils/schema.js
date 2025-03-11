@@ -271,3 +271,11 @@ export const consumerSchema = Yup.object().shape({
     value: Yup.string().required("Country is required"),
   }).required("Country is required"),
 });
+
+export const serviceSchema = Yup.object().shape({
+  serviceType: Yup.string()
+    .required("Service name is required")
+    .min(2, "Service type must be at least 2 characters long"),
+  discount: Yup.string().matches(/^\+?\d+$/, "Discount should contain only digits"),
+  isDel: Yup.boolean(),
+});

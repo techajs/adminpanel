@@ -56,20 +56,27 @@ export const axiosCall = async (
     }
   );
 
-  switch (method) {
-    case HTTPMethod.GET:
-      await axiosInstance.get(url, { params });
-      break;
-    case HTTPMethod.POST:
-      await axiosInstance.post(url, params);
-      break;
-    case HTTPMethod.PUT:
-      await axiosInstance.put(url, params);
-      break;
-    case HTTPMethod.DELETE:
-      await axiosInstance.delete(url, { params });
-      break;
-    default:
-      break;
+  try {
+    let response;
+    switch (method) {
+      case HTTPMethod.GET:
+        response = await axiosInstance.get(url, { params });
+        break;
+      case HTTPMethod.POST:
+        response = await axiosInstance.post(url, params);
+        break;
+      case HTTPMethod.PUT:
+        response = await axiosInstance.put(url, params);
+        break;
+      case HTTPMethod.DELETE:
+        response = await axiosInstance.delete(url, { params });
+        break;
+      default:
+        throw new Error('Invalid HTTP method');
+    }
+    return response;  // Return the response data
+  } catch (error) {
+    console.error('Request Execution Error:', error);
+    return callbackErrorResponse(error);
   }
 };

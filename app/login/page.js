@@ -28,12 +28,11 @@ export default function Login() {
   const router = useRouter();
 
   useEffect(() => {
-    if (status === "authenticated") {
-      const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+    if (status === "authenticated" && session) {
       setIsLogin(true); // Show loading during redirect
-      router.push(callbackUrl);
+      router.replace("/dashboard"); // Use replace to avoid browser history issues
     }
-  }, [status, router]);
+  }, [status, session, router]);
 
   
 
@@ -53,10 +52,8 @@ export default function Login() {
       });
 
       if (res?.ok) {
-        const callUrl = searchParams.get("callbackUrl");
-        const callbackUrl = callUrl || "/dashboard";
         setLoading(false);
-        router.push(callbackUrl);
+        router.push("/dashboard");
       } else {
         setLoading(false);
         const errorMessage =

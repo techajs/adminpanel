@@ -2,12 +2,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Pagination from "../pagination/page";
-import Add from "../tables/add";
 import debounce from "lodash/debounce";
-import { GetEnterprises } from "@/services/enterprise";
 import TableItem from "../tables/table-items";
 import { FaDownload, FaTrash } from "react-icons/fa";
 import PageFilter from "../common/page-filter";
+import { getEnterprise } from "@/server/userController";
 
 const EnterpriseTable = () => {
   const router = useRouter();
@@ -28,7 +27,8 @@ const EnterpriseTable = () => {
   const fetchEnterprise = useCallback(async (currentPage, currentSearch,pageSize) => {
     setLoading(true);
     try {
-      const response = await GetEnterprises(currentPage, currentSearch,pageSize);
+      const result = await getEnterprise(currentPage, currentSearch,pageSize);
+      const response = result?._response;
       setEnterprise(response.data);
       setPagination({
         total: response.total,

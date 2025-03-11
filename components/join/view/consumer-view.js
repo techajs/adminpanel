@@ -93,8 +93,8 @@ export default function ConsumerView({ data }) {
         </div>
         <div className="w-[390px] sm:w-3/4    sm:px-7.5 ">
           <UserInfo data={data} userType="consumer" />
-          {error && <p className="text-red-500">{error}</p>}
-          {successmessage && <p className="text-green-500">{successmessage}</p>}
+          {error && <p className="text-red-500 text-center mt-5">{error}</p>}
+          {successmessage && <p className="text-green-500 text-center mt-5">{successmessage}</p>}
         </div>
       </div>
     </>

@@ -1,12 +1,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import ClickOutside from "@/components/ClickOutside";
-import { useNotification } from "@/app/context/NotificationContext";
 
 const DropdownNotification = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const {notification}=useNotification()
-  const [notifying, setNotifying] = useState(notification?.title || false);
+  const [notifying, setNotifying] = useState(false);
+
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <li>
@@ -52,22 +51,22 @@ const DropdownNotification = () => {
             </div>
 
             <ul className="flex h-auto flex-col overflow-y-auto">
-              {notification &&  <li>
+               <li>
                 <Link
                   className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
                   href="#"
                 >
                   <p className="text-sm">
                     <span className="text-black dark:text-white">
-                      {notification?.title}
+                     sdfasdf
                     </span>{" "}
-                    {notification?.body}
+                   sadfs
                   </p>
 
                   <p className="text-xs">12 May, 2025</p>
                 </Link>
               </li>
-              }
+             
              
             </ul>
           </div>

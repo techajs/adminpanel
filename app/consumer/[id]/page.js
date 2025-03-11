@@ -2,7 +2,7 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb"
 import ConsumerInfo from "@/components/consumer/info"
 import LayoutPage from "@/components/Layouts/layout";
-import { GetConsumerById } from "@/services/consumer";
+import { GetConsumerInfo } from "@/server/userController";
 
 
 import { useEffect, useState } from "react";
@@ -11,9 +11,12 @@ const ConsumerList = ({params})=>{
     const [consumer, setConsumer] = useState([]); // Initialized to null to handle empty state
     const [extid,setExtid]=useState(params?.id)
     const fetchConsumerView = async (ext_id) => {
+      
       try {
-        const response = await GetConsumerById(ext_id);
-        setConsumer(response[0]);
+        const result = await GetConsumerInfo(ext_id)
+        if(result?._success){
+          setConsumer(result?._response[0])
+        }
       } catch (error) {
         setConsumer([]); // Handle error by setting joinview to null
       }
@@ -24,7 +27,7 @@ const ConsumerList = ({params})=>{
  return (
     <LayoutPage>
         <Breadcrumb pageName="Consumer Info" title="consumer"/>
-        <ConsumerInfo  data={consumer}/>
+        <ConsumerInfo  data={consumer} extId={extid}/>
     </LayoutPage>
  )
 }

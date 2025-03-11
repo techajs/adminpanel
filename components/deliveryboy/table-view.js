@@ -5,9 +5,9 @@ import Pagination from "../pagination/page";
 import Add from "../tables/add";
 import debounce from "lodash/debounce";
 import TableItem from "../tables/table-items";
-import { GetDeliveryboys } from "@/services/deliveryboy";
 import { FaDownload, FaTrash } from "react-icons/fa";
 import PageFilter from "../common/page-filter";
+import { getDeliveryboy } from "@/server/userController";
 
 const DeliveryboyTable = () => {
   const router = useRouter();
@@ -30,11 +30,12 @@ const DeliveryboyTable = () => {
     async (currentPage, currentSearch, pageSize) => {
       setLoading(true);
       try {
-        const response = await GetDeliveryboys(
+        const result = await getDeliveryboy(
           currentPage,
           currentSearch,
           pageSize
         );
+        const response = result?._response;
         setDeliveryboy(response.data);
         setPagination({
           total: response.total,

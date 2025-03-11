@@ -1,5 +1,5 @@
 import { BASE_URL } from "@/utils/constants";
-import NextAuth, { getServerSession } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signOut } from "next-auth/react";
 
@@ -34,7 +34,7 @@ const login = async (credentials) => {
   }
 };
 
-const authOptions = {
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -55,7 +55,6 @@ const authOptions = {
     async jwt({ token, user,trigger,session }) {
       const currentTime = Math.floor(Date.now() / 1000);
       if (user) {
-        console.log("userend",user)
         // On initial login, store user info and set token expiry time
         token.username = user.username;
         token.email = user.email;
@@ -69,7 +68,6 @@ const authOptions = {
       
 
       if (trigger === "update" && session?.webToken) {
-        console.log("Updating webToken:", session.webToken);
         token.webToken = session.webToken; // Ensure webToken updates
       }
       // Check if the token is expired and invalidate it if necessary

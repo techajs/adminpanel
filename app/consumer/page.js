@@ -5,6 +5,7 @@ import LayoutPage from "@/components/Layouts/layout"
 
 
 const Consumers = ()=>{
+    
     return (
         <LayoutPage>
             <Breadcrumb pageName="Consumers" />

@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaEdit } from "react-icons/fa";
 
-const ConsumerInfo = ({ data }) => {
+const ConsumerInfo = ({ data,extId }) => {
   const maskedEmail = maskEmail(data?.email || "N/A");
   const maskedPhoneNumber = maskPhoneNumber(data?.phone || "N/A");
   const [selectedTab, setSelectedTab] = useState("ride"); // Default selected tab
@@ -69,7 +69,7 @@ const ConsumerInfo = ({ data }) => {
               <span className="text-sm">📞 {maskedPhoneNumber}</span>
             </div>
             <div className="flex items-center justify-end gap-2 mt-2">
-              <Link  href={`/consumer/${data?.ext_id}/edit`} className="text-sm text-primary"><FaEdit size={25}/></Link>
+              <Link  href={`/consumer/${extId}/edit`} className="text-sm text-primary"><FaEdit size={25}/></Link>
               <span className="text-sm">Edit</span>
             </div>
           </div>
@@ -90,7 +90,7 @@ const ConsumerInfo = ({ data }) => {
             setSelected={setSelectedTab}
           />
           <BaseViewTable
-            extId={data?.ext_id}
+            extId={extId}
             datatype={selectedTab}
             userType="consumer"
           />

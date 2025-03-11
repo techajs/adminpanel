@@ -13,6 +13,7 @@ export const API = {
   forgotPasswordUrl: "/authuser/forgotpassword",
   resetPasswordUrl: "/authuser/resetpassword",
   serviceTypeUrl: "/servicetypes",
+  serviceTypeAll: "/servicetypes/getall",
   locationIdUrl: "/locations",
   orderPickupUrl: "/order",
   viewOrderListUrl: "/order",

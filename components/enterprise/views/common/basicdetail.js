@@ -55,13 +55,13 @@ const EnterpriseBasicDetail = ({ order, orderLine }) => {
               : "bg-success text-white"
           } rounded`}
         >
-          {order?.paid_with == "Cash" ? "Not Paid" : "Paid"}
+          {order?.paid_with == "Cash" ? "Paid" : "Paid"}
         </span>
-        <strong>Payment Method:</strong>
+        {/* <strong>Payment Method:</strong>
         <span className="ml-2 flex items-center gap-1 px-2 py-1 border border-dotted border-gray-400 rounded">
           <FaEuroSign />
-          {order?.paid_with == "Cash" ? "Cash on Delivery" : order?.paid_with}
-        </span>
+          {order?.paid_with == "Cash" ? "Card" : order?.paid_with}
+        </span> */}
       </p>
       <p className="border-b-2 border-dotted border-gray-300 pb-2 flex gap-5 items-center">
         <strong>Order Status:</strong>

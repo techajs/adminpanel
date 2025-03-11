@@ -8,7 +8,6 @@ import {
   documentHeader,
 } from "@/utils/constants";
 import ListItem from "./item-list";
-import { GetOrderById } from "@/services/consumer";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { getOrderByDeliveryboyEXT } from "@/services/deliveryboy";
 import { getOrderByInterpriseEXT } from "@/services/enterprise";
@@ -16,6 +15,7 @@ import PageFilter from "@/components/common/page-filter";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { debounce } from "lodash";
 import Pagination from "@/components/pagination/page";
+import { GetOrderById } from "@/server/consumer/orderController";
 
 const BaseViewTable = ({ extId, datatype, userType }) => {
   const router = useRouter();
@@ -61,13 +61,16 @@ const BaseViewTable = ({ extId, datatype, userType }) => {
     const fetchOrder = async () => {
       try {
         const currentSearch = searchParams.get("search") || "";
-        const orderList = await getOrderList(currentSearch, pageSize, extId); // Pass extId here
+        const result = await getOrderList(currentSearch, pageSize, extId);
+        const orderList= result?._success ? result?._response : [] // Pass extId here
         setOrder(orderList);
       } catch (error) {
         console.error("Error fetching order list:", error);
       }
     };
-    fetchOrder();
+    if(extId){
+      fetchOrder();
+    }
   }, [searchParams, getOrderList, pageSize, extId]); // Added extId as a dependency
 
   const handleSearchChange = useCallback(

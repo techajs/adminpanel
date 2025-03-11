@@ -174,3 +174,21 @@ export const updateWebToken = (
     },
   );
 };
+
+export const getServiceTypes = (
+  param,
+  successCallback,
+  errorCallback,
+) => {
+  axiosCall(
+    API.serviceTypeAll,
+    HTTPMethod.GET,
+    param,
+    response => {
+      successCallback(response);
+    },
+    errorResponse => {
+      errorCallback(errorResponse);
+    },
+  );
+};

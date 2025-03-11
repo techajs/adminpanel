@@ -30,16 +30,16 @@ const BasicDetail = ({ order }) => {
               : "bg-success text-white"
           } rounded`}
         >
-          {order?.paid_with == "Cash" ? "Not Paid" : "Paid"}
+          {order?.paid_with == "Cash" ? "Paid" : "Paid"}
         </span>
       </p>
-      <p className="border-b-2 border-dotted border-gray-300 pb-2 flex items-center">
+      {/* <p className="border-b-2 border-dotted border-gray-300 pb-2 flex items-center">
         <strong>Payment Method:</strong>
         <span className="ml-2 flex items-center gap-1 px-2 py-1 border border-dotted border-gray-400 rounded">
           <FaEuroSign />
-          {order?.paid_with == "Cash" ? "Cash on Delivery" : order?.paid_with}
+          {order?.paid_with == "Cash" ? "Card" : order?.paid_with}
         </span>
-      </p>
+      </p> */}
       <p className="border-b-2 border-dotted border-gray-300 pb-2 flex items-center">
         <strong>Order Status:</strong>
         <span className="ml-2 px-2 py-1 bg-blue-500 text-white rounded">
