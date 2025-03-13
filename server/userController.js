@@ -40,3 +40,16 @@ export const getDeliveryboy = async (page, search, pageSize) => {
     const [res] = await apiClient.get(apiUrl);
     return res;
   };
+
+  export const GetDeliveryboyById = async (ext_id)=>{
+    let apiUrl = `${API.getDeliveryboy}/${ext_id}`;
+    const [res] = await apiClient.get(apiUrl);
+    // console.log("res",res)
+    return res;
+  };
+
+  export const updateDeliveryboy = async (params)=>{
+    const apiUrl =`${API.getDeliveryboy}?ext_id=${params.ext_id}`;
+    const [res] = await apiClient.put(apiUrl,params);
+    return res;
+  }

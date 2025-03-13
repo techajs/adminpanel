@@ -10,7 +10,7 @@ export default function UserInfo({ data, userType }) {
           <h2 className="text-md font-bold mb-4">Vehicle Information</h2>
           <div className="space-y-2 text-md">
             {data?.vehicles?.length > 0 ? (
-              data.vehicles.map((item, key) => (
+              data?.vehicles.map((item, key) => (
                 <div key={key}>
                   <p>
                     <strong>Vehicle Name:</strong>{" "}
@@ -86,7 +86,7 @@ export default function UserInfo({ data, userType }) {
               <Link
                 target="_blank"
                 className="text-primary"
-                href={`/worktype/${data.work_type_id}`}
+                href={`/worktype/${data?.work_type_id}`}
               >
                 {data?.work_type || "N/A"}
               </Link>

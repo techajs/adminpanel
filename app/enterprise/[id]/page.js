@@ -2,7 +2,7 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import EnterpriseInfo from "@/components/enterprise/info";
 import LayoutPage from "@/components/Layouts/layout";
-import { GetDetail } from "@/services/enterprise";
+import { GetDetail } from "@/server/enterprise";
 import { useEffect, useState } from "react";
 
 const EnterpriseList = ({ params }) => {
@@ -10,8 +10,8 @@ const EnterpriseList = ({ params }) => {
   const [extid, setExtid] = useState(params?.id);
   const fetchEnterpriseView = async (ext_id) => {
     try {
-      const response = await GetDetail(ext_id);
-      setEnterprise(response[0]);
+      const res = await GetDetail(ext_id);
+      setEnterprise(res?._response[0]);
     } catch (error) {
       setEnterprise([]); // Handle error by setting joinview to null
     }

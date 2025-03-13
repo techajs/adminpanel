@@ -2,15 +2,11 @@
 import { useEffect, useState, useCallback } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import LayoutPage from "@/components/Layouts/layout";
-import MapComponent from "@/components/MapComponent";
-import { FaEuroSign, FaPrint } from "react-icons/fa";
-import { FaLocationDot } from "react-icons/fa6";
-import { formatDate, getAddressLine } from "@/utils/constants";
-import { GetOrderByNumber } from "@/services/order";
-import Link from "next/link";
+import {FaPrint } from "react-icons/fa";
 import BasicDetail from "@/components/order/views/orderdetail/basic-detail";
 import BillingDetail from "@/components/order/views/orderdetail/billing-detail";
 import AdditionDetail from "@/components/order/views/orderdetail/addition-detail";
+import { GetOrderByNumber } from "@/server/order";
 
 const ViewOrder = ({ params }) => {
   const orderNumber = params?.id || "";
@@ -60,13 +56,7 @@ const ViewOrder = ({ params }) => {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
-        {/* Map and Location Section */}
-        <div className="sm:w-2/4">
-          <div className="rounded-lg bg-white border p-6 shadow-md mb-4 dark:bg-boxdark">
-            <h2 className="text-lg font-semibold mb-4">Map View</h2>
-            <MapComponent latitude={order?.latitude} longitude={order?.longitude}dlatitude={order?.dlatitude} dlongitude={order?.dlongitude} />
-          </div>
-        </div>
+       
 
         {/* Price Details Section */}
         <div className="sm:w-2/4 space-y-2">

@@ -33,7 +33,7 @@ const EnterpriseInfo = ({ data }) => {
               {data?.profile_pic ? (
                 <Image
                   src={getValidImageUrl(data?.profile_pic)}
-                  alt={`${data.first_name} ${data.last_name}`}
+                  alt={`${data?.first_name} ${data?.last_name}`}
                   className="w-full h-full rounded-full object-cover"
                   width={60}
                   height={60}
@@ -41,7 +41,7 @@ const EnterpriseInfo = ({ data }) => {
               ) : (
                 <span className="text-2xl text-white font-bold">
                   {data?.first_name
-                    ? data.first_name.charAt(0).toUpperCase()
+                    ? data?.first_name.charAt(0).toUpperCase()
                     : "U"}
                 </span>
               )}

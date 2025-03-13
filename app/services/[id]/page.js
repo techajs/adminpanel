@@ -2,10 +2,7 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Waiting from "@/components/common/waiting";
 import LayoutPage from "@/components/Layouts/layout";
-import {
-  GetServiceTypeById,
-  updateServiceType,
-} from "@/services/servicetype/GetServiceType";
+import { GetServiceTypeById, updateServiceType } from "@/server/servicetype";
 import { serviceSchema } from "@/utils/schema";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
@@ -49,8 +46,17 @@ const EditServiceType = ({ params }) => {
         isDelValue: serviceType.is_del == isDelete ? false : true,
       };
       try {
-        const response = await updateServiceType(payload);
-        setStatusMessage({ text: response, type: "success" });
+        const res = await updateServiceType(payload);
+        if(res?._success){
+          const response=res?._response
+          setStatusMessage({ text: response, type: "success" });
+        }else{
+          setStatusMessage({
+            text: "Error updating service type.",
+            type: "error",
+          });
+        }
+        
       } catch (error) {
         setStatusMessage({
           text: "Error updating service type.",

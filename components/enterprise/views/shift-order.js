@@ -1,13 +1,9 @@
 "use client";
-import MapComponent from "@/components/MapComponent";
 import React, { useEffect, useState } from "react";
 import {
   FaCheck,
   FaEdit,
 } from "react-icons/fa";
-import EnterpirseBillingDetail from "./common/billingdetail";
-import EnterpriseAdditionDetail from "./common/additiondetail";
-import EnterpriseBasicDetail from "./common/basicdetail";
 import Image from "next/image";
 import Select from "react-select";
 import {
@@ -17,15 +13,10 @@ import {
   getStatus,
   getValidImageUrl,
 } from "@/utils/constants";
-import Link from "next/link";
-import { GetOrderByNumber, UpdateStatus } from "@/services/enterprise";
-import ListDeliveryboy from "@/components/order/views/orderdetail/delivery-list";
-import {
-  assignDeliveryboyshift,
-  assignMultipleDeliveryboyshift,
-  getAvailableDeliveryboy,
-} from "@/services/deliveryboy";
+
 import { MdClose, MdRefresh } from "react-icons/md";
+import { GetOrderByNumber, UpdateStatus } from "@/server/enterprise";
+import { assignDeliveryboyshift, assignMultipleDeliveryboyshift, getAvailableDeliveryboy } from "@/server/deliveryboy";
 
 const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
   const [hours, setHours] = useState(0);
@@ -53,7 +44,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
       return;
     }
     const payload = {
-      order_number: localData.order_number,
+      order_number: localData?.order_number,
       delivery_boy_ext_id: extId,
       slot_id: slotId,
     };
@@ -75,9 +66,10 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
 
   const refreshData = async () => {
     try {
-      const response = await GetOrderByNumber(localData.order_number);
+      const res = await GetOrderByNumber(localData?.order_number);
 
-      if (response) {
+      if (res) {
+        const response=res?._response
         const { order, deliveryBoy, orderLines, vehicle, slots } = response;
         if (deliveryBoy) {
           order.delivery_boy_name = `${deliveryBoy.first_name} ${deliveryBoy.last_name}`;
@@ -127,7 +119,8 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
     setHours(totalHours || 0);
     const getDeliveryboyAvailable = async () => {
       try {
-        const response = await getAvailableDeliveryboy();
+        const res = await getAvailableDeliveryboy();
+        const response =res?._response;
         const formattedDeliveryBoys = response.map((boy) => ({
           value: boy.id,
           label: boy.first_name + " " + boy.last_name,
@@ -154,8 +147,8 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
 
   const groupSlots = () => {
     const groups = {};
-    localSlots.forEach((slot) => {
-      const key = `${slot.slot_date}-${slot.from_time}-${slot.to_time}`;
+    localSlots?.forEach((slot) => {
+      const key = `${slot?.slot_date}-${slot?.from_time}-${slot?.to_time}`;
       if (!groups[key]) {
         groups[key] = [];
       }
@@ -209,7 +202,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
     const deliveryBoyId = selectedDeliveryBoy.value;
     const requestPayload = {
         deliveryBoyId,
-        orderNumber:localData.order_number,
+        orderNumber:localData?.order_number,
         slots: selectedSlots?.map(slot => ({
             id: slot.id,
             slot_date: slot.slot_date,
@@ -262,7 +255,8 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                 <div className="border rounded-lg shadow-sm">
                   <div className="p-6">
                     <h4 className="text-lg font-semibold mb-4 dark:text-white text-black">
-                      Shift overview:
+                      Shift overview: #{localData?.order_number}
+                     
                     </h4>
                     <div className="flex justify-between space-x-8 mb-6">
                       <div>
@@ -303,7 +297,10 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                       <p>
                         To <b> {formatDate(localData?.shift_tp_date, false)}</b>
                       </p>
+
+                     
                     </div>
+                    
                     <div className="flex items-center space-x-4 text-gray-600 mt-3 dark:text-white">
                       <p>
                         Branch Name :{" "}
@@ -371,11 +368,11 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                 
                   <div className="mt-4">
                     <button
-                      disabled={localData.order_status == "REQUEST_PENDING" ? false : true}
-                      onClick={localData.order_status === "REQUEST_PENDING" ? () => updateStatusHandler("accepted", localData?.order_number) : undefined}
-                      className={`w-full block text-center ${localData.order_status === "REQUEST_PENDING" ? "bg-blue-800 hover:bg-blue-900 dark:bg-blue-600" : "bg-success hover:bg-success dark:bg-success"}  text-white py-2 px-4 rounded-lg  `}
+                      disabled={localData?.order_status == "REQUEST_PENDING" ? false : true}
+                      onClick={localData?.order_status === "REQUEST_PENDING" ? () => updateStatusHandler("accepted", localData?.order_number) : undefined}
+                      className={`w-full block text-center ${localData?.order_status === "REQUEST_PENDING" ? "bg-blue-800 hover:bg-blue-900 dark:bg-blue-600" : "bg-success hover:bg-success dark:bg-success"}  text-white py-2 px-4 rounded-lg  `}
                     >
-                     {localData.order_status === "REQUEST_PENDING" ? 'Accept' : getStatus(localData?.order_status) }
+                     {localData?.order_status === "REQUEST_PENDING" ? 'Accept' : getStatus(localData?.order_status) }
                     </button>
 
                   </div>

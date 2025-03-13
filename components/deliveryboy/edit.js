@@ -4,15 +4,15 @@ import * as Yup from "yup";
 import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
 import Select from "react-select";
-import useFetchGlobalData from "@/hooks/useFetchData";
 import { useEffect, useState } from "react";
-import { GetDeliveryboyById, updateDeliveryboy } from "@/services/deliveryboy";
 import { delvieryboySchema } from "@/utils/schema";
 import Waiting from "../common/waiting";
 import { useRouter } from "next/navigation";
+import { GetDeliveryboyById, updateDeliveryboy } from "@/server/userController";
+import { useGlobalData } from "@/app/context/GlobalDataContext";
 const EditDeliveryboyPage = ({ deliveryboyId }) => {
 
-  const { country, fetchCountry, city, state, fetchCity, fetchState } =useFetchGlobalData();
+  const { country, fetchAllData, city, state } =useGlobalData();
   const router = useRouter();
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
@@ -23,8 +23,8 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
   const [successMessage, setSuccessMessage] = useState("");
   const fetchDeliveryboyView = async (deliveryboyId) => {
     try {
-      const response = await GetDeliveryboyById(deliveryboyId);
-      setDeliveryboy(response);
+      const res = await GetDeliveryboyById(deliveryboyId);
+      setDeliveryboy(res?._response);
     } catch (error) {
       setDeliveryboy([]);
     }
@@ -37,33 +37,30 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
         value: country.id,
       }));
       setCountryData(countries);
-    } else {
-      fetchCountry();
+      if (state) {
+        const states = state?.map((state) => ({
+          label: state.state_name,
+          value: state.id,
+        }));
+        setStateList(states);
+      }
+      if (city) {
+        const cities = city?.map((city) => ({
+          label: city.city_name,
+          value: city.id,
+        }));
+      
+        setCityList(cities);
+      }
+    }else{
+      fetchAllData()
     }
 
     if (deliveryboyId) {
       fetchDeliveryboyView(deliveryboyId);
     }
 
-    if (state) {
-      const states = state?.map((state) => ({
-        label: state.state_name,
-        value: state.id,
-      }));
-      setStateList(states);
-    } else {
-      fetchState();
-    }
-    if (city) {
-      const cities = city?.map((city) => ({
-        label: city.city_name,
-        value: city.id,
-      }));
     
-      setCityList(cities);
-    } else {
-      fetchCity();
-    }
   }, [deliveryboyId]);
 
 

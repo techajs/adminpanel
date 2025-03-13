@@ -1,5 +1,4 @@
 "use client";
-import useFetchGlobalData from "@/hooks/useFetchData";
 import { formatDate } from "@/utils/constants";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,11 +6,12 @@ import { useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineHideImage } from "react-icons/md";
 import DocumentModal from "./document-modal";
-import { getImageByUrl } from "@/services";
 import Waiting from "../common/waiting";
+import { useGlobalData } from "@/app/context/GlobalDataContext";
+import { getImageByUrl } from "@/server";
 
 const VehicleTypeView = ({ VehicleTypeId }) => {
-  const { vehicleType,fetchVehicleType } = useFetchGlobalData();
+  const { vehicleType,fetchAllData } = useGlobalData();
   const [vehicleTypeData, setVehicleTypeData] = useState(vehicleType);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -43,6 +43,8 @@ const VehicleTypeView = ({ VehicleTypeId }) => {
 
           setVehicleTypeData(vehicleData);
         }
+      }else{
+        fetchAllData
       }
       setLoading(false);
     };

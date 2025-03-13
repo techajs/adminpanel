@@ -1,7 +1,7 @@
 "use client";
-import { GetVehicles, GetVehicleTypes } from '@/services';
-import { GetCity, GetCountry, GetState, GetWorkType } from '@/services/common'
-import { createContext, useContext, useState } from 'react';
+import { GetVehicles, GetVehicleTypes } from "@/server";
+import { GetCity, GetCountry, GetState, GetWorkType } from "@/services/common";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const GlobalDataContext = createContext();
 
@@ -16,80 +16,47 @@ export const GlobalDataProvider = ({ children }) => {
   const [workType, setWorkType] = useState(null);
   const [vehicleType, setVehicleType] = useState(null);
   const [vehicle, setVehicle] = useState(null);
-  const fetchVehicleType = async () => {
+
+  // Function to fetch all data once after login
+  const fetchAllData = async () => {
     try {
-      const response = await GetVehicleTypes();
-      setVehicleType(response);
+      const [countryRes, stateRes, cityRes, workTypeRes, vehicleTypeRes, vehicleRes] = await Promise.all([
+        GetCountry(),
+        GetState(),
+        GetCity(),
+        GetWorkType(),
+        GetVehicleTypes(),
+        GetVehicles(),
+      ]);
+
+      setCountry(countryRes);
+      setState(stateRes);
+      setCity(cityRes);
+      setWorkType(workTypeRes);
+      setVehicleType(vehicleTypeRes);
+      setVehicle(vehicleRes);
     } catch (error) {
-      setVehicleType([]);
-    }
-  };
-  const fetchVehicle = async () => {
-    try {
-      const response = await GetVehicles();
-      setVehicle(response);
-    } catch (error) {
-      setVehicle([]);
-    }
-  };
-  const fetchDeliveryboy = async () => {
-    try {
-      const response = await GetVehicles();
-      setVehicle(response);
-    } catch (error) {
-      setVehicle([]);
-    }
-  };
-  const fetchCountry = async () => {
-    try {
-      const response = await GetCountry();
-      setCountry(response);
-    } catch (error) {
-      setCountry([]);
-    }
-  };
-  const fetchState = async () => {
-    try {
-      const response = await GetState();
-      setState(response);
-    } catch (error) {
-      setState([]);
-    }
-  };
-  const fetchCity = async () => {
-    try {
-      const response = await GetCity();
-      setCity(response);
-    } catch (error) {
-      setCity([]);
-    }
-  };
-  const fetchWorkType = async () => {
-    try {
-      const response = await GetWorkType();
-     
-      setWorkType(response);
-    } catch (error) {
-      setWorkType([]);
+      console.error("Error fetching global data:", error);
     }
   };
 
+  // Fetch data only ONCE after login
+  useEffect(() => {
+    fetchAllData();
+  }, []); // Runs only once when component mounts
+
   return (
-    <GlobalDataContext.Provider value={{ 
-      country, 
-      state, 
-      city, 
-      vehicleType, 
-      workType, 
-      vehicle ,
-      fetchVehicleType,
-      fetchVehicle,
-      fetchCountry,
-      fetchState,
-      fetchCity,
-      fetchWorkType,
-      fetchDeliveryboy
-    }}>
+    <GlobalDataContext.Provider
+      value={{
+        country,
+        state,
+        city,
+        vehicleType,
+        workType,
+        vehicle,
+        fetchAllData, // Optionally, allow refetching
+      }}
+    >
       {children}
     </GlobalDataContext.Provider>
   );

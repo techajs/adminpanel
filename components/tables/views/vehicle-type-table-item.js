@@ -1,6 +1,6 @@
 import Switcher from "@/components/common/switcher";
 import Waiting from "@/components/common/waiting";
-import { UdateVehicleTypeStatus } from "@/services";
+import { UdateVehicleTypeStatus } from "@/server";
 import { getValidImageUrl } from "@/utils/constants";
 import Image from "next/image";
 import Link from "next/link";

@@ -9,13 +9,14 @@ import {
 } from "@/utils/constants";
 import ListItem from "./item-list";
 import { useEffect, useState, useMemo, useCallback } from "react";
-import { getOrderByDeliveryboyEXT } from "@/services/deliveryboy";
-import { getOrderByInterpriseEXT } from "@/services/enterprise";
+
 import PageFilter from "@/components/common/page-filter";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { debounce } from "lodash";
 import Pagination from "@/components/pagination/page";
-import { GetOrderById } from "@/server/consumer/orderController";
+import { getOrderByInterpriseEXT } from "@/server/enterprise";
+import { GetOrderById } from "@/server/consumer";
+import { getOrderByDeliveryboyEXT } from "@/server/deliveryboy";
 
 const BaseViewTable = ({ extId, datatype, userType }) => {
   const router = useRouter();

@@ -1,7 +1,7 @@
 "use client";
+import { useGlobalData } from "@/app/context/GlobalDataContext";
 import Waiting from "@/components/common/waiting";
-import useFetchGlobalData from "@/hooks/useFetchData";
-import { updateVehicle } from "@/services";
+import { updateVehicle } from "@/server";
 import { uploadImage } from "@/services/common";
 import { getValidImageUrl } from "@/utils/constants";
 import { vehicleValicationSchema } from "@/utils/schema";
@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 const EditVehicle = ({ VehicleId,actionType }) => {
   
   const router = useRouter()
-  const { vehicle, vehicleType,fetchVehicle} = useFetchGlobalData();
+  const { vehicle, vehicleType,fetchAllData} = useGlobalData();
   const [vehicleData, setVehicleData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -41,7 +41,7 @@ const EditVehicle = ({ VehicleId,actionType }) => {
           passport: foundVehicle.passport || null,
         });
       }else{
-        fetchVehicle();
+        fetchAllData();
       }
       setLoading(false);
     }

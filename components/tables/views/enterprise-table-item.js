@@ -1,6 +1,7 @@
+"use client";
 import Switcher from "@/components/common/switcher";
 import Waiting from "@/components/common/waiting";
-import { updateEnterprise } from "@/services/enterprise";
+import { updateEnterprise } from "@/server/enterprise";
 import { formatDate, getValidImageUrl } from "@/utils/constants";
 import Image from "next/image";
 import Link from "next/link";

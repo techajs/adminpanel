@@ -13,3 +13,17 @@ export const GetOrderById = async (search, pageSize, ext_id) => {
   const [res] = await apiClient.get(apiUrl);
   return res;
 };
+
+
+export const GetConsumerById = async (ext_id) => {
+  let apiUrl = `${API.getConsumer}/${ext_id}`;
+  const [res] = await apiClient.get(apiUrl);
+  return res;
+  
+};
+
+export const updateConsumer = async (params)=>{
+  const apiUrl =`${API.getConsumer}?ext_id=${params.ext_id}`;
+  const [res] = await apiClient.put(apiUrl,params);
+  return res;
+}
