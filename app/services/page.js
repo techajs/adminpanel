@@ -3,7 +3,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import PageFilter from "@/components/common/page-filter";
 import LayoutPage from "@/components/Layouts/layout";
 import Add from "@/components/tables/add";
-import { GetServiceType } from "@/services/servicetype/GetServiceType";
+import { GetServiceType } from "@/server/servicetype";
 import { formatDate } from "@/utils/constants";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -26,8 +26,14 @@ const ServicesType = () => {
   useEffect(() => {
     const getService = async () => {
       try {
-        const servicedata = await GetServiceType(); // Ensure it's awaited
-        setServiceData(servicedata);
+        const res = await GetServiceType(); // Ensure it's awaited
+        if(res?._success){
+          const servicedata=res?._response
+          setServiceData(servicedata);
+        }else{
+          setServiceData([])
+        }
+        
       } catch (error) {
         setServiceData([]);
         console.error("Error fetching service data:", error);
@@ -76,7 +82,7 @@ const ServicesType = () => {
               </tr>
             </thead>
             <tbody>
-              {serviceData.length > 0 ? (
+              {serviceData?.length > 0 ? (
                 serviceData?.map((item, i) => (
                   <tr key={i}>
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
@@ -86,17 +92,17 @@ const ServicesType = () => {
                     </td>
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       <p className="text-black text-sm dark:text-white">
-                        {item.service_name}
+                        {item?.service_name}
                       </p>
                     </td>
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       <p className="text-black text-sm dark:text-white">
-                        {item.discount}
+                        {item?.discount}
                       </p>
                     </td>
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                       <p className="text-black text-sm dark:text-white">
-                        {formatDate(item.created_on, true)}
+                        {formatDate(item?.created_on, true)}
                       </p>
                     </td>
                     <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
@@ -117,7 +123,7 @@ const ServicesType = () => {
                         <p
                           className={`inline-flex rounded-full bg-opacity-70 px-2 py-2 text-white text-sm font-medium bg-success `}
                         >
-                          <Link href={`/services/${item.id}`}>
+                          <Link href={`/services/${item?.id}`}>
                             <FaRegEdit size={15} />
                           </Link>
                         </p>

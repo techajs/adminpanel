@@ -6,11 +6,11 @@ import Link from "next/link";
 import { FaClipboardCheck, FaFileExcel, FaTruck, FaUser } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import Dashboarbox from "./box";
-import useFetchGlobalData from "@/hooks/useFetchData";
 import Waiting from "../common/waiting";
+import { useGlobalData } from "@/app/context/GlobalDataContext";
 
 const DashboardLayout = () => {
-  const { country, state, city } = useFetchGlobalData();
+  const { country, state, city } = useGlobalData();
   const [dashboardData, setDashboardData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {

@@ -5,9 +5,9 @@ import Pagination from "../pagination/page";
 import Add from "../tables/add";
 import debounce from "lodash/debounce";
 import OrderTableItem from "../tables/orderItem";
-import { GetOrders } from "@/services/order";
 import OrderStatus from "../tables/order-status";
 import PageFilter from "../common/page-filter";
+import { GetOrders } from "@/server/order";
 
 const OrderView = () => {
   const router = useRouter();
@@ -28,12 +28,13 @@ const OrderView = () => {
     async (currentPage, currentSearch, currentStatus,pageSize) => {
       setLoading(true);
       try {
-        const response = await GetOrders(
+        const res = await GetOrders(
           currentPage,
           currentSearch,
           currentStatus,
           pageSize,
         );
+        const response=res?._response
         setOrder(response.data);
         setPagination({
           total: response.total,

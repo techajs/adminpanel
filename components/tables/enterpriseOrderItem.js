@@ -1,3 +1,4 @@
+"use client";
 import { getStatus } from "@/utils/constants";
 import Link from "next/link";
 import { FaEye, FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
@@ -49,7 +50,7 @@ const EnterpriseOrderItem = ({
               </td>
             </tr>
           ) : data?.length > 0 ? (
-            data.map((item, key) => (
+            data?.map((item, key) => (
               <tr key={key}>
                 <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                   <h5 className="font-medium text-sm text-black dark:text-white">

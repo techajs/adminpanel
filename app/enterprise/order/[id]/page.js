@@ -4,7 +4,8 @@ import MultipleOrder from "@/components/enterprise/views/multiple-order";
 import OnetimeOrder from "@/components/enterprise/views/one-time-order";
 import ShiftOrder from "@/components/enterprise/views/shift-order";
 import LayoutPage from "@/components/Layouts/layout";
-import { GetOrderByNumber } from "@/services/enterprise";
+import { GetOrderByNumber } from "@/server/enterprise";
+
 import { useEffect, useState } from "react";
 
 const EorderView = ({ params }) => {
@@ -15,9 +16,10 @@ const EorderView = ({ params }) => {
     const [slotList, setSlotList] = useState(null);
     const fetchEnterpriseOrder = async (ext_id) => {
         try {
-            const response = await GetOrderByNumber(ext_id);
-
-            if (response) {
+            const res = await GetOrderByNumber(ext_id);
+            
+            if (res) {
+                const response=res?._response
                 const { order, deliveryBoy, orderLines, vehicle,slots } = response;
                 if (deliveryBoy) {
                     order.delivery_boy_name = `${deliveryBoy.first_name} ${deliveryBoy.last_name}`;

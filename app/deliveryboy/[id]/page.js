@@ -2,7 +2,8 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DeliveryboyInfo from "@/components/deliveryboy/info";
 import LayoutPage from "@/components/Layouts/layout";
-import { GetDeliveryboyById } from "@/services/deliveryboy";
+import { GetDeliveryboyById } from "@/server/userController";
+
 
 import { useEffect, useState } from "react";
 
@@ -10,8 +11,8 @@ const DeliveryboyView = ({ params }) => {
   const [deliveryboy, setDeliveryboy] = useState(null);
   const fetchDeliveryboyView = async (ext_id) => {
     try {
-      const response = await GetDeliveryboyById(ext_id);
-      setDeliveryboy(response);
+      const res = await GetDeliveryboyById(ext_id);
+      setDeliveryboy(res?._response);
     } catch (error) {
       setDeliveryboy([]); // Handle error by setting to empty array
     }

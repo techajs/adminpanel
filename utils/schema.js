@@ -239,9 +239,9 @@ export const enterpriseSchema = Yup.object().shape({
   company: Yup.string().required("Company name is required"),
   siret: Yup.string().required("Siret number is required"),
   comments: Yup.string().required("Please describe your projects"),
-  industry: Yup.object({
-    value: Yup.string().required("Industry is required"),
-  }).required("Industry is required"),
+  // industry: Yup.object({
+  //   value: Yup.string().required("Industry is required"),
+  // }).required("Industry is required"),
   deliveries: Yup.string()
     .required("Delivery Deliveries per month is required")
     .matches(/^\+?\d+$/, "Delivery should contain only digits"),

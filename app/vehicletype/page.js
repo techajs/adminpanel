@@ -7,16 +7,17 @@ import TableItem from "@/components/tables/table-items";
 import { calculateTotalPages, paginate } from "@/utils/constants";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
-import useFetchGlobalData from "@/hooks/useFetchData";
+
+import { useGlobalData } from "../context/GlobalDataContext";
 
 const VehicleTypes = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [search, setSearch] = useState("");
-    const {vehicleType,fetchVehicleType} = useFetchGlobalData();
+    const {vehicleType,fetchAllData} = useGlobalData();
   
     const refreshVehicleData = async () => {
-      fetchVehicleType(); // Fetches updated vehicle data from API
+      fetchAllData(); // Fetches updated vehicle data from API
     };
 
     // Filter vehicles by search term

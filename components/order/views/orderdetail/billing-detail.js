@@ -2,7 +2,6 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import ListDeliveryboy from "./delivery-list";
-import { getAvailableDeliveryboy } from "@/services/deliveryboy";
 import { getValidImageUrl } from "@/utils/constants";
 import Image from "next/image";
 

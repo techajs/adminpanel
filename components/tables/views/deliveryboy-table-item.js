@@ -1,6 +1,6 @@
 import Switcher from "@/components/common/switcher";
 import Waiting from "@/components/common/waiting";
-import { activeAndInactiveDeliveyboy } from "@/services/deliveryboy";
+import { activeAndInactiveDeliveyboy } from "@/server/deliveryboy";
 import { formatDate, getValidImageUrl } from "@/utils/constants";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,8 +25,8 @@ const DeliveryboyTableItem = ({
           is_available: value ? 1 : 0,
         };
         try {
-          const response = await activeAndInactiveDeliveyboy(payload, Id);
-          setSuccessMsg(response)
+          const res = await activeAndInactiveDeliveyboy(payload, Id);
+          setSuccessMsg(res?._response)
         } catch (err) {
           if (err[0]?._errors) {
             console.log(err[0]._errors.message);
@@ -94,7 +94,7 @@ const DeliveryboyTableItem = ({
               <p
                 className={`inline-flex rounded-full bg-opacity-10 px-2 py-2 dark:text-white text-sm font-medium bg-boxdark `}
               >
-                <Link href={`${url}/document/${item.ext_id}`}>
+                <Link href={`/document/${item.ext_id}`}>
                   <FaFile size={15} />
                 </Link>
               </p>

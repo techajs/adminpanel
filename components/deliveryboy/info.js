@@ -9,6 +9,7 @@ import { FaEdit } from "react-icons/fa";
 import Link from "next/link";
 
 const DeliveryboyInfo = ({ data }) => {
+  // console.log("data",data)
   const maskedEmail = maskEmail(data?.email || "N/A");
   const maskedPhoneNumber = maskPhoneNumber(data?.phone || "N/A");
   const [selectedTab, setSelectedTab] = useState("ride");
@@ -29,19 +30,19 @@ const DeliveryboyInfo = ({ data }) => {
               {data?.profile_pic ? (
                 <Image
                   src={getValidImageUrl(data.profile_pic)}
-                  alt={`${data.first_name || "User"} ${data.last_name || ""}`}
+                  alt={`${data?.first_name || "User"} ${data?.last_name || ""}`}
                   className="w-full h-full rounded-full object-cover"
                   width={60}
                   height={60}
                 />
               ) : (
                 <span className="text-2xl text-white font-bold">
-                  {data.first_name ? data.first_name.charAt(0).toUpperCase() : "U"}
+                  {data?.first_name ? data?.first_name.charAt(0).toUpperCase() : "U"}
                 </span>
               )}
             </div>
             <h2 className="text-lg font-semibold text-white">
-              {data.first_name || "Unknown"} {data.last_name || ""}
+              {data?.first_name || "Unknown"} {data?.last_name || ""}
             </h2>
             <span className="bg-yellow-500 text-black px-2 py-1 rounded-full mt-2">
               ★ 0.0
@@ -77,7 +78,7 @@ const DeliveryboyInfo = ({ data }) => {
       <div className="w-[390px] sm:w-3/4 rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
           <TabLayout tabs={tabs} selectedTab={selectedTab} setSelected={setSelectedTab} />
-          <BaseViewTable extId={data.ext_id} datatype={selectedTab} userType="deliveryboy"/>
+          <BaseViewTable extId={data?.ext_id} datatype={selectedTab} userType="deliveryboy"/>
         </div>
       </div>
     </div>

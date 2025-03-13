@@ -7,9 +7,10 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { vehicleTypeValidationSchema } from "@/utils/schema";
 import Waiting from "@/components/common/waiting";
-import useFetchGlobalData from "@/hooks/useFetchData";
-import { updateVehicleType } from "@/services";
+
 import { uploadImage } from "@/services/common";
+import { useGlobalData } from "@/app/context/GlobalDataContext";
+import { updateVehicleType } from "@/server";
 
  // Ensure path is correct
 
@@ -17,7 +18,7 @@ const EditVehicleType = ({ params, vehicleTypes }) => {
   const router = useRouter();
   const vehicleTypeId = params?.id || null;
   const [loading, setLoading] = useState(false);
-  const {vehicleType,fetchVehicleType} = useFetchGlobalData()
+  const {vehicleType,fetchAllData} = useGlobalData()
   const [vehicleTypeData,setVehicleTypeData] = useState(null)
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -98,7 +99,7 @@ const EditVehicleType = ({ params, vehicleTypes }) => {
         setTimeout(()=>{
             setError("");
             setSuccessMessage("");
-            fetchVehicleType();
+            fetchAllData();
             router.replace("/vehicletype");
           },2500)
       }

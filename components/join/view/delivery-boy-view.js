@@ -76,7 +76,7 @@ export default function DeliveryboyView({ data }) {
               <div className="flex items-center  mt-4 gap-2">
                 <span className="text-sm">Document View :</span>
                 <Link
-                  href={`/deliveryboy/document/${data?.deliveryboyId}`}
+                  href={`/document/${data?.deliveryboyId}`}
                   className="text-primary"
                 >
                   <FaEye size={25} />

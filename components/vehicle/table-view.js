@@ -5,19 +5,16 @@ import PageFilter from "../common/page-filter";
 import { useCallback, useEffect, useState } from "react";
 import { debounce } from "lodash";
 import { calculateTotalPages, paginate } from "@/utils/constants";
-import useFetchGlobalData from "@/hooks/useFetchData";
-
-
-
+import { useGlobalData } from "@/app/context/GlobalDataContext";
 
 const VehicleTableView = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [search, setSearch] = useState("");
-  const {vehicle,fetchVehicle} = useFetchGlobalData();
+  const {vehicle,fetchAllData} = useGlobalData();
   
   const refreshVehicleData = async () => {
-    fetchVehicle(); // Fetches updated vehicle data from API
+    fetchAllData(); // Fetches updated vehicle data from API
   };
   // Filter vehicles by search term
   const filteredVehicles =(vehicle || []).filter(
