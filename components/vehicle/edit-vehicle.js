@@ -1,17 +1,20 @@
 "use client";
-import { useGlobalData } from "@/app/context/GlobalDataContext";
 import Waiting from "@/components/common/waiting";
-import { updateVehicle } from "@/server";
-import { uploadImage } from "@/services/common";
+import {
+  GetVehiclesById,
+  GetVl,
+  GetVT,
+  updateVehicle,
+  uploadImage,
+} from "@/server";
 import { getValidImageUrl } from "@/utils/constants";
 import { vehicleValicationSchema } from "@/utils/schema";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-const EditVehicle = ({ VehicleId,actionType }) => {
-  
-  const router = useRouter()
-  const { vehicle, vehicleType,fetchAllData} = useGlobalData();
+const EditVehicle = ({ VehicleId, actionType }) => {
+  const router = useRouter();
+  const [vehicleType, setVehicleType] = useState([]);
   const [vehicleData, setVehicleData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -24,32 +27,57 @@ const EditVehicle = ({ VehicleId,actionType }) => {
   });
 
   useEffect(() => {
-    if (vehicle) {
-        let foundVehicle={}
-        if(actionType=='vehicle'){
-           foundVehicle = vehicle.find((v) => String(v.id) === String(VehicleId));
-        }else{
-            foundVehicle = vehicle.find((v) => String(v.ext_id) === String(VehicleId));
+    const getVehicle = async () => {
+      const res = await GetVl();
+      if (res?._success) {
+        const vl = res?._response;
+        const foundVehicle = vl?.filter((item) => item.ext_id === VehicleId);
+        if (foundVehicle) {
+          setVehicleData(foundVehicle[0]);
+          setPreviews({
+            reg_doc: foundVehicle[0]?.reg_doc || null,
+            driving_license: foundVehicle[0]?.driving_license || null,
+            insurance: foundVehicle[0]?.insurance || null,
+            passport: foundVehicle[0]?.passport || null,
+          });
         }
-      
-      if (foundVehicle) {
-        setVehicleData(foundVehicle);
-        setPreviews({
-          reg_doc: foundVehicle.reg_doc || null,
-          driving_license: foundVehicle.driving_license || null,
-          insurance: foundVehicle.insurance || null,
-          passport: foundVehicle.passport || null,
-        });
-      }else{
-        fetchAllData();
       }
-      setLoading(false);
+    };
+    const fetchVehicleById = async (Id) => {
+      const res = await GetVehiclesById(Id);
+      if (res?._success) {
+        const response = res?._response;
+        setVehicleData(response[0]);
+        setPreviews({
+          reg_doc: response[0]?.reg_doc || null,
+          driving_license: response[0]?.driving_license || null,
+          insurance: response[0]?.insurance || null,
+          passport: response[0]?.passport || null,
+        });
+      }
+    };
+    const getVehicleType = async () => {
+      const res = await GetVT();
+      if (res?._success) {
+        const response = res?._response;
+        setVehicleType(response);
+      } else {
+        setVehicleType([]);
+      }
+    };
+    if (VehicleId) {
+      if (actionType == "deliveryboy") {
+        getVehicle();
+      } else {
+        fetchVehicleById(VehicleId);
+      }
+      getVehicleType();
     }
   }, [VehicleId]);
 
   const formik = useFormik({
     initialValues: {
-      delivery_boy_ext_id: vehicleData?.ext_id || "",
+      delivery_boy_ext_id: vehicleData?.ext_id || VehicleId,
       vehicle_type: vehicleData?.vehicle_type_id || "",
       modal: vehicleData?.modal || "",
       make: vehicleData?.make || "",
@@ -73,8 +101,10 @@ const EditVehicle = ({ VehicleId,actionType }) => {
         values[field] && values[field] !== vehicleData[field];
 
       // Handle text input changes
-      if (hasInputChanged("delivery_boy_ext_id")) vehicleParams.delivery_boy_ext_id = values.delivery_boy_ext_id;
-      if (hasInputChanged("vehicle_type")) vehicleParams.vehicle_type_id = values.vehicle_type;
+      if (hasInputChanged("delivery_boy_ext_id"))
+        vehicleParams.delivery_boy_ext_id = values.delivery_boy_ext_id;
+      if (hasInputChanged("vehicle_type"))
+        vehicleParams.vehicle_type_id = values.vehicle_type;
       if (hasInputChanged("modal")) vehicleParams.modal = values.modal;
       if (hasInputChanged("make")) vehicleParams.make = values.make;
       if (hasInputChanged("variant")) vehicleParams.variant = values.variant;
@@ -85,53 +115,58 @@ const EditVehicle = ({ VehicleId,actionType }) => {
         if (hasFileChanged("reg_doc")) {
           const regDocFormData = new FormData();
           regDocFormData.append("file", values.reg_doc);
-          const regDocResponse = await uploadImage(regDocFormData)
-          console.log("reg_doc",regDocResponse)
+          const regDocResponse = await uploadImage(regDocFormData);
+          console.log("reg_doc", regDocResponse);
           vehicleParams.reg_doc = regDocResponse;
         }
 
         if (hasFileChanged("driving_license")) {
           const drivingLicenseFormData = new FormData();
           drivingLicenseFormData.append("file", values.driving_license);
-          const drivingLicenseResponse = await uploadImage(drivingLicenseFormData)
-          console.log("response => ",drivingLicenseResponse)
-          vehicleParams.driving_license =drivingLicenseResponse;
+          const drivingLicenseResponse = await uploadImage(
+            drivingLicenseFormData
+          );
+          console.log("response => ", drivingLicenseResponse);
+          vehicleParams.driving_license = drivingLicenseResponse;
         }
 
         if (hasFileChanged("insurance")) {
           const insuranceFormData = new FormData();
           insuranceFormData.append("file", values.insurance);
-          const insuranceResponse = await uploadImage(insuranceFormData)
-          console.log('insurance',insuranceResponse)
+          const insuranceResponse = await uploadImage(insuranceFormData);
+          console.log("insurance", insuranceResponse);
           vehicleParams.insurance = insuranceResponse;
         }
-       
-        vehicleParams.vehicleId = vehicleData?.id ;
+
+        vehicleParams.vehicleId = vehicleData?.id;
         if (hasFileChanged("passport")) {
           const passportFormData = new FormData();
           passportFormData.append("file", values.passport);
-          const passportResponse = await uploadImage(passportFormData)
-          console.log("passport",passportResponse)
-          vehicleParams.passport =passportResponse;
+          const passportResponse = await uploadImage(passportFormData);
+          console.log("passport", passportResponse);
+          vehicleParams.passport = passportResponse;
         }
         if (Object.keys(vehicleParams).length > 0) {
-          const response = await updateVehicle(vehicleParams);
-          setSuccessMessage(response)
+          const res = await updateVehicle(vehicleParams);
+          if (res?._success) {
+            const response = res?._response;
+            setSuccessMessage(response);
+          } else {
+            setError("Unable to update data.");
+          }
         }
       } catch (error) {
-        setError(error)
-        console.log(error)
+        setError(error);
+        console.log(error);
       } finally {
         setLoading(false);
-        setTimeout(()=>{
+        setTimeout(() => {
           setError("");
           setSuccessMessage("");
-          fetchVehicle();
-          if(actionType=='vehicle'){
+          if (actionType == "vehicle") {
             router.replace("/vehicle");
           }
-          
-        },2500)
+        }, 2500);
       }
     },
   });
@@ -155,9 +190,18 @@ const EditVehicle = ({ VehicleId,actionType }) => {
     }
   };
 
+  if (!vehicleData) {
+    return (
+      <div className="p-10 mt-10 bg-white shadow-lg rounded-lg dark:border-strokedark dark:bg-boxdark relative">
+        <div className="bg-black text-white p-2 px-4 rounded-md absolute -top-5">
+          Vehicle Details
+        </div>
+        <div className="text-center">Data not found...</div>
+      </div>
+    );
+  }
   return (
     <>
-   
       <div className="p-10 mt-10 bg-white shadow-lg rounded-lg dark:border-strokedark dark:bg-boxdark relative">
         <div className="bg-black text-white p-2 px-4 rounded-md absolute -top-5">
           Vehicle Details
@@ -267,7 +311,9 @@ const EditVehicle = ({ VehicleId,actionType }) => {
             )}
           </div>
           <div className="flex justify-center  space-x-5 col-span-full">
-            {successMessage && <p className="text-success text-lg">{successMessage}</p>}
+            {successMessage && (
+              <p className="text-success text-lg">{successMessage}</p>
+            )}
             {error && <p className="text-danger text-lg">{error.error}</p>}
           </div>
         </form>

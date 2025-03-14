@@ -5,7 +5,7 @@ import { UdateVehicleStatus } from "@/server";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {useState } from "react";
+import { useState } from "react";
 import { FaEye, FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
 const VehicleTableItem = ({ data, url, refreshData }) => {
@@ -13,7 +13,7 @@ const VehicleTableItem = ({ data, url, refreshData }) => {
   const [loading, setLoading] = useState(false);
   const [matchId, setMatchId] = useState(null);
   const [successMsg, setSuccessMsg] = useState("");
-  const [localData, setLocalData] = useState(data); 
+  const [localData, setLocalData] = useState(data);
 
   const statusChange = async (value, Id) => {
     setLoading(true);
@@ -22,14 +22,11 @@ const VehicleTableItem = ({ data, url, refreshData }) => {
       status: value ? 0 : 1,
     };
     try {
-      const response = await UdateVehicleStatus(payload, Id);
-      setSuccessMsg(response)
-      refreshData();
-      setLocalData((prev) =>
-        prev.map((item) =>
-          item.id === Id ? { ...item, is_del: payload.status } : item
-        )
-      );
+      const res = await UdateVehicleStatus(payload, Id);
+      if (res?._success) {
+        const response = res?._response;
+        setSuccessMsg(response);
+      }
     } catch (err) {
       if (err[0]?._errors) {
         console.log(err[0]._errors.message);
@@ -39,6 +36,7 @@ const VehicleTableItem = ({ data, url, refreshData }) => {
       // console.log(err)
     } finally {
       setLoading(false);
+      
     }
   };
 

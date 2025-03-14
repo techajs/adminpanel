@@ -2,12 +2,12 @@
 import { useState } from "react";
 import JoinRequestRejectionModal from "../modal/reject-modal";
 import ActionButtion from "./action-view";
-import { ChangeStatus } from "@/services/joinrequest/join";
 import { getRole, getValidImageUrl } from "@/utils/constants";
 import Image from "next/image";
 import UserInfo from "@/components/user-info";
 import { FaEye } from "react-icons/fa";
 import Link from "next/link";
+import { ChangeStatus } from "@/server/joinrequest";
 export default function DeliveryboyView({ data }) {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
@@ -110,7 +110,9 @@ export default function DeliveryboyView({ data }) {
           <UserInfo data={data} userType="deliveryboy" />
           {error && <p className="text-red-500 text-center mt-5">{error}</p>}
           {successmessage && <p className="text-green-500 text-center mt-5">{successmessage}</p>}
+     
         </div>
+       
       </div>
     </>
   );

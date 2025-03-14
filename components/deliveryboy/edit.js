@@ -10,6 +10,7 @@ import Waiting from "../common/waiting";
 import { useRouter } from "next/navigation";
 import { GetDeliveryboyById, updateDeliveryboy } from "@/server/userController";
 import { useGlobalData } from "@/app/context/GlobalDataContext";
+import { GetCity, GetCountry, GetState } from "@/server";
 const EditDeliveryboyPage = ({ deliveryboyId }) => {
 
   const { country, fetchAllData, city, state } =useGlobalData();
@@ -31,6 +32,29 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
   };
 
   useEffect(() => {
+    const getCountry = async () => {
+      const res = await GetCountry();
+      if (res?._success) {
+        const country = res?._response;
+        setCountryData(
+          country?.map((item) => ({ label: item.country_name, value: item.id }))
+        );
+      }
+      const stateRes = await GetState();
+      if (stateRes?._success) {
+        const state = stateRes?._response;
+        setStateList(
+          state?.map((item) => ({ label: item.state_name, value: item.id }))
+        );
+      }
+      const cityRes = await GetCity();
+      if (cityRes?._success) {
+        const city = cityRes?._response;
+        setCityList(
+          city?.map((item) => ({ label: item.city_name, value: item.id }))
+        );
+      }
+    };
     if (country) {
       const countries = country?.map((country) => ({
         label: country.country_name,
@@ -53,7 +77,7 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
         setCityList(cities);
       }
     }else{
-      fetchAllData()
+      getCountry()
     }
 
     if (deliveryboyId) {
@@ -109,6 +133,7 @@ const EditDeliveryboyPage = ({ deliveryboyId }) => {
         setTimeout(() => {
           setError("");
           setSuccessMessage("");
+          router.back();
           // router.replace("/deliveryboy");
         }, 2500);
       }

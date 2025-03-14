@@ -6,62 +6,46 @@ import { useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineHideImage } from "react-icons/md";
 import DocumentModal from "./document-modal";
-import Waiting from "../common/waiting";
-import { useGlobalData } from "@/app/context/GlobalDataContext";
-import { getImageByUrl } from "@/server";
+import { getImageByUrl, GetVehicleTypeById } from "@/server";
 
 const VehicleTypeView = ({ VehicleTypeId }) => {
-  const { vehicleType,fetchAllData } = useGlobalData();
-  const [vehicleTypeData, setVehicleTypeData] = useState(vehicleType);
-  const [loading, setLoading] = useState(false);
+  const vehicleTypeId = VehicleTypeId || null;
+  const [vehicleTypeData, setVehicleTypeData] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => setShowModal(false);
-
-  useEffect(() => {
-    const fetchVehicleData = async () => {
-      setLoading(true);
-      if (vehicleType) {
-        const foundVehicleType = vehicleType.find(
-          (v) => String(v.id) === String(VehicleTypeId)
-        );
-
-        if (foundVehicleType) {
-          let vehicleData = { ...foundVehicleType };
-          if (vehicleData.pic) {
-            try {
-              const imageData = await getImageByUrl(vehicleData?.pic);
-              vehicleData = {
-                ...vehicleData,
-                pic: imageData.url,
-                status: imageData.status,
-              };
-            } catch (error) {
-              vehicleData = { ...vehicleData, status: false };
-              console.error("Error fetching image:", error);
-            }
-          }
-
-          setVehicleTypeData(vehicleData);
-        }
-      }else{
-        fetchAllData
-      }
-      setLoading(false);
-    };
-   if(VehicleTypeId){
-    fetchVehicleData();
-   }
-  
-  }, [VehicleTypeId]);
-
   const openModal = () => setShowModal(true);
+  useEffect(() => {
+    const fetchVehicleById = async (Id) => {
+      const res = await GetVehicleTypeById(Id);
+      if (res?._success) {
+        const response = res?._response;
+        setVehicleTypeData(response[0]);
+      }
+    };
+    if (vehicleTypeId) {
+      fetchVehicleById(vehicleTypeId);
+    }
+  }, [vehicleTypeId]);
+
+  const getImage = async () => {
+    try {
+      const imageData = await getImageByUrl(vehicleTypeData?.pic);
+      const vehicleData = {
+        pic: imageData.url,
+        status: imageData.status,
+      };
+      return vehicleData;
+    } catch (error) {
+      console.log("image not found.", error);
+    }
+  };
   return (
     <div className="max-w-5xl mx-auto sm:p-6 rounded-lg shadow-lg dark:bg-boxdark">
       {/* Back Button */}
 
       {/* Header */}
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold">Vehicle Type Information</h2>
+        <h2 className="text-2xl font-bold">Vehicle Type Information {getImage()?.pic}</h2>
       </div>
 
       {/* Main Content */}
@@ -79,9 +63,9 @@ const VehicleTypeView = ({ VehicleTypeId }) => {
               className="md:col-span-1 flex justify-center items-center cursor-pointer"
               onClick={() => openModal()}
             >
-              {vehicleTypeData?.status ? (
+              {getImage()?.status ? (
                 <Image
-                  src={vehicleTypeData.pic}
+                  src={getImage()?.pic}
                   alt="Vehicle"
                   width={40}
                   height={40}

@@ -8,9 +8,7 @@ import { useEffect, useState } from "react";
 import { vehicleTypeValidationSchema } from "@/utils/schema";
 import Waiting from "@/components/common/waiting";
 
-import { uploadImage } from "@/services/common";
-import { useGlobalData } from "@/app/context/GlobalDataContext";
-import { updateVehicleType } from "@/server";
+import { GetVehicleTypeById, updateVehicleType, uploadImage } from "@/server";
 
  // Ensure path is correct
 
@@ -18,7 +16,6 @@ const EditVehicleType = ({ params, vehicleTypes }) => {
   const router = useRouter();
   const vehicleTypeId = params?.id || null;
   const [loading, setLoading] = useState(false);
-  const {vehicleType,fetchAllData} = useGlobalData()
   const [vehicleTypeData,setVehicleTypeData] = useState(null)
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -27,18 +24,17 @@ const EditVehicleType = ({ params, vehicleTypes }) => {
   });
   
   useEffect(() => {
-    if (vehicleType) {
-      const foundVehicleType = vehicleType.find(
-        (v) => String(v.id) === String(params.id)
-      );
-      if (foundVehicleType) {
-        console.log(vehicleTypeId)
-        setVehicleTypeData(foundVehicleType);
-        
-      }
-      setLoading(false);
+    const fetchVehicleById = async (Id)=>{
+        const res= await GetVehicleTypeById(Id)
+        if(res?._success){
+          const response=res?._response
+          setVehicleTypeData(response[0])
+        }
     }
-  }, [vehicleType]);
+    if (vehicleTypeId) {
+      fetchVehicleById(vehicleTypeId)
+    }
+  }, [vehicleTypeId]);
   // Formik configuration
   const formik = useFormik({
     initialValues: {
@@ -89,7 +85,6 @@ const EditVehicleType = ({ params, vehicleTypes }) => {
       try {
         if (Object.keys(vehicleTypeParams).length > 0) {
             const response = await updateVehicleType(vehicleTypeParams,vehicleTypeId);
-            console.log(vehicleTypeParams)
             setSuccessMessage(response)
         }
       } catch (error) {
@@ -99,7 +94,6 @@ const EditVehicleType = ({ params, vehicleTypes }) => {
         setTimeout(()=>{
             setError("");
             setSuccessMessage("");
-            fetchAllData();
             router.replace("/vehicletype");
           },2500)
       }

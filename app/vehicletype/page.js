@@ -1,53 +1,88 @@
 "use client";
+import { useCallback, useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { debounce } from "lodash";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import PageFilter from "@/components/common/page-filter";
 import LayoutPage from "@/components/Layouts/layout";
 import Pagination from "@/components/pagination/page";
 import TableItem from "@/components/tables/table-items";
-import { calculateTotalPages, paginate } from "@/utils/constants";
-import { debounce } from "lodash";
-import { useCallback, useEffect, useState } from "react";
-
-import { useGlobalData } from "../context/GlobalDataContext";
+import Waiting from "@/components/common/waiting";
+import { GetVehicleTypes } from "@/server";
 
 const VehicleTypes = () => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
-    const [search, setSearch] = useState("");
-    const {vehicleType,fetchAllData} = useGlobalData();
-  
-    const refreshVehicleData = async () => {
-      fetchAllData(); // Fetches updated vehicle data from API
-    };
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const [vehicleType, setVehicleType] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState(searchParams.get("search") || "");
+  const [pageSize, setPageSize] = useState(searchParams.get("pageSize") || 10);
+  const [pagination, setPagination] = useState({
+    total: 0,
+    page: 1,
+    totalPages: 0,
+  });
 
-    // Filter vehicles by search term
-    const filteredVehicles =(vehicleType || []).filter(
-      (item) =>
-        item.vehicle_type_desc?.toLowerCase().includes(search.toLowerCase()) ||
-        item.vehicle_type?.toLowerCase().includes(search.toLowerCase())
-    );
-  
-    const totalPages = calculateTotalPages(filteredVehicles.length, itemsPerPage);
-    const currentItems = paginate(filteredVehicles, currentPage, itemsPerPage);
-  
-    const handleSearchChange = useCallback(
-      debounce((e) => {
-        const newSearch = e.target.value;
-        setSearch(newSearch);
-      }, 300),
-      [search]
-    );
-  
-    const handlePageChange = (newPage) => {
-      setCurrentPage(newPage);
-    };
-  
-    const handlePageSize = (e) => {
-      const newPageSize = parseInt(e.target.value, 10);
-      setItemsPerPage(newPageSize);
-      setCurrentPage(1); // Reset to first page when items per page changes
-    };
-  
+  const fetchVehicleTypes = useCallback(async () => {
+    setLoading(true);
+    try {
+      const page = searchParams.get("page") || 1;
+      const currentSearch = searchParams.get("search") || "";
+      const res = await GetVehicleTypes(page, currentSearch, pageSize);
+      if (res?._success) {
+        setVehicleType(res._response.data);
+        setPagination({
+          total: res._response.total,
+          page: res._response.page,
+          totalPages: res._response.totalPages,
+        });
+      } else {
+        setVehicleType([]);
+        setPagination({ total: 0, page: 1, totalPages: 0 });
+      }
+    } catch (error) {
+      console.error("Error fetching vehicle types:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [searchParams, pageSize]);
+
+  useEffect(() => {
+    fetchVehicleTypes();
+  }, [fetchVehicleTypes]);
+
+  const handlePageChange = (newPage) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", newPage);
+    router.replace(`${pathname}?${params}`);
+  };
+
+  const handlePageSize = (e) => {
+    const newPageSize = e.target.value;
+    setPageSize(newPageSize);
+    const params = new URLSearchParams(searchParams);
+    params.set("pageSize", newPageSize);
+    router.replace(`${pathname}?${params}`);
+  };
+
+  const handleSearchChange = useCallback(
+    debounce((e) => {
+      const newSearch = e.target.value;
+      setSearch(newSearch);
+      const params = new URLSearchParams(searchParams);
+      if (newSearch) {
+        params.set("search", newSearch);
+      } else {
+        params.delete("search");
+      }
+      router.replace(`${pathname}?${params}`);
+    }, 300),
+    [searchParams, pathname]
+  );
+
+  const refreshVehicleData = () => {};
+
   return (
     <LayoutPage>
       <Breadcrumb pageName="Vehicle Types" />
@@ -56,7 +91,7 @@ const VehicleTypes = () => {
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center w-1/2 justify-start space-x-5">
               <PageFilter
-                selectedOption={itemsPerPage}
+                selectedOption={pageSize}
                 onPageChanges={handlePageSize}
               />
             </div>
@@ -95,13 +130,21 @@ const VehicleTypes = () => {
             </div>
           </div>
 
-          <TableItem data={currentItems} url="/vehicletype" refreshData={refreshVehicleData} />
+          {loading ? (
+            <Waiting />
+          ) : (
+            <TableItem
+              data={vehicleType}
+              url="/vehicletype"
+              refreshData={refreshVehicleData}
+            />
+          )}
           <div className="flex items-center justify-end mb-5 mt-5">
             <div className="flex items-center w-1/2 justify-end space-x-5 gap-5">
-              {totalPages > 1 && (
+              {pagination.totalPages > 1 && (
                 <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
+                  currentPage={pagination.page}
+                  totalPages={pagination.totalPages}
                   onPageChange={handlePageChange}
                 />
               )}

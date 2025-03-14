@@ -29,8 +29,7 @@ async function apiFetch(endpoint, method, body = null, customHeaders = {}) {
   // Handle Unauthorized (401) - Expired or Invalid Token
   if (response.status === 401) {
     console.error("Unauthorized: Token expired or invalid. Signing out...");
-    await signOut(); // Trigger logout and redirect user
-    return null; // Return null to prevent further processing
+    await signOut({ redirect: true, callbackUrl: "/login" })
   }
 
   if (!response.ok) {
@@ -44,4 +43,24 @@ export const apiClient = {
   get: (endpoint, headers = {}) => apiFetch(endpoint, "GET", null, headers),
   post: (endpoint, body, headers = {}) => apiFetch(endpoint, "POST", body, headers),
   put: (endpoint, body, headers = {}) => apiFetch(endpoint, "PUT", body, headers),
+};
+
+
+export const uploadDocumentsApi = async (params,successCallback, errorCallback) => {
+  const myHeaders = new Headers();
+  // myHeaders.append('upload_type', 'ORDER_DOC');
+  const session = await getServerSession(authOptions);
+  const token= session?.token ? session?.token : ""
+  myHeaders.append('authorization', `${token}`);
+  const requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: params,
+    redirect: 'follow',
+  };
+
+  fetch(BASE_URL+API.documentsUpload, requestOptions)
+    .then(response => response.text())
+    .then(result => successCallback(result))
+    .catch(error => errorCallback(error));
 };

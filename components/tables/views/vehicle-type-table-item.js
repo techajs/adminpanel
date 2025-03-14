@@ -21,14 +21,11 @@ const VehicleTypeTableItem = ({ data, url, refreshData }) => {
       status: value ? 0 : 1,
     };
     try {
-      const response = await UdateVehicleTypeStatus(payload, Id);
-      setSuccessMsg(response);
-      refreshData();
-      setLocalData((prev) =>
-        prev.map((item) =>
-          item.id === Id ? { ...item, is_del: payload.status } : item
-        )
-      );
+      const res = await UdateVehicleTypeStatus(payload, Id);
+      if(res?._success){
+        const response = res?._response
+        setSuccessMsg(response);
+      }
     } catch (err) {
       if (err[0]?._errors) {
         console.log(err[0]._errors.message);

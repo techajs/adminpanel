@@ -11,6 +11,7 @@ import "react-phone-input-2/lib/style.css";
 import { consumerSchema } from "@/utils/schema";
 import { useFormik } from "formik";
 import Waiting from "@/components/common/waiting";
+import { GetCountry } from "@/server";
 
 const EditEnterprise = ({ params }) => {
   const { country,fetchAllData } = useGlobalData();
@@ -36,12 +37,21 @@ const EditEnterprise = ({ params }) => {
   }, []);
 
   useEffect(() => {
+    const getCountry = async () =>{
+      const res = await GetCountry()
+      if(res?._success){
+        const country = res?._response
+        setCountryData(
+          country?.map((item) => ({ label: item.country_name, value: item.id }))
+        );
+      }
+    }
     if (country) {
       setCountryData(
         country?.map((item) => ({ label: item.country_name, value: item.id }))
       );
     } else {
-      fetchAllData();
+      getCountry()
     }
   }, [country]);
 

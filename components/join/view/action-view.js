@@ -1,4 +1,5 @@
-import { ChangeStatus } from "@/services/joinrequest/join";
+
+import { ChangeStatus } from "@/server/joinrequest";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -15,10 +16,19 @@ export default function ActionButtion({
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await ChangeStatus(role, status, ext_id, reason);
-      setSuccessmessage(response);
+      const res = await ChangeStatus(role, status, ext_id, reason);
+      if(res?._success){
+        const response = res?._response
+        setSuccessmessage(response);
+      }
+      
     } catch (error) {
       setError(error.message);
+    }finally {
+      setTimeout(()=>{
+        setSuccessmessage("")
+        setError("")
+      },2500)
     }
   };
 
@@ -51,9 +61,10 @@ export default function ActionButtion({
           </div>
         )}
 
-        {error && <p className="text-red-500">{error}</p>}
-        {successmessage && <p className="text-green-500">{successmessage}</p>}
+        
       </div>
+      {error && <p className="text-red-500 mt-3">{error}</p>}
+      {successmessage && <p className="text-green-500 mt-3">{successmessage}</p>}
     </>
   );
 }

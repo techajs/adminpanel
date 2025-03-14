@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from "react";
 
 import DeliveryboyView from "./view/delivery-boy-view";
-import { GetDetail } from "@/services/joinrequest/join";
 import EnterpriseView from "./view/enterprise-view";
 import ConsumerView from "./view/consumer-view";
+import { GetDetail } from "@/server/joinrequest";
 
 
 function NewJoinRequestPage({extId}) {
@@ -13,8 +13,12 @@ function NewJoinRequestPage({extId}) {
   const [extid,setExtid]=useState(extId)
   const fetchJoinView = async (ext_id) => {
     try {
-      const response = await GetDetail(ext_id);
-      setJoinview(response[0]);
+      const res = await GetDetail(ext_id);
+      if(res?._success){
+        const response=res?._response
+        setJoinview(response[0]);
+      }
+      
     } catch (error) {
       setJoinview(null); // Handle error by setting joinview to null
     }

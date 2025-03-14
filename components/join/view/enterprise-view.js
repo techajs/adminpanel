@@ -2,10 +2,10 @@
 import { useState } from "react";
 import JoinRequestRejectionModal from "../modal/reject-modal";
 import ActionButtion from "./action-view";
-import { ChangeStatus } from "@/services/joinrequest/join";
 import { getRole, getValidImageUrl } from "@/utils/constants";
 import Image from "next/image";
 import UserInfo from "@/components/user-info";
+import { ChangeStatus } from "@/server/joinrequest";
 // Make sure to import the API function
 
 export default function EnterpriseView({ data }) {

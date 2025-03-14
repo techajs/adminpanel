@@ -1,21 +1,21 @@
 "use client";
 import { useEffect, useState } from "react";
-import { DashboardService } from "@/services/dashboard/services";
 import CardDataStats from "../CardDataStats";
 import Link from "next/link";
 import { FaClipboardCheck, FaFileExcel, FaTruck, FaUser } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import Dashboarbox from "./box";
 import Waiting from "../common/waiting";
-import { useGlobalData } from "@/app/context/GlobalDataContext";
+import { getDashboardData } from "@/server";
 
 const DashboardLayout = () => {
-  const { country, state, city } = useGlobalData();
   const [dashboardData, setDashboardData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await DashboardService();
-      setDashboardData(response.data);
+      const res = await getDashboardData();
+      if(res?._success){
+        setDashboardData(res._response);
+      }
     };
 
     fetchData();
