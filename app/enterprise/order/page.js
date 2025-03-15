@@ -151,6 +151,7 @@ const EnterprirseOrderPage = () => {
         selectedTab={selectedTab}
         setSelected={setSelectedTab}
       />
+      <div className="rounded-sm border border-stroke bg-white  px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="w-[395px] overflow-x-auto sm:w-full">
         <div className="flex justify-between items-center mb-4">
           <PageFilter
@@ -219,6 +220,7 @@ const EnterprirseOrderPage = () => {
             </div>
           </div>
         )}
+      </div>
       </div>
     </LayoutPage>
   );

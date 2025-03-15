@@ -18,7 +18,6 @@ const login = async (credentials) => {
   const user = await res.json();
 
   if (res.ok && user) {
- 
     return {
       id: user.user._id,
       firstname: user.user.firstName,
@@ -50,12 +49,11 @@ export const authOptions = {
   ],
   session: {
     strategy: "jwt",
+    maxAge: 60 * 60 * 24 * 7, // ✅ Keeps session for 7 days (adjust if needed)
   },
   callbacks: {
-    async jwt({ token, user,trigger,session }) {
-      const currentTime = Math.floor(Date.now() / 1000);
+    async jwt({ token, user, trigger, session }) {
       if (user) {
-        // On initial login, store user info and set token expiry time
         token.username = user.username;
         token.email = user.email;
         token.token = user.token;
@@ -63,37 +61,29 @@ export const authOptions = {
         token.firstname = user.firstname;
         token.lastname = user.lastname;
         token.webToken = user?.webToken;
-        token.expiresAt = currentTime + 60 * 60; // Set token expiry time (1 hour)
       }
-      
 
       if (trigger === "update" && session?.webToken) {
-        token.webToken = session.webToken; // Ensure webToken updates
-      }
-      // Check if the token is expired and invalidate it if necessary
-      if (token.expiresAt && currentTime >= token.expiresAt) {
-        return { ...token, expired: true };
+        token.webToken = session.webToken;
       }
 
-      return token;
+      return token; // ✅ No manual expiry
     },
     async session({ session, token }) {
-      // Pass user data from token to session
       session.username = token.username;
       session.lastname = token.lastname;
       session.firstname = token.firstname;
       session.email = token.email;
       session.token = token.token;
       session.role = token.role;
-      session.expiresAt = token.expiresAt;
       session.webToken = token?.webToken;
-      
-      // If token is expired, trigger signOut
-      if (token.expired) {
-        signOut({ callbackUrl: "/login" });
-      }
 
-      return session;
+      if (!token.token) {
+        if (typeof window !== "undefined") {
+          signOut({ redirect: true, callbackUrl: "/login" });
+        }
+      }
+      return session; // ✅ No forced sign-out after 2 minutes
     },
   },
   pages: {

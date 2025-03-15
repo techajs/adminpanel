@@ -95,7 +95,7 @@ const DashboardLayout = () => {
           icon="credit-card"
           title="Manage Payments & Transactions"
         />
-        <Dashboarbox url="/join" icon="schedule" title="Manage Schedules" />
+        <Dashboarbox url="/schedule" icon="schedule" title="Manage Schedules" />
       </div>
     </>
   );

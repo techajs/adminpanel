@@ -81,6 +81,18 @@ const menuGroups = [
       },
       {
         icon: (
+          <FaCodePullRequest/>
+        ),
+        label: "Schedules Request",
+        route: "/schedule",
+        // children: [
+        //   { label: "Consumer", route: "/consumer/join" },
+        //   { label: "Enterprise", route: "/enterprise/join/" },
+        //   { label: "Deliver Boy", route: "/deliveryboy/join" },
+        // ],
+      },
+      {
+        icon: (
           <FaTruck />
         ),
         label: "Manage Vehicle",
@@ -179,7 +191,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               alt="Logo"
               priority
             />
-            <span className="text-3xl text-white">Rapidmate</span>
+            <span className="text-3xl text-bodydark2 dark:text-white">Rapidmate</span>
           </Link>
 
           <button
@@ -207,7 +219,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           <nav className="mt-5 px-4 lg:px-6">
           {menuGroups.map((group, groupIndex) => (
               <div key={groupIndex}>
-                <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+                <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2 dark:text-white">
                   {group.name}
                 </h3>
 

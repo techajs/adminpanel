@@ -168,3 +168,10 @@ export const getDashboardData = async () =>{
   const [res]=await apiClient.get(apiUrl)
   return res
 }
+
+
+export const getBillingReport = async () =>{
+  const apiUrl=API.getBillingUrl;
+  const [res]=await apiClient.get(apiUrl)
+  return res
+}

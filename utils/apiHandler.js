@@ -5,7 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 async function apiFetch(endpoint, method, body = null, customHeaders = {}) {
   const url = `${BASE_URL}${endpoint}`;
-  
+
   const session = await getServerSession(authOptions); // Get session on the server
 
   const headers = {
@@ -28,9 +28,12 @@ async function apiFetch(endpoint, method, body = null, customHeaders = {}) {
 
   // Handle Unauthorized (401) - Expired or Invalid Token
   if (response.status === 401) {
-    console.error("Unauthorized: Token expired or invalid. Signing out...");
-    await signOut({ redirect: true, callbackUrl: "/login" })
+    if (typeof window !== "undefined") {
+      await signOut({ redirect: true, callbackUrl: "/login" });
+    }
+    return  response.json();
   }
+
 
   if (!response.ok) {
     console.error(`API Error: ${response.status} ${response.statusText}`);
@@ -41,26 +44,31 @@ async function apiFetch(endpoint, method, body = null, customHeaders = {}) {
 
 export const apiClient = {
   get: (endpoint, headers = {}) => apiFetch(endpoint, "GET", null, headers),
-  post: (endpoint, body, headers = {}) => apiFetch(endpoint, "POST", body, headers),
-  put: (endpoint, body, headers = {}) => apiFetch(endpoint, "PUT", body, headers),
+  post: (endpoint, body, headers = {}) =>
+    apiFetch(endpoint, "POST", body, headers),
+  put: (endpoint, body, headers = {}) =>
+    apiFetch(endpoint, "PUT", body, headers),
 };
 
-
-export const uploadDocumentsApi = async (params,successCallback, errorCallback) => {
+export const uploadDocumentsApi = async (
+  params,
+  successCallback,
+  errorCallback
+) => {
   const myHeaders = new Headers();
   // myHeaders.append('upload_type', 'ORDER_DOC');
   const session = await getServerSession(authOptions);
-  const token= session?.token ? session?.token : ""
-  myHeaders.append('authorization', `${token}`);
+  const token = session?.token ? session?.token : "";
+  myHeaders.append("authorization", `${token}`);
   const requestOptions = {
-    method: 'POST',
+    method: "POST",
     headers: myHeaders,
     body: params,
-    redirect: 'follow',
+    redirect: "follow",
   };
 
-  fetch(BASE_URL+API.documentsUpload, requestOptions)
-    .then(response => response.text())
-    .then(result => successCallback(result))
-    .catch(error => errorCallback(error));
+  fetch(BASE_URL + API.documentsUpload, requestOptions)
+    .then((response) => response.text())
+    .then((result) => successCallback(result))
+    .catch((error) => errorCallback(error));
 };

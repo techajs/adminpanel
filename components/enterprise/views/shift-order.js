@@ -376,7 +376,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                     </button>
 
                   </div>
-                  <div className="mt-4 flex justify-end">
+                  {/* <div className="mt-4 flex justify-end">
                     <button
                      
                      onClick={()=>refreshData()}
@@ -385,7 +385,7 @@ const ShiftOrder = ({ order, deliveryboy, vehicle, orderLine, slots }) => {
                      <MdRefresh size={20} />
                     </button>
 
-                  </div>
+                  </div> */}
              
               </div>
             </div>
