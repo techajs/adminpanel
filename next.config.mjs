@@ -6,7 +6,6 @@ const nextConfig = {
     missingSuspenseWithCSRBailout: false,
   },
   images: {
-    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
