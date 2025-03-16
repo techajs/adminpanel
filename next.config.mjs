@@ -1,10 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  swcMinify: true,
   experimental: {
     missingSuspenseWithCSRBailout: false,
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -18,6 +20,7 @@ const nextConfig = {
       },
     ],
   },
+  output: "standalone",
 };
 
 export default nextConfig;
